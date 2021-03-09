@@ -1,4 +1,4 @@
-#' @title Convert insecticide resistance intensity to bioassay survival proportion
+#' @title Convert Polygenic Resistance Score to bioassay survival proportion
 #'
 #' @param maximum.bioassay.survival.proportion Should be set as 1.
 #' @param trait.mean The mean resistance intensity of the population.
