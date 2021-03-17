@@ -1,4 +1,4 @@
-#'@title
+#'@title Calculate the relative population contribution to the population of mosquitoes with a Polygenic Resistance Score that did not encounter the insecticide in the intervention site.
 #'
 #'@param insecticide.exposure = The proportion of the mosquito population in the intervention site being exposed to an insecticide.
 #'@param vector.length = The length of the vector to be returned. A minimum value of 100,000 is recommmended.
