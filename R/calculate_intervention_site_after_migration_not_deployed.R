@@ -6,7 +6,7 @@
 #'@param migration.refugia.to.intervention = The relative number of mosquitoes dispersing from the refugia to the intervention site.
 #'@param insecticide.population.suppression = The impact of insecticides on the relative population size of female mosquitoes the intervention site, who are now ready to lay eggs.
 
-calculate_intervention_site_after_migration__not_deployed = function(intervention.after.selection,
+calculate_intervention_site_after_migration_not_deployed = function(intervention.after.selection,
                                                                 refugia.after.selection,
                                                                 migration.intervention.to.refugia,
                                                                 migration.refugia.to.intervention,
