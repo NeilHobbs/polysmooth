@@ -9,7 +9,9 @@
 #'@param heritability = The heritability of a polygenic trait.
 
 
-breeders_equation_male_female_fitness = function(male.fitness.selection.differential){
+breeders_equation_male_female_fitness = function(male.fitness.selection.differential,
+                                                 female.fitness.selection.differential,
+                                                 heritability){
 
   response.fitness = ((heritability/2)* female.fitness.selection.differential)+
                      ((heritability/2)* male.fitness.selection.differential)
