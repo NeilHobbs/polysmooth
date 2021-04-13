@@ -29,6 +29,11 @@ calculate_mean_trait_score_exposed_survivors = function(vector.length,
                                                    standard.deviation = standard.deviation)
 
 
+  #2. get the relative densities of the z values  before selection has occurred:
+  relative.contribution.before.selection = calculate_density_of_trait_values(vector.length = vector.length,
+                                                                             trait.mean = trait.mean,
+                                                                             standard.deviation = standard.deviation)/2
+
   #step 2: calculate the density after insecticide selection
   relative.contribution.after.selection=  calculate_density_after_selection(insecticide.exposure = insecticide.exposure,
                                                                             vector.length = vector.length,
@@ -41,8 +46,17 @@ calculate_mean_trait_score_exposed_survivors = function(vector.length,
                                                                             regression.intercept = regression.intercept,
                                                                             current.insecticide.efficacy = current.insecticide.efficacy)
 
-  #step 3: calculate the mean score of the survivors
-  mean.trait.score.exposed.survivors = sum(relative.contribution.after.selection * normal.distribution)
+
+  #Need to return density values back to the original scale
+  scaling.value = sum(relative.contribution.before.selection)/sum(relative.contribution.after.selection)
+
+  #This is then scaled
+  relative.contribution.after.selection.scaled = relative.contribution.after.selection * scaling.value
+
+
+
+  mean.trait.score.exposed.survivors= sum(normal.distribution*relative.contribution.after.selection.scaled)/(sum(relative.contribution.after.selection.scaled))
+
 
   return(mean.trait.score.exposed.survivors)
 }
