@@ -24,6 +24,10 @@ calculate_male_density_after_selection = function(female.insecticide.exposure,
                                                     regression.intercept = 0.15,
                                                     current.insecticide.efficacy){
 
+if(female.insecticide.exposure > 1 | female.insecticide.exposure < 0){stop("female.insecticide.exposure must be between 0 and 1")}
+if(male.insecticide.exposure > 1 | male.insecticide.exposure < 0){stop("male.insecticide.exposure must be between 0 and 1")}
+
+
   #step 1:create the Normal Distribution of Polygenic Resistance Values
   normal.distribution = create_normal_distribution(vector.length = vector.length,
                                                    trait.mean = trait.mean,

@@ -11,6 +11,9 @@ calculate_female_density_unexposed = function(vector.length,
                                               standard.deviation,
                                               female.insecticide.exposure){
 
+
+  if(female.insecticide.exposure > 1 | female.insecticide.exposure < 0){stop("female.insecticide.exposure must be between 0 and 1")}
+
   #step 1:create the Normal Distribution of Polygenic Resistance Values
   normal.distribution = create_normal_distribution(vector.length = vector.length,
                                                    trait.mean = trait.mean,
