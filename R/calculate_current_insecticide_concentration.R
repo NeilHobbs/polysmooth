@@ -8,7 +8,7 @@ calculate_current_insecticide_concentration = function(applied.concentration,
                                                        instantaneous.decay.rate,
                                                        generations.since.deployment){
 
-  current.concentration = applied.concentration * exp(instantaneous.decay.rate * generations.since.deployment)
+  current.concentration = applied.concentration * exp(-instantaneous.decay.rate * generations.since.deployment)
 
   return(current.concentration)
 
