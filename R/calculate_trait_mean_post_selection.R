@@ -19,5 +19,9 @@ calculate_trait_mean_post_selection = function(population.size.exposed.survivors
                               (population.size.unexposed * trait.mean))/population.size.post.selection
 
 
+  #Prevent the trait.mean falling below zero.
+  mean.score.post.selection = ifelse(mean.score.post.selection < 0, yes = 0,
+                                     no = mean.score.post.selection)
+
   return(mean.score.post.selection)
 }

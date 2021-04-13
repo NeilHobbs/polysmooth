@@ -17,5 +17,9 @@ calculate_female_trait_mean_post_selection = function(female.population.size.exp
                                          (female.population.size.unexposed * female.trait.mean))/female.population.size.after.selection
 
 
+  female.trait.mean.after.selection = ifelse(female.trait.mean.after.selection < 0,
+                                             yes = 0,
+                                             no = female.trait.mean.after.selection)
+
   return(female.trait.mean.after.selection)
 }

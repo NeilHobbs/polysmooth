@@ -17,5 +17,9 @@ calculate_male_trait_mean_post_selection = function(male.population.size.exposed
                                            male.population.size.after.selection
 
 
+  male.trait.mean.after.selection = ifelse(male.trait.mean.after.selection < 0,
+                                           yes = 0,
+                                           no = male.trait.mean.after.selection)
+
   return(male.trait.mean.after.selection)
 }

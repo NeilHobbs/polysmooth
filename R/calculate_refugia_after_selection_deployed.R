@@ -10,5 +10,9 @@ calculate_refugia_after_selection_deployed = function(refugia.before.selection,
 
   refugia.after.selection =  refugia.before.selection + response.fitness
 
+  refugia.after.selection = ifelse(refugia.after.selection < 0,
+                                   yes = 0,
+                                   no = refugia.after.selection)
+
   return(refugia.after.selection)
 }

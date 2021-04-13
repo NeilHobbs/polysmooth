@@ -10,5 +10,9 @@ calculate_intervention_site_after_selection_deployed = function(intervention.bef
 
   intervention.after.selection = intervention.before.selection + response.insecticide.fitness
 
+  intervention.after.selection = ifelse(intervention.after.selection < 0,
+                                        yes = 0,
+                                        no= intervention.after.selection)
+
   return(intervention.after.selection)
 }
