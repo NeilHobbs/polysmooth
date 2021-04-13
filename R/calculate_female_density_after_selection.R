@@ -22,6 +22,9 @@ calculate_female_density_after_selection = function(female.insecticide.exposure,
                                                     regression.intercept = 0.15,
                                                     current.insecticide.efficacy){
 
+  if(female.insecticide.exposure > 1|female.insecticide.exposure < 0){stop("female.insecticide.exposure must be between 0 and 1")}
+
+
   #step 1:create the Normal Distribution of Polygenic Resistance Values
   normal.distribution = create_normal_distribution(vector.length = vector.length,
                                                    trait.mean = trait.mean,
@@ -30,7 +33,7 @@ calculate_female_density_after_selection = function(female.insecticide.exposure,
   #step 2:get the probability densities
   relative.female.contribution.before.selection =  calculate_density_of_trait_values(vector.length = vector.length,
                                                                                      trait.mean = trait.mean,
-                                                                                     standard.deviation = standard.deviation)/2
+                                                                                     standard.deviation = standard.deviation)/2 #will need to check if actually needs to be divided by 2.
 
   #step 3: convert the polygenic scores to bioassay survival:
   bioassay.survivals = convert_resistance_score_to_bioassay_survival(maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
