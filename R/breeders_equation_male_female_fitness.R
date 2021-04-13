@@ -13,6 +13,8 @@ breeders_equation_male_female_fitness = function(male.fitness.selection.differen
                                                  female.fitness.selection.differential,
                                                  heritability){
 
+  if(0 > heritability |heritability > 1){stop("heritability must be between 0 and 1")}
+
   response.fitness = ((heritability/2)* female.fitness.selection.differential)+
                      ((heritability/2)* male.fitness.selection.differential)
 
