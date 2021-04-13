@@ -6,6 +6,8 @@
 breeders_equation = function(selection.differential,
                              heritability){
 
+  if(0 > heritability |heritability > 1){stop("heritability must be between 0 and 1")}
+
   response = selection.differential * heritability
 
   return(response)
