@@ -21,4 +21,6 @@ wrapper_breeders_equation_male_female_fitness = function(heritability,
   response.fitness =  breeders_equation_male_female_fitness(male.fitness.selection.differential = male.fitness.selection.differential,
                                         female.fitness.selection.differential = female.fitness.selection.differential,
                                         heritability)
+
+  return(response.fitness)
 }
