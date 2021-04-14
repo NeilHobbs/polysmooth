@@ -30,7 +30,8 @@ wrapper_breeders_equation_male_female_insecticide_fitness = function(trait.mean,
                                                                                                                           regression.coefficient = regression.coefficient,
                                                                                                                           regression.intercept = regression.intercept,
                                                                                                                           current.insecticide.efficacy = current.insecticide.efficacy,
-                                                                                                                          exposure.scaling.factor = exposure.scaling.factor)
+                                                                                                                          exposure.scaling.factor = exposure.scaling.factor,
+                                                                                                                          female.fitness.cost = female.fitness.cost)
   #Male selection differential:
 
     male.insecticide.fitness.selection.differential =  wrapper_calculate_male_insecticide_fitness_selection_differential(male.trait.mean = trait.mean,
