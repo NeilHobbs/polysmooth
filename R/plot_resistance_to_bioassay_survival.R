@@ -14,15 +14,7 @@
 #' @param maximum.resistance This will depend on the half survival scale, but 10000 would be a good start.
 #'
 #' @return A ggplot of the relationship between resistance (x axis) and survival (y axis).
-#'
-#' @example plot_resistance_to_bioassay_survival(
-#' maximum.bioassay.survival.proportion = 1,
-#' michaelis.menten.slope = 1,
-#' half.population.bioassay.survival.resistance = 900,
-#' minimum.resistance = 0,
-#' maximum.resistance = 10000,
-#' resistance.score.divisions = 1
-#' )
+
 
 plot_resistance_to_bioassay_survival = function(maximum.bioassay.survival.proportion = 1,
                                                 michaelis.menten.slope = 1,
