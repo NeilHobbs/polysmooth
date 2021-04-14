@@ -24,6 +24,7 @@ calculate_female_trait_mean_exposed_survivors = function(vector.length,
                                                          female.insecticide.exposure
                                                          ){
 
+  #the normal distribution of the trait before any selection has occurred.
   normal.distribution = create_normal_distribution(vector.length = vector.length,
                                                    trait.mean = trait.mean,
                                                    standard.deviation = standard.deviation)
