@@ -1,9 +1,9 @@
 Package: polyIRM
-Title: What the Package Does (One Line, Title Case)
+Title: Modelling Polygenic Insecticide Resistance Using Smooth Selection
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Neil",
+           family = "Hobbs",
            role = c("aut", "cre"),
            email = "first.last@example.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
@@ -14,3 +14,8 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Imports: ggplot2, stats
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+ 
