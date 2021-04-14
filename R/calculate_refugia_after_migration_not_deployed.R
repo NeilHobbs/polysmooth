@@ -13,13 +13,23 @@ calculate_refugia_after_migration_not_deployed = function(intervention.after.sel
                                                           migration.refugia.to.intervention,
                                                           insecticide.population.suppression){
 
-  contribution.joining.from.intervention = intervention.after.selection *migration.intervention.to.refugia*insecticide.population.suppression
+  contribution.joining.from.intervention = intervention.after.selection *migration.intervention.to.refugia*(1-insecticide.population.suppression)
   contribution.stay.in.refugia = refugia.after.selection * (1 - migration.refugia.to.intervention)
-  population.weighting = (1 - migration.refugia.to.intervention) + (insecticide.population.suppression*migration.intervention.to.refugia)
+  population.weighting = (1 - migration.refugia.to.intervention) + ((1-insecticide.population.suppression)*migration.intervention.to.refugia)
 
 
 
   refugia.after.migration = (contribution.joining.from.intervention + contribution.stay.in.refugia) / population.weighting
+
+  #prevent NaN
+  refugia.after.migration = ifelse(is.na(refugia.after.migration),
+                                   yes = 0,
+                                   no = refugia.after.migration)
+  #prevent falling below zero
+  refugia.after.migration = ifelse(refugia.after.migration < 0,
+                                   yes = 0,
+                                   no = refugia.after.migration)
+
 
   return(refugia.after.migration)
 
