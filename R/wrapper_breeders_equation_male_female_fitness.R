@@ -1,9 +1,9 @@
 #'@title Wrapper function to calculate the response when there is only fitness costs
 #'
-#'@param heritability
-#'@param trait.mean
-#'@param female.fitness.cost
-#'@param male.fitness.cost
+#'@param heritability = The heritability of a polygenic trait.
+#'@param trait.mean = The mean value of a polygenic trait in a population.
+#'@param female.fitness.cost = The fixed fitness cost associated with polygenic resistance for females.
+#'@param male.fitness.cost = The fixed fitness costs associated with polygenic resistance for males
 
 wrapper_breeders_equation_male_female_fitness = function(heritability,
                                                          trait.mean,
