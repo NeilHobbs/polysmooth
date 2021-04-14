@@ -13,20 +13,7 @@
 #' @param maximum.bioassay.survival As a proportion, should be set as 1
 #' @param divisions The resolution of the final plotted graph
 #'
-#'
 #' @return A ggplot of the relationship between resistance (x axis) and survival (y axis).
-#'
-#' @example
-#' plot_bioassay_survival_to_resistance(
-#' maximum.bioassay.survival.proportion = 1,
-#' michaelis.menten.slope = 1,
-#' half.population.bioassay.survival.resistance = 900,
-#' estimate.precision = 0.01,
-#' minimum.resistance.score = 0,
-#' maximum.resistance.score = 25000,
-#' minimum.bioassay.survival = 0,
-#' maximum.bioassay.survival = 1,
-#' divisions = 0.01)
 
 plot_bioassay_survival_to_resistance = function(maximum.bioassay.survival.proportion = 1,
                                                 michaelis.menten.slope = 1,
