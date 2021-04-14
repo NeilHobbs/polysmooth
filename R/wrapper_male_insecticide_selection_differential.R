@@ -26,14 +26,19 @@ wrapper_male_insecticide_selection_differential = function(intervention.before.s
                                                            regression.intercept = 0.15,
                                                            current.insecticide.efficacy){
 
+  #Get the total reltative population size of the male mosquito population in the intervention site.
   total.male.population.size = get_male_total_population_size(total.population.size = wrapper_total_population_size(standard.deviation = standard.deviation,
                                                                                                                     vector.length = vector.length))
 
+
+  #Calculate the relative population size that is not exposed to the insecticide.
   male.population.size.unexposed =  calculate_male_population_size_unexposed(total.male.population.size = total.male.population.size,
                                                                              male.insecticide.exposure = male.insecticide.exposure,
                                                                              female.insecticide.exposure = female.insecticide.exposure)
 
 
+
+  #Calculate the relative contributions of the mosquitoes exposed and surviving the insecticide exposure [returns a vector of values length: vector.length]
   relative.male.contribution.after.selection =  calculate_male_density_after_selection(female.insecticide.exposure = female.insecticide.exposure,
                                                                                        male.insecticide.exposure = male.insecticide.exposure,
                                                                                        vector.length = vector.length,
@@ -48,10 +53,18 @@ wrapper_male_insecticide_selection_differential = function(intervention.before.s
 
 
   #calculate the mean trait value of the exposed survivors
-  male.trait.mean.exposed.survivors = calculate_male_trait_mean_exposed_survivors(relative.male.contribution.after.selection = relative.male.contribution.after.selection,
-                                                                                  trait.mean = intervention.before.selection,
-                                                                                  vector.length = vector.length,
-                                                                                  standard.deviation = standard.deviation)
+  male.trait.mean.exposed.survivors = calculate_male_trait_mean_exposed_survivors(vector.length = vector.length,
+                                                                                      trait.mean = intervention.before.selection,
+                                                                                      standard.deviation = standard.deviation,
+                                                                                      maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                                                      michaelis.menten.slope = michaelis.menten.slope,
+                                                                                      half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                                      regression.coefficient = regression.coefficient,
+                                                                                      regression.intercept = regression.intercept,
+                                                                                      current.insecticide.efficacy = current.insecticide.efficacy,
+                                                                                      female.insecticide.exposure = female.insecticide.exposure,
+                                                                                      male.insecticide.exposure = male.insecticide.exposure)
+
 
   #Calculate the relative population size of male exposed survivors
   male.population.size.exposed.survivors = calculate_male_population_size_exposed_survivors(relative.male.contributions.after.selection = relative.male.contribution.after.selection)
@@ -73,6 +86,11 @@ wrapper_male_insecticide_selection_differential = function(intervention.before.s
   male.insecticide.selection.differential = calculate_male_insecticide_selection_differential(male.trait.mean.after.selection = male.trait.mean.after.selection,
                                                                                               male.trait.mean = intervention.before.selection)
 
+
+  #Prevent NA occurring
+  male.insecticide.selection.differential = ifelse(is.na(male.insecticide.selection.differential),
+                                                     yes = 0,
+                                                     no = male.insecticide.selection.differential)
 
   #Return the male insecticide selection differential
   return(male.insecticide.selection.differential)
