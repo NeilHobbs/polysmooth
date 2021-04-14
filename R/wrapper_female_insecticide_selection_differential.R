@@ -32,7 +32,7 @@ wrapper_female_insecticide_selection_differential = function(intervention.before
                                                                                  female.insecticide.exposure = female.insecticide.exposure)
 
 
-  relative.female.contribution.after.selection =  calculate_female_density_after_selection(female.insecticide.exposure = female.insecticide.exposure,
+  relative.female.contributions.after.selection =  calculate_female_density_after_selection(female.insecticide.exposure = female.insecticide.exposure,
                                                                                            vector.length = vector.length,
                                                                                            trait.mean = intervention.before.selection,
                                                                                            standard.deviation = standard.deviation,
@@ -45,14 +45,19 @@ wrapper_female_insecticide_selection_differential = function(intervention.before
 
 
   #calculate the mean trait value of the exposed survivors
-  female.trait.mean.exposed.survivors = calculate_female_trait_mean_exposed_survivors(relative.female.contribution.after.selection = relative.female.contribution.after.selection,
+  female.trait.mean.exposed.survivors = calculate_female_trait_mean_exposed_survivors(vector.length = vector.length,
                                                                                       trait.mean = intervention.before.selection,
-                                                                                      vector.length = vector.length,
-                                                                                      standard.deviation = standard.deviation)
+                                                                                      standard.deviation = standard.deviation,
+                                                                                      maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                                                      michaelis.menten.slope = michaelis.menten.slope,
+                                                                                      half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                                      regression.coefficient = regression.coefficient,
+                                                                                      regression.intercept = regression.intercept,
+                                                                                      current.insecticide.efficacy = current.insecticide.efficacy,
+                                                                                      female.insecticide.exposure = female.insecticide.exposure)
 
   #Calculate the relative population size of female exposed survivors
-  female.population.size.exposed.survivors = calculate_female_population_size_exposed_survivors(relative.female.contributions.after.selection = relative.female.contribution.after.selection)
-
+  female.population.size.exposed.survivors = calculate_female_population_size_exposed_survivors(relative.female.contributions.after.selection = relative.female.contributions.after.selection)
 
   #Calculate the overall relative population size after insecticide selection
   female.population.size.after.selection = calculate_female_population_size_after_selection(female.population.size.exposed.survivors = female.population.size.exposed.survivors,
@@ -70,6 +75,12 @@ wrapper_female_insecticide_selection_differential = function(intervention.before
   female.insecticide.selection.differential = calculate_female_insecticide_selection_differential(female.trait.mean.after.selection = female.trait.mean.after.selection,
                                                                                                   female.trait.mean = intervention.before.selection)
 
+
+
+  #Prevent NA occurring
+  female.insecticide.selection.differential = ifelse(is.na(female.insecticide.selection.differential),
+                                                     yes = 0,
+                                                     no = female.insecticide.selection.differential)
 
   #Return the female insecticide selection differential
   return(female.insecticide.selection.differential)
