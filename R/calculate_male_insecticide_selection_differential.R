@@ -7,7 +7,6 @@
 calculate_male_insecticide_selection_differential = function(male.trait.mean.after.selection,
                                                              male.trait.mean){
 
-  male.insecticide.selection.differential = male.trait.mean.after.selection
-
+  male.insecticide.selection.differential = male.trait.mean.after.selection - male.trait.mean
 
 }
