@@ -24,7 +24,8 @@ wrapper_calculate_female_insecticide_fitness_selection_differential = function(f
                                                                                regression.coefficient,
                                                                                regression.intercept,
                                                                                current.insecticide.efficacy,
-                                                                               exposure.scaling.factor){
+                                                                               exposure.scaling.factor,
+                                                                               female.fitness.cost){
 
 
   female.fitness.selection.differential = wrapper_female_fitness_selection_differential(female.trait.mean = female.trait.mean,
