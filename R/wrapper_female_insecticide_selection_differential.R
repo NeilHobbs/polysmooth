@@ -25,13 +25,15 @@ wrapper_female_insecticide_selection_differential = function(intervention.before
                                                              regression.intercept = 0.15,
                                                              current.insecticide.efficacy){
 
+  #1. Get the total relative population size of the female mosquitoes prior to any insecticide based selection.
   total.female.population.size = get_female_total_population_size(total.population.size = wrapper_total_population_size(standard.deviation = standard.deviation,
                                                                                                                         vector.length = vector.length))
 
+  #A proportion of the females are not exposed to the insecticide
   female.population.size.unexposed =  calculate_female_population_size_unexposed(total.female.population.size = total.female.population.size,
                                                                                  female.insecticide.exposure = female.insecticide.exposure)
 
-
+  #of the female mosquitoes that encounter the insecticide, most will likely die.
   relative.female.contributions.after.selection =  calculate_female_density_after_selection(female.insecticide.exposure = female.insecticide.exposure,
                                                                                            vector.length = vector.length,
                                                                                            trait.mean = intervention.before.selection,
