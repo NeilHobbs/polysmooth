@@ -18,5 +18,9 @@ wrapper_intervention_site_after_selection_not_deployed = function(heritability,
   intervention.after.selection = calculate_intervention_site_after_selection_not_deployed(intervention.before.selection = intervention.before.selection,
                                                                                           response.fitness = response.fitness)
 
+  intervention.after.selection = ifelse(intervention.after.selection < 0,
+                                        yes = 0,
+                                        no = intervention.after.selection)
+
 return(intervention.after.selection)
 }
