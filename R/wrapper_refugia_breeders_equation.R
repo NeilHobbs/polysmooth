@@ -6,9 +6,9 @@
 #'@param male.fitness.cost = The fixed fitness costs associated with polygenic resistance for males'
 
 wrapper_refugia_breeders_equation = function(refugia.before.selection,
-                                                  heritability,
-                                                  female.fitness.cost,
-                                                  male.fitness.cost){
+                                             heritability,
+                                             female.fitness.cost,
+                                             male.fitness.cost){
 
 
 
@@ -16,6 +16,9 @@ wrapper_refugia_breeders_equation = function(refugia.before.selection,
                                                                                                       trait.mean = refugia.before.selection,
                                                                                                       female.fitness.cost = female.fitness.cost,
                                                                                                       male.fitness.cost = male.fitness.cost)
+  refugia.after.selection = ifelse(refugia.after.selection < 0,
+                                   yes = 0,
+                                   no = refugia.after.selection)
 
   return(refugia.after.selection)
 }
