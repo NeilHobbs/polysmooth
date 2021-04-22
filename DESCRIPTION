@@ -1,4 +1,4 @@
-Package: polyIRM
+Package: polysmooth
 Title: Modelling Polygenic Insecticide Resistance Using Smooth Selection
 Version: 0.0.0.9000
 Authors@R: 
