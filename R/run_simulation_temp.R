@@ -24,9 +24,12 @@ run_simulation_temp = function(number.of.insecticides = 2,
                                maximum.resistance.value = 25000,
                                starting.refugia.resistance.score = 0,
                                starting.intervention.resistance.score = 0,
-                               insecticide.population.suppression, #need to incorporate this into the model directly
-                               current.insecticide.efficacy #neeed to incorporate this intot the model directly
-                                ){
+                               applied.insecticide.dose,
+                               recommended.insecticide.dose,
+                               threshold.generations,
+                               base.efficacy.decay.rate,
+                               rapid.decay.rate
+){
 
   #Start by creating an array (calls the array_named function):
   #dimension 1: site = c("refugia", "treatment"), which hold resistance intensities.
@@ -71,8 +74,15 @@ run_simulation_temp = function(number.of.insecticides = 2,
   deployed.insecticide = rep(1, times = deployment.frequency)#Always start with insecticide 1.
   #This is fine as all insecticides have equivalent properties.
 
+  insecticide.efficacy = rep(create_insecticide_efficacy_vector(applied.insecticide.dose = applied.insecticide.dose,
+                                                                recommended.insecticide.dose = recommended.insecticide.dose,
+                                                                threshold.generations = threshold.generations,
+                                                                base.efficacy.decay.rate = base.efficacy.decay.rate,
+                                                                rapid.decay.rate = rapid.decay.rate,
+                                                                deployment.frequency = deployment.frequency), times = maximum.generations/deployment.frequency)
 
-  insecticide.info = list(available.vector, withdrawn.vector, deployed.insecticide)
+
+  insecticide.info = list(available.vector, withdrawn.vector, deployed.insecticide, insecticide.efficacy)
   #Set the withdrawal and return thresholds: requires inputting the desired proportion of survival as input parameters. These will require
   #the user to input the half.population.bioassay.survival.resistance; the required thresholds; and maximum.resistance.value [this will be incase,
   #a user decides to use a high Z50 value]. But we should recommend the Z50 to be 900.
@@ -109,7 +119,18 @@ run_simulation_temp = function(number.of.insecticides = 2,
 
         if(insecticide == deployed.insecticide[generation]){
 
-          tracked.resistance = wrapper_intervention_refugia_deployed_dispersal(insecticide.population.suppression = insecticide.population.suppression,
+          tracked.resistance = wrapper_intervention_refugia_deployed_dispersal(insecticide.population.suppression = wrapper_calculate_population_suppresion(current.insecticide.efficacy = insecticide.efficacy[generation],
+                                                                                                                                                            currently.deployed.insecticide = deployed.insecticide[generation],
+                                                                                                                                                            vector.length = vector.length,
+                                                                                                                                                            current.generation = generation,
+                                                                                                                                                            standard.deviation = standard.deviation,
+                                                                                                                                                            female.insecticide.exposure = female.insecticide.exposure,
+                                                                                                                                                            maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                                                                                                                            michaelis.menten.slope = michaelis.menten.slope,
+                                                                                                                                                            half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                                                                                                            regression.coefficient = regression.coefficient,
+                                                                                                                                                            regression.intercept = regression.intercept,
+                                                                                                                                                            sim.array = sim.array),
                                                                                intervention.before.selection = sim.array['intervention', insecticide, generation-1],
                                                                                female.fitness.cost = female.fitness.cost,
                                                                                male.fitness.cost = male.fitness.cost,
@@ -122,7 +143,7 @@ run_simulation_temp = function(number.of.insecticides = 2,
                                                                                half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
                                                                                regression.coefficient = regression.coefficient,
                                                                                regression.intercept = regression.intercept,
-                                                                               current.insecticide.efficacy = current.insecticide.efficacy,
+                                                                               current.insecticide.efficacy = insecticide.efficacy[generation],
                                                                                exposure.scaling.factor = exposure.scaling.factor,
                                                                                heritability = heritability,
                                                                                refugia.before.selection = sim.array['refugia', insecticide, generation-1],
@@ -136,7 +157,18 @@ run_simulation_temp = function(number.of.insecticides = 2,
 
         if(insecticide != deployed.insecticide[generation]){
 
-          tracked.resistance = wrapper_intervention_refugia_not_deployed_dispersal(insecticide.population.suppression = insecticide.population.suppression,
+          tracked.resistance = wrapper_intervention_refugia_not_deployed_dispersal(insecticide.population.suppression = wrapper_calculate_population_suppresion(current.insecticide.efficacy = insecticide.efficacy[generation],
+                                                                                                                                                                currently.deployed.insecticide = deployed.insecticide[generation],
+                                                                                                                                                                vector.length = vector.length,
+                                                                                                                                                                current.generation = generation,
+                                                                                                                                                                standard.deviation = standard.deviation,
+                                                                                                                                                                female.insecticide.exposure = female.insecticide.exposure,
+                                                                                                                                                                maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                                                                                                                                michaelis.menten.slope = michaelis.menten.slope,
+                                                                                                                                                                half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                                                                                                                regression.coefficient = regression.coefficient,
+                                                                                                                                                                regression.intercept = regression.intercept,
+                                                                                                                                                                sim.array = sim.array),
                                                                                    intervention.before.selection = sim.array['intervention', insecticide, generation-1],
                                                                                    female.fitness.cost = female.fitness.cost,
                                                                                    male.fitness.cost = male.fitness.cost,
@@ -149,10 +181,10 @@ run_simulation_temp = function(number.of.insecticides = 2,
           sim.array['refugia', insecticide, generation] = tracked.resistance[[2]]
 
 
-        #end insecticide not deployed
-      }
+          #end insecticide not deployed
+        }
 
-        }#end of for insecticide loop
+      }#end of for insecticide loop
 
       if(generation < maximum.generations){
         if(generation < maximum.generations){
@@ -182,29 +214,29 @@ run_simulation_temp = function(number.of.insecticides = 2,
                       deployment.frequency = deployment.frequency,
                       deployment.vector = deployed.insecticide)
 
+                  }
                 }
-              }
 
-          #update.insectide.info[[1]] is the vector of the available insecticides
-          #update.insecticide.info[[2]] is the vector of the withdrawn insecticides
-          #update.insecticide.info[[3]] is the vector of the whole deployment =c(previous.deployment, new.deployment)
+            #update.insectide.info[[1]] is the vector of the available insecticides
+            #update.insecticide.info[[2]] is the vector of the withdrawn insecticides
+            #update.insecticide.info[[3]] is the vector of the whole deployment =c(previous.deployment, new.deployment)
+          }
+          if(generation %% deployment.frequency == 0){available.vector = update.insecticide.info[[1]]}
+          if(generation %% deployment.frequency == 0){withdrawn.vector = update.insecticide.info[[2]]}
+          if(generation %% deployment.frequency == 0){deployed.insecticide = update.insecticide.info[[3]]}
+
+          #A break point to stop simuation if there is no insecticide deployed
+          #if(is.na(deployed.insecticide[generation])){break}
+
         }
-        if(generation %% deployment.frequency == 0){available.vector = update.insecticide.info[[1]]}
-        if(generation %% deployment.frequency == 0){withdrawn.vector = update.insecticide.info[[2]]}
-        if(generation %% deployment.frequency == 0){deployed.insecticide = update.insecticide.info[[3]]}
-
-      #A break point to stop simuation if there is no insecticide deployed
-      #if(is.na(deployed.insecticide[generation])){break}
-
-    }
       }
     }
-      }#end of for(generation) loop
+  }#end of for(generation) loop
 
-    #ensure the simulation array is return after running
-    #need to develop an quick and easy way to turn array into dataframes for plotting purposes
-    return(list(sim.array, deployed.insecticide))
-  }
+  #ensure the simulation array is return after running
+  #need to develop an quick and easy way to turn array into dataframes for plotting purposes
+  return(list(sim.array, deployed.insecticide))
+}
 
 
 
