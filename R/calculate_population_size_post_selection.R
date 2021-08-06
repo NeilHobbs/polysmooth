@@ -6,6 +6,15 @@
 calculate_population_size_post_selection = function(population.size.exposed.survivors,
                                                     population.size.unexposed){
 
+  population.size.exposed.survivors = ifelse(is.na(population.size.exposed.survivors),
+                                             yes =0,
+                                             no = population.size.exposed.survivors)
+
+  population.size.unexposed = ifelse(is.na(population.size.unexposed),
+                                             yes =0,
+                                             no = population.size.unexposed)
+
+
   population.size.post.selection = population.size.exposed.survivors + population.size.unexposed
 
   return(population.size.post.selection)
