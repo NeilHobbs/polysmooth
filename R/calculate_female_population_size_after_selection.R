@@ -7,6 +7,17 @@
 calculate_female_population_size_after_selection = function(female.population.size.unexposed,
                                                  female.population.size.exposed.survivors){
 
+
+  female.population.size.unexposed = ifelse(is.na(female.population.size.unexposed),
+                                            yes = 0,
+                                            no = female.population.size.unexposed)
+
+
+  female.population.size.exposed.survivors = ifelse(is.na(female.population.size.exposed.survivors),
+                                                    yes = 0,
+                                                    no = female.population.size.exposed.survivors)
+
+
   female.population.size.after.selection = female.population.size.unexposed + female.population.size.exposed.survivors
 
   return(female.population.size.after.selection)
