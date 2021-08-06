@@ -5,7 +5,7 @@
 
 get_population_size_unexposed = function(relative.contributions.unexposed){
 
-  population.size.unexposed = sum(relative.contribution.unexposed)
+  population.size.unexposed = sum(relative.contributions.unexposed, na.rm = TRUE)
 
   return(population.size.unexposed)
 }
