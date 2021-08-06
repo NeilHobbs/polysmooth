@@ -8,6 +8,18 @@
 calculate_male_population_size_after_selection = function(male.population.size.exposed.survivors,
                                                           male.population.size.unexposed){
 
+
+  male.population.size.unexposed = ifelse(is.na(male.population.size.unexposed),
+                                            yes = 0,
+                                            no = male.population.size.unexposed)
+
+
+  male.population.size.exposed.survivors = ifelse(is.na(male.population.size.exposed.survivors),
+                                                    yes = 0,
+                                                    no = male.population.size.exposed.survivors)
+
+
+
     male.population.size.after.selection = male.population.size.exposed.survivors + male.population.size.unexposed
 
   return(male.population.size.after.selection)
