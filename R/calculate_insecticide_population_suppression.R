@@ -7,7 +7,8 @@
 calculate_insecticide_population_suppression = function(female.population.size.after.selection,
                                                         total.female.population.size){
 
-  insecticide.population.suppression = female.population.size.after.selection/total.female.population.size
+  insecticide.population.suppression = (female.population.size.after.selection/total.female.population.size)
 
-  return(insecticide.population.suppression)
+    return(insecticide.population.suppression)
+
 }
