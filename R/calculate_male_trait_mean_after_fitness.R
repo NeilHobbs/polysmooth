@@ -5,7 +5,7 @@
 
 
 calculate_male_trait_mean_after_fitness = function(male.trait.mean,
-                                                     male.fitness.cost){
+                                                   male.fitness.cost){
 
   male.trait.mean.after.fitness = male.trait.mean - male.fitness.cost
 
