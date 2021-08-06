@@ -4,7 +4,7 @@
 
 get_total_population_size = function(relative.contributions.before.selection){
 
-  total.population.size = sum(relative.contributions.before.selection)
+  total.population.size = sum(relative.contributions.before.selection, na.rm = TRUE)
 
   return(total.population.size)
 }
