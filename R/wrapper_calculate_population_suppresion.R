@@ -12,8 +12,10 @@ wrapper_calculate_population_suppresion = function(current.insecticide.efficacy,
                                                    half.population.bioassay.survival.resistance,
                                                    regression.coefficient,
                                                    regression.intercept,
-                                                   sim.array){
+                                                   sim.array,
+                                                   population.suppression){
 
+  if(population.suppression == TRUE){
 
   trait.mean.deployed = sim.array['intervention', currently.deployed.insecticide, current.generation-1]
 
@@ -64,7 +66,11 @@ female.population.size.after.selection = calculate_female_population_size_after_
 proportion.surviving =  calculate_insecticide_population_suppression(female.population.size.after.selection = female.population.size.after.selection,
                                                                                   total.female.population.size = total.female.population.size)
 
-insecticide.population.suppression = 1 - proportion.surviving
+#insecticide.population.suppression = 1 - proportion.surviving
+insecticide.population.suppression =  proportion.surviving
+}
+
+if(population.suppression == FALSE){insecticide.population.suppression = 0}
 
 return(insecticide.population.suppression)
 
