@@ -18,6 +18,7 @@ calculate_intervention_site_after_migration_deployed = function(intervention.aft
 
   population.weighting = ((1 - migration.intervention.to.refugia)*(1-insecticide.population.suppression)) + migration.refugia.to.intervention
 
+
   intervention.after.migration = (contribution.stay.in.intervention + contribution.joining.from.refugia) / population.weighting
 
   #Prevent NaN or NA
