@@ -21,7 +21,8 @@ for(i in 1:length(exposure.values)){
                                                          half.population.bioassay.survival.resistance = 900,
                                                          regression.coefficient = 0.48,
                                                          regression.intercept = 0.15,
-                                                         sim.array = sim.array1), 0)
+                                                         sim.array = sim.array1,
+                                                         population.suppression = TRUE), 1)
   })
 }
 

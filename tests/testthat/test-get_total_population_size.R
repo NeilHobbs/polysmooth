@@ -7,3 +7,8 @@ test_that("population size unaffected by trait.mean", {
                                                                                                                      standard.deviation = 10)))
 })
 
+temp.vector = c(NA, NA, NA, 5, 5, 5, 5)
+
+test_that("population size unaffected by trait.mean", {
+  expect_equal(get_total_population_size(relative.contributions.before.selection = temp.vector),20)
+})
