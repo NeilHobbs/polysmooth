@@ -4,7 +4,7 @@
 
 get_population_size_exposed_survivors = function(relative.contributions.after.selection){
 
-  population.size.exposed.survivors = sum(relative.contributions.after.selection)
+  population.size.exposed.survivors = sum(relative.contributions.after.selection, na.rm = TRUE)
 
   return(population.size.exposed.survivors)
 }
