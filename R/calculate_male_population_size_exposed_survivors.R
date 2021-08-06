@@ -4,7 +4,7 @@
 
 calculate_male_population_size_exposed_survivors = function(relative.male.contributions.after.selection){
 
-  male.population.size.exposed.survivors = sum(relative.male.contributions.after.selection)
+  male.population.size.exposed.survivors = sum(relative.male.contributions.after.selection, na.rm = TRUE)
 
   return(male.population.size.exposed.survivors)
 }
