@@ -17,20 +17,62 @@ wrapper_intervention_refugia_not_deployed_dispersal = function(insecticide.popul
                                                                heritability,
                                                                refugia.before.selection,
                                                                dispersal.rate,
-                                                               intervention.coverage){
+                                                               intervention.coverage,
+                                                               cross.selection.matrix,
+                                                               currently.deployed.insecticide,
+                                                               currently.tracked.insecticide,
+                                                               female.insecticide.exposure,
+                                                               male.insecticide.exposure,
+                                                               standard.deviation,
+                                                               vector.length,
+                                                               maximum.bioassay.survival.proportion,
+                                                               michaelis.menten.slope,
+                                                               half.population.bioassay.survival.resistance,
+                                                               regression.coefficient,
+                                                               regression.intercept,
+                                                               current.insecticide.efficacy,
+                                                               exposure.scaling.factor,
+                                                               intervention.before.selection.other
+                                                               ){
+
+
+  genetic.correlation = cross.selection.matrix[currently.deployed.insecticide, currently.tracked.insecticide]
+
+
+  indirect.cross.selection = indirect_cross_selection(genetic.correlation = genetic.correlation,
+                                                      intervention.before.selection = intervention.before.selection.other,
+                                                      female.fitness.cost = female.fitness.cost,
+                                                      male.fitness.cost = male.fitness.cost,
+                                                      female.insecticide.exposure = female.insecticide.exposure,
+                                                      male.insecticide.exposure = male.insecticide.exposure,
+                                                      standard.deviation = standard.deviation,
+                                                      vector.length = vector.length,
+                                                      maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                      michaelis.menten.slope = michaelis.menten.slope,
+                                                      half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                      regression.coefficient = regression.coefficient,
+                                                      regression.intercept = regression.intercept,
+                                                      current.insecticide.efficacy = current.insecticide.efficacy,
+                                                      exposure.scaling.factor = exposure.scaling.factor,
+                                                      heritability = heritability)
+
 
 
   intervention.after.selection = wrapper_intervention_site_after_selection_not_deployed(heritability = heritability,
                                                                                         intervention.before.selection = intervention.before.selection,
                                                                                         female.fitness.cost = female.fitness.cost,
-                                                                                        male.fitness.cost = male.fitness.cost)
+                                                                                        male.fitness.cost = male.fitness.cost) + indirect.cross.selection
+
+
+
+
 
   refugia.after.selection = wrapper_refugia_breeders_equation(refugia.before.selection = refugia.before.selection,
                                                               heritability = heritability,
                                                               female.fitness.cost = female.fitness.cost,
                                                               male.fitness.cost = male.fitness.cost)
 
-  staying.in.intervention = 1 - number_migrating_intervention_to_refugia(dispersal.rate = dispersal.rate,
+  staying.in.intervention =  number_migrating_intervention_to_refugia(dispersal.rate = 1 - dispersal.rate,
                                                                          intervention.coverage = intervention.coverage)
 
   joining.from.intervetion = number_migrating_intervention_to_refugia(dispersal.rate = dispersal.rate,
@@ -39,7 +81,7 @@ wrapper_intervention_refugia_not_deployed_dispersal = function(insecticide.popul
   joining.from.refugia =  number_migrating_refugia_to_intervention(dispersal.rate = dispersal.rate,
                                                                    intervention.coverage = intervention.coverage)
 
-  staying.in.refugia = 1 - number_migrating_refugia_to_intervention(dispersal.rate = dispersal.rate,
+  staying.in.refugia =  number_migrating_refugia_to_intervention(dispersal.rate = 1 - dispersal.rate,
                                                                     intervention.coverage = intervention.coverage)
 
 

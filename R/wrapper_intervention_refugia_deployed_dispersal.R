@@ -57,12 +57,13 @@ wrapper_intervention_refugia_deployed_dispersal = function(insecticide.populatio
                                                                                     exposure.scaling.factor = exposure.scaling.factor,
                                                                                     heritability = heritability)
 
+
   refugia.after.selection = wrapper_refugia_breeders_equation(refugia.before.selection = refugia.before.selection,
                                                               heritability = heritability,
                                                               female.fitness.cost = female.fitness.cost,
                                                               male.fitness.cost = male.fitness.cost)
 
-  staying.in.intervention = 1 - number_migrating_intervention_to_refugia(dispersal.rate = dispersal.rate,
+  staying.in.intervention =  number_migrating_intervention_to_refugia(dispersal.rate = 1-dispersal.rate,
                                                                          intervention.coverage = intervention.coverage)
 
   joining.from.intervetion = number_migrating_intervention_to_refugia(dispersal.rate = dispersal.rate,
@@ -71,7 +72,7 @@ wrapper_intervention_refugia_deployed_dispersal = function(insecticide.populatio
   joining.from.refugia =  number_migrating_refugia_to_intervention(dispersal.rate = dispersal.rate,
                                                                    intervention.coverage = intervention.coverage)
 
-  staying.in.refugia = 1 - number_migrating_refugia_to_intervention(dispersal.rate = dispersal.rate,
+  staying.in.refugia =  number_migrating_refugia_to_intervention(dispersal.rate = 1-dispersal.rate,
                                                                     intervention.coverage = intervention.coverage)
 
 
