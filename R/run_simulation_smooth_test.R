@@ -1,4 +1,5 @@
-#currently appears to be working...
+##This is the development version
+
 
 run_simulation_smooth_test = function(number.of.insecticides = 2,
                                  exposure.scaling.factor = 10,
@@ -314,24 +315,26 @@ if(deployment.type == "singles"){
 if(deployment.type == "mixtures"){
   for(generation in 2:maximum.generations){
 
+    ##It should be noted that this model currently only works with mixtures for 2-insecticide simulations. It does not currently work for the inclusion of
+      #multiple mixtures.
+
     #Stop the simulation if there is no insecticide being deployed anymore.
     if(is.na(deployed.mixture$mixture.id[generation])){break}else{
       for(insecticide in 1:number.of.insecticides){ #track the resistance intensity for each insecticide
         if(insecticide == deployed.mixture$mixture.part.1[generation] |
                                                                 deployed.mixture$mixture.part.2[generation]){#Insecticide is deployed in treatment site
-          tracked.resistance =  wrapper_intervention_refugia_deployed_dispersal_mixtures(insecticide.population.suppression = wrapper_calculate_population_suppresion(current.insecticide.efficacy = insecticide.efficacy.vector[generation],
-                                                                                                                                                                      currently.deployed.insecticide = deployed.insecticide[generation],
-                                                                                                                                                                      vector.length = vector.length,
-                                                                                                                                                                      current.generation = generation,
-                                                                                                                                                                      standard.deviation = standard.deviation,
-                                                                                                                                                                      female.insecticide.exposure = female.insecticide.exposure,
-                                                                                                                                                                      maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
-                                                                                                                                                                      michaelis.menten.slope = michaelis.menten.slope,
-                                                                                                                                                                      half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
-                                                                                                                                                                      regression.coefficient = regression.coefficient,
-                                                                                                                                                                      regression.intercept = regression.intercept,
-                                                                                                                                                                      sim.array = sim.array,
-                                                                                                                                                                      population.suppression = population.suppression),
+          tracked.resistance =  wrapper_intervention_refugia_deployed_dispersal_mixtures(insecticide.population.suppression = wrapper_calculate_population_suppresion_mixtures(vector.length = vector.length,
+                                                                                                                                                                               current.generation = generation,
+                                                                                                                                                                               standard.deviation = standard.deviation,
+                                                                                                                                                                               female.insecticide.exposure = female.insecticide.exposure,
+                                                                                                                                                                               maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                                                                                                                                               michaelis.menten.slope = michaelis.menten.slope,
+                                                                                                                                                                               half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                                                                                                                               regression.coefficient = regression.coefficient,
+                                                                                                                                                                               regression.intercept = regression.intercept,
+                                                                                                                                                                               sim.array = sim.array,
+                                                                                                                                                                               population.suppression = population.suppression,
+                                                                                                                                                                               deployed.mixture = deployed.mixture),
                                                                                          intervention.before.selection = sim.array['intervention', insecticide, generation-1],
                                                                                          female.fitness.cost = female.fitness.cost,
                                                                                          male.fitness.cost = male.fitness.cost,
@@ -362,68 +365,68 @@ if(deployment.type == "mixtures"){
           sim.array['refugia', insecticide, generation] = tracked.resistance[[2]]
 
         }}}
-    #Which irm.strategy is being used: sequence or rotation
+        #Which irm.strategy is being used: sequence or rotation
 
-    #May be worth making the following chunk of code into its own function as it is a bit chunky
-    #at the moment.
-    #Update insecticide each time the deployment.frequency is reached:
-    if(generation < maximum.generations){
-      update.mixture.info = if(generation %% deployment.frequency == 0){
-        if(irm.strategy == "rotation"){
-          irm_strategy_rotation_mixture_decay(number.of.insecticides = number.of.insecticides,
-                                              current.generation = generation,
-                                              withdrawal.threshold = calc.withdrawal.threshold,
-                                              return.threshold = calc.return.threshold,
-                                              simulation.array = sim.array,
-                                              available.vector = available.vector,
-                                              withdrawn.vector = withdrawn.vector,
-                                              mixture.df = mixture.df,
-                                              current.mixture = deployed.mixture$mixture.id[generation],
-                                              deployment.frequency = deployment.frequency,
-                                              deployment.df = deployed.mixture,
-                                              insecticide.parameters.df = insecticide.parameters.df)} else{
-                                                if(irm.strategy == "sequence"){
-                                                  irm_strategy_sequence_mixture_decay(number.of.insecticides = number.of.insecticides,
-                                                                                      current.generation = generation,
-                                                                                      withdrawal.threshold = calc.withdrawal.threshold,
-                                                                                      return.threshold = calc.return.threshold,
-                                                                                      simulation.array = sim.array,
-                                                                                      available.vector = available.vector,
-                                                                                      withdrawn.vector = withdrawn.vector,
-                                                                                      mixture.df = mixture.df,
-                                                                                      current.mixture = deployed.mixture$mixture.id[generation],
-                                                                                      deployment.frequency = deployment.frequency,
-                                                                                      deployment.df = deployed.mixture,
-                                                                                      insecticide.parameters.df = insecticide.parameters.df)
-                                                }
-                                              }
+        #May be worth making the following chunk of code into its own function as it is a bit chunky
+        #at the moment.
+        #Update insecticide each time the deployment.frequency is reached:
+        if(generation < maximum.generations){
+          update.mixture.info = if(generation %% deployment.frequency == 0){
+            if(irm.strategy == "rotation"){
+              irm_strategy_rotation_mixture_decay(number.of.insecticides = number.of.insecticides,
+                                                  current.generation = generation,
+                                                  withdrawal.threshold = calc.withdrawal.threshold,
+                                                  return.threshold = calc.return.threshold,
+                                                  simulation.array = sim.array,
+                                                  available.vector = available.vector,
+                                                  withdrawn.vector = withdrawn.vector,
+                                                  mixture.df = mixture.df,
+                                                  current.mixture = deployed.mixture$mixture.id[generation],
+                                                  deployment.frequency = deployment.frequency,
+                                                  deployment.df = deployed.mixture,
+                                                  insecticide.parameters.df = insecticide.parameters.df)} else{
+                                                    if(irm.strategy == "sequence"){
+                                                      irm_strategy_sequence_mixture_decay(number.of.insecticides = number.of.insecticides,
+                                                                                          current.generation = generation,
+                                                                                          withdrawal.threshold = calc.withdrawal.threshold,
+                                                                                          return.threshold = calc.return.threshold,
+                                                                                          simulation.array = sim.array,
+                                                                                          available.vector = available.vector,
+                                                                                          withdrawn.vector = withdrawn.vector,
+                                                                                          mixture.df = mixture.df,
+                                                                                          current.mixture = deployed.mixture$mixture.id[generation],
+                                                                                          deployment.frequency = deployment.frequency,
+                                                                                          deployment.df = deployed.mixture,
+                                                                                          insecticide.parameters.df = insecticide.parameters.df)
+                                                    }
+                                                  }
 
-        # mixture.info = list(available.mixtures, available.vector, withdrawn.vector, deployed.mixture)
-      }
-      if(generation %% deployment.frequency == 0){available.mixtures = update.mixture.info[[1]]}
-      if(generation %% deployment.frequency == 0){available.vector = update.mixture.info[[2]]}
-      if(generation %% deployment.frequency == 0){withdrawn.vector = update.mixture.info[[3]]}
-      if(generation %% deployment.frequency == 0){deployed.mixture = update.mixture.info[[4]]
+            # mixture.info = list(available.mixtures, available.vector, withdrawn.vector, deployed.mixture)
+          }
+          if(generation %% deployment.frequency == 0){available.mixtures = update.mixture.info[[1]]}
+          if(generation %% deployment.frequency == 0){available.vector = update.mixture.info[[2]]}
+          if(generation %% deployment.frequency == 0){withdrawn.vector = update.mixture.info[[3]]}
+          if(generation %% deployment.frequency == 0){deployed.mixture = update.mixture.info[[4]]
 
-      }
-    }
-
-
-  }}
+          }
+        }
 
 
+}}
 
 
 
-    #ensure the simulation array is return after running
-    #need to develop an quick and easy way to turn array into dataframes for plotting purposes
-    if(deployment.type == "singles"){
-      return(list(sim.array, deployed.insecticide, insecticide.efficacy.vector))
-    }
 
-    if(deployment.type == "mixtures"){
-      return(list(sim.array, deployed.mixture))
-    }
+
+  #ensure the simulation array is return after running
+  #need to develop an quick and easy way to turn array into dataframes for plotting purposes
+if(deployment.type == "singles"){
+    return(list(sim.array, deployed.insecticide, insecticide.efficacy.vector))
+}
+
+if(deployment.type == "mixtures"){
+  return(list(sim.array, deployed.mixture))
+}
 }
 
 
