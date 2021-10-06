@@ -1,22 +1,20 @@
-perform_micromosaic_smooth = function(max.cycles,
-                                      insecticide.coverage.1,
-                                      insecticide.coverage.2,
-                                      trait.mean.1,
-                                      trait.mean.2,
-                                      standard.deviation,
-                                      vector.length,
-                                      female.exposure,
-                                      male.selection.diff.1,
-                                      male.selection.diff.2,
-                                      current.insecticide.efficacy.1,
-                                      current.insecticide.efficacy.2,
-                                      regression.coefficient,
-                                      regression.intercept,
-                                      heritability,
-                                      exposure.scaling.factor,
-                                      half.population.bioassay.survival.resistance,
-                                      michaelis.menten.slope,
-                                      maximum.bioassay.survival.proportion){
+perform_multiple_selection_mixture_smooth = function(max.cycles,
+                                                     trait.mean.1,
+                                                     trait.mean.2,
+                                                     standard.deviation,
+                                                     vector.length,
+                                                     female.exposure,
+                                                     male.selection.diff.1,
+                                                     male.selection.diff.2,
+                                                     current.insecticide.efficacy.1,
+                                                     current.insecticide.efficacy.2,
+                                                     regression.coefficient,
+                                                     regression.intercept,
+                                                     heritability,
+                                                     exposure.scaling.factor,
+                                                     half.population.bioassay.survival.resistance,
+                                                     michaelis.menten.slope,
+                                                     maximum.bioassay.survival.proportion){
 
   #create the starting conditions for the first gonotrophic cycle
   #Values of the Normal Distrition of Trait 1 (insecticide 1)
@@ -57,7 +55,7 @@ perform_micromosaic_smooth = function(max.cycles,
                                                                        regression.intercept = regression.intercept,
                                                                        current.insecticide.efficacy = current.insecticide.efficacy.2)
 
-  do.not.encounter = 1 - ((insecticide.coverage.1 + insecticide.coverage.2) * female.exposure)
+  do.not.encounter = 1 - ((insecticide.coverage) * female.exposure)
 
   update.density.1 = list()
   update.mean.z.1 = list()
@@ -75,23 +73,19 @@ perform_micromosaic_smooth = function(max.cycles,
   for(i in 1:max.cycles){
 
     if(i == 1){temp.vec.1 = ((relative.frequency.trait.1*do.not.encounter) +
-                               (relative.frequency.trait.1*female.exposure*insecticide.coverage.2*mean(survival.probability.2)) +
-                               (relative.frequency.trait.1*female.exposure*insecticide.coverage.1*survival.probability.1))
+                               (relative.frequency.trait.1*female.exposure*insecticide.coverage*survival.probability.1*mean(survival.probability.2)))
 
 
     temp.vec.2 = ((relative.frequency.trait.2*do.not.encounter) +
-                    (relative.frequency.trait.2*female.exposure*insecticide.coverage.2*survival.probability.2) +
-                    (relative.frequency.trait.2*female.exposure*insecticide.coverage.1*mean(survival.probability.1)))
+                    (relative.frequency.trait.2*female.exposure*insecticide.coverage*survival.probability.2*mean(survival.probability.1)))
     }
 
     if(i != 1){temp.vec.1 = ((update.density.1[[i-1]]*do.not.encounter) +
-                               (update.density.1[[i-1]]*female.exposure*insecticide.coverage.2*mean(survival.probability.2)) +
-                               (update.density.1[[i-1]]*insecticide.coverage.1*female.exposure*survival.probability.1))
+                               (update.density.1[[i-1]]*insecticide.coverage.1*female.exposure*survival.probability.1*mean(survival.probability.2)))
 
 
     temp.vec.2 = ((update.density.2[[i-1]]*do.not.encounter)+
-                    (update.density.2[[i-1]]*insecticide.coverage.1*female.exposure*mean(survival.probability.1))+
-                    (update.density.2[[i-1]]*female.exposure*insecticide.coverage.2*survival.probability.2))
+                    (update.density.2[[i-1]]*female.exposure*insecticide.coverage.2*survival.probability.2*mean(survival.probability.1)))
 
     }
 
@@ -128,51 +122,3 @@ perform_micromosaic_smooth = function(max.cycles,
 
   return(list(overall.response.1, overall.response.2))
 }
-
-# perform_micromosaic_smooth(max.cycles = 6,
-#                     insecticide.coverage.1 = 0,
-#                     insecticide.coverage.2 = 1,
-#                     trait.mean.1 = 0,
-#                     trait.mean.2 = 0,
-#                     standard.deviation = 30,
-#                     vector.length = 1000000,
-#                     female.exposure = 1,
-#                     male.selection.diff.1 = 0,
-#                     male.selection.diff.2 = 0,
-#                     current.insecticide.efficacy.1 = 0,
-#                     current.insecticide.efficacy.2 = 1,
-#                     regression.coefficient = 0.48,
-#                     regression.intercept = 0.15,
-#                     heritability = 0.3,
-#                     exposure.scaling.factor = 20,
-#                     half.population.bioassay.survival.resistance = 900,
-#                     michaelis.menten.slope = 1,
-#                     maximum.bioassay.survival.proportion = 1)
-#
-#
-#
-# n.cycles = seq(1, 20, 1)
-# response.val = c()
-# for(g in 1:20){
-#   response.val[g] = perform_micromosaic_smooth(max.cycles = n.cycles[g],
-#                                     insecticide.coverage.1 = 0.5,
-#                                     insecticide.coverage.2 = 0.5,
-#                                     trait.mean.1 = 0,
-#                                     trait.mean.2 = 900,
-#                                     standard.deviation = 30,
-#                                     vector.length = 10000,
-#                                     female.exposure = 1,
-#                                     male.selection.diff.1 = 0,
-#                                     male.selection.diff.2 = 0,
-#                                     current.insecticide.efficacy.1 = 1,
-#                                     current.insecticide.efficacy.2 = 1,
-#                                     regression.coefficient = 0.48,
-#                                     regression.intercept = 0.15,
-#                                     heritability = 0.3,
-#                                     half.population.bioassay.survival.resistance = 900,
-#                                     michaelis.menten.slope = 1,
-#                                     maximum.bioassay.survival.proportion = 1,
-#                                     exposure.scaling.factor = 20)[[1]]
-# }
-#
-# plot(n.cycles, response.val)
