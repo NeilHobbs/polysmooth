@@ -5,39 +5,39 @@
 
 
 run_simulation_smooth = function(number.of.insecticides = 2,
-                                      exposure.scaling.factor = 10,
-                                      female.fitness.cost,
-                                      male.fitness.cost,
-                                      female.insecticide.exposure,
-                                      male.insecticide.exposure,
-                                      heritability,
-                                      dispersal.rate,
-                                      intervention.coverage,
-                                      standard.deviation,
-                                      vector.length,
-                                      maximum.bioassay.survival.proportion,
-                                      michaelis.menten.slope,
-                                      regression.coefficient,
-                                      regression.intercept,
-                                      maximum.generations = 500,
-                                      irm.strategy = "sequence", #will be sequence or rotation (plus mixture later on),
-                                      half.population.bioassay.survival.resistance = 900,
-                                      withdrawal.threshold.value = 0.1, #this is the survival proportion in a bioassay that would withdraw the insecticide from the arsenal
-                                      return.threshold.value = 0.05, #this is the survival proportion in a bioassay that would return insecticide to arsenal
-                                      deployment.frequency = 10, #Number of mosquito generations between choosing insecticides (note, 1 year is 10 generations)
-                                      maximum.resistance.value = 25000,
-                                      starting.refugia.resistance.score = 0,
-                                      starting.intervention.resistance.score = 0,
-                                      applied.insecticide.dose,
-                                      recommended.insecticide.dose,
-                                      threshold.generations,
-                                      base.efficacy.decay.rate,
-                                      rapid.decay.rate,
-                                      population.suppression,
-                                      min.cross.selection,
-                                      max.cross.selection,
-                                      deployment.type, #"mixtures or singles
-                                      mixture.strategy #only needed if deployment.type == "mixtures"
+                                 exposure.scaling.factor = 10,
+                                 female.fitness.cost,
+                                 male.fitness.cost,
+                                 female.insecticide.exposure,
+                                 male.insecticide.exposure,
+                                 heritability,
+                                 dispersal.rate,
+                                 intervention.coverage,
+                                 standard.deviation,
+                                 vector.length,
+                                 maximum.bioassay.survival.proportion,
+                                 michaelis.menten.slope,
+                                 regression.coefficient,
+                                 regression.intercept,
+                                 maximum.generations = 500,
+                                 irm.strategy = "sequence", #will be sequence or rotation (plus mixture later on),
+                                 half.population.bioassay.survival.resistance = 900,
+                                 withdrawal.threshold.value = 0.1, #this is the survival proportion in a bioassay that would withdraw the insecticide from the arsenal
+                                 return.threshold.value = 0.05, #this is the survival proportion in a bioassay that would return insecticide to arsenal
+                                 deployment.frequency = 10, #Number of mosquito generations between choosing insecticides (note, 1 year is 10 generations)
+                                 maximum.resistance.value = 25000,
+                                 starting.refugia.resistance.score = 0,
+                                 starting.intervention.resistance.score = 0,
+                                 applied.insecticide.dose,
+                                 recommended.insecticide.dose,
+                                 threshold.generations,
+                                 base.efficacy.decay.rate,
+                                 rapid.decay.rate,
+                                 population.suppression,
+                                 min.cross.selection,
+                                 max.cross.selection,
+                                 deployment.type, #"mixtures or singles
+                                 mixture.strategy #only needed if deployment.type == "mixtures"
 ){
 
   #Start by creating an array (calls the array_named function):
@@ -87,7 +87,8 @@ run_simulation_smooth = function(number.of.insecticides = 2,
                                                                       recommended.insecticide.dose = recommended.insecticide.dose,
                                                                       threshold.generation = threshold.generations,
                                                                       base.efficacy.decay.rate = base.efficacy.decay.rate,
-                                                                      rapid.decay.rate = rapid.decay.rate)
+                                                                      rapid.decay.rate = rapid.decay.rate,
+                                                                      heritability = heritability)
 
 
   #define if insecticides are deployed as mixtures or as singles.
@@ -202,7 +203,7 @@ run_simulation_smooth = function(number.of.insecticides = 2,
                                                                                  regression.intercept = regression.intercept,
                                                                                  current.insecticide.efficacy = insecticide.efficacy.vector[generation],
                                                                                  exposure.scaling.factor = exposure.scaling.factor,
-                                                                                 heritability = heritability,
+                                                                                 heritability = insecticide.parameters.df$heritability[insecticide],
                                                                                  refugia.before.selection = sim.array['refugia', insecticide, generation-1],
                                                                                  dispersal.rate = dispersal.rate,
                                                                                  intervention.coverage = intervention.coverage)
@@ -230,7 +231,7 @@ run_simulation_smooth = function(number.of.insecticides = 2,
                                                                                      intervention.before.selection = sim.array['intervention', insecticide, generation-1],
                                                                                      female.fitness.cost = female.fitness.cost,
                                                                                      male.fitness.cost = male.fitness.cost,
-                                                                                     heritability = heritability,
+                                                                                     heritability = insecticide.parameters.df$heritability[insecticide],
                                                                                      refugia.before.selection = sim.array['refugia', insecticide, generation-1],
                                                                                      dispersal.rate = dispersal.rate,
                                                                                      intervention.coverage = intervention.coverage,
@@ -352,7 +353,7 @@ run_simulation_smooth = function(number.of.insecticides = 2,
                                                                                            regression.intercept = regression.intercept,
                                                                                            currently.tracked.insecticide = insecticide,
                                                                                            exposure.scaling.factor = exposure.scaling.factor,
-                                                                                           heritability = heritability,
+                                                                                           heritability = insecticide.parameters.df$heritability[insecticide],
                                                                                            refugia.before.selection = sim.array['refugia', insecticide, generation-1],
                                                                                            dispersal.rate = dispersal.rate,
                                                                                            intervention.coverage = intervention.coverage,
