@@ -2,6 +2,7 @@ perform_multiple_selection_mixture_smooth = function(max.cycles,
                                                      trait.mean.1,
                                                      trait.mean.2,
                                                      standard.deviation,
+                                                     insecticide.coverage,
                                                      vector.length,
                                                      female.exposure,
                                                      male.selection.diff.1,
@@ -14,7 +15,8 @@ perform_multiple_selection_mixture_smooth = function(max.cycles,
                                                      exposure.scaling.factor,
                                                      half.population.bioassay.survival.resistance,
                                                      michaelis.menten.slope,
-                                                     maximum.bioassay.survival.proportion){
+                                                     maximum.bioassay.survival.proportion,
+                                                     cross.selection){
 
   #create the starting conditions for the first gonotrophic cycle
   #Values of the Normal Distrition of Trait 1 (insecticide 1)
@@ -81,11 +83,11 @@ perform_multiple_selection_mixture_smooth = function(max.cycles,
     }
 
     if(i != 1){temp.vec.1 = ((update.density.1[[i-1]]*do.not.encounter) +
-                               (update.density.1[[i-1]]*insecticide.coverage.1*female.exposure*survival.probability.1*mean(survival.probability.2)))
+                               (update.density.1[[i-1]]*insecticide.coverage*female.exposure*survival.probability.1*mean(survival.probability.2)))
 
 
     temp.vec.2 = ((update.density.2[[i-1]]*do.not.encounter)+
-                    (update.density.2[[i-1]]*female.exposure*insecticide.coverage.2*survival.probability.2*mean(survival.probability.1)))
+                    (update.density.2[[i-1]]*female.exposure*insecticide.coverage*survival.probability.2*mean(survival.probability.1)))
 
     }
 
@@ -98,7 +100,7 @@ perform_multiple_selection_mixture_smooth = function(max.cycles,
 
     selection.diff.1[[i]] = update.mean.z.1[[i]] - trait.mean.1
 
-    response.1[[i]] = heritability * exposure.scaling.factor * ((selection.diff.1[[i]] + male.selection.diff.1) / 2)
+
 
     #Tracking Trait 2
     update.density.2[[i]] = temp.vec.2
@@ -109,8 +111,13 @@ perform_multiple_selection_mixture_smooth = function(max.cycles,
 
     selection.diff.2[[i]] = update.mean.z.2[[i]] - trait.mean.2
 
-    response.2[[i]] = heritability * exposure.scaling.factor * ((selection.diff.2[[i]] + male.selection.diff.2) / 2)
 
+    #Track Responses
+    response.1[[i]] = heritability * exposure.scaling.factor * ((selection.diff.1[[i]] + male.selection.diff.1) / 2) +
+            (cross.selection * (heritability * exposure.scaling.factor * ((selection.diff.2[[i]] + male.selection.diff.2) / 2)))
+
+    response.2[[i]] = heritability * exposure.scaling.factor * ((selection.diff.2[[i]] + male.selection.diff.2) / 2) +
+      (cross.selection * (heritability * exposure.scaling.factor * ((selection.diff.1[[i]] + male.selection.diff.1) / 2)))
   }
 
   total.oviposition.1 = sum(unlist(pop.size.1))

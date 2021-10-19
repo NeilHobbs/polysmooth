@@ -1,30 +1,41 @@
-#This is a chlunky piece of code.
+#'@title Calculate the selection differentials for male mosquitoes when two insecticides are deployed as a micro-mosaic.
+#'
+#'@description This function calculates the selection differentials for male mosquitoes when there
+#'are two insecticides deployed as a micromosaic. As such there is selection and population suppression
+#' by two insecticides which may or may not have equal coverage. Selection differentials are
+#' calculated using smooth selection.
+#'
+#' @param insecticide.coverage.1 = The proportion of the total coverage by insecticide 1. Note insecticide.coverage.1 and insecticide.coverage.2 must sum to 1.
+#' @param insecticide.coverage.2 = The proportion of the total coverage by insecticide 2. Note insecticide.coverage.1 and insecticide.coverage.2 must sum to 1.
+#' @param trait.mean.1 = The mean polygenic resistance score to the first insecticide, corresponding to insecticide.coverage.1 and current.insecticde.efficacy.1
+#' @param trait.mean.2 = The mean polygenic resistance score to the second insecticide, corresponding to insecticide.coverage.2 and current.insecticde.efficacy.2
+#' @param standard.deviation = The standard deviation of the polygenic resistance scores
+#' @param vector.length = The lenght of the vector used to calcualte the Normal distribution.
+#' @param female.exposure = THe proportion of female mosquitoes encountering the insecticides
+#' @param male.exposure = The proportion of male mosqutioes encountering the insecticides as a proportion of the female exposure.
+#' @param current.insecticide.efficacy.1 = The current efficacy of the first insecticide, corresponds to insecticide.coverage.1 and trait.mean.1
+#' @param current.insecticide.efficacy.1 = The current efficacy of the second insecticide, corresponds to insecticide.coverage.2 and trait.mean.2
+#' @param regression.coefficient = The regression coefficient between bioassay survival and field survival
+#' @param regression.intercept = The regression intercept betweeen bioassay survival and field survival
+#' @param half.population.bioassay.survival.resistance = THe polygenic resistance score that gives 50% bioassay survival
+#' @param michaelis.menten.slope = THe slope of the michaelis menten equation; should be set at 1.
+#' @param maximum.bioassay.survival.proportion = The maximum survival proportion in a mosquito bioassay, should be set at 1.
 
-#Need to break it down into some component modules.
- #Plus add in error/warning messages.
-
-
-perform_micromosaic_smooth = function(max.cycles,
-                                      insecticide.coverage.1,
-                                      insecticide.coverage.2,
-                                      trait.mean.1,
-                                      trait.mean.2,
-                                      standard.deviation,
-                                      vector.length,
-                                      female.exposure,
-                                      male.selection.diff.1,
-                                      male.selection.diff.2,
-                                      current.insecticide.efficacy.1,
-                                      current.insecticide.efficacy.2,
-                                      regression.coefficient,
-                                      regression.intercept,
-                                      heritability.trait.1,
-                                      heritability.trait.2,
-                                      exposure.scaling.factor,
-                                      half.population.bioassay.survival.resistance,
-                                      michaelis.menten.slope,
-                                      maximum.bioassay.survival.proportion,
-                                      cross.selection){
+perform_male_micromosaic_smooth = function(insecticide.coverage.1,
+                                           insecticide.coverage.2,
+                                           trait.mean.1,
+                                           trait.mean.2,
+                                           standard.deviation,
+                                           vector.length,
+                                           female.exposure,
+                                           male.exposure,
+                                           current.insecticide.efficacy.1,
+                                           current.insecticide.efficacy.2,
+                                           regression.coefficient,
+                                           regression.intercept,
+                                           half.population.bioassay.survival.resistance,
+                                           michaelis.menten.slope,
+                                           maximum.bioassay.survival.proportion){
 
   #create the starting conditions for the first gonotrophic cycle
   #Values of the Normal Distrition of Trait 1 (insecticide 1)
@@ -39,13 +50,13 @@ perform_micromosaic_smooth = function(max.cycles,
 
   #Relative Frequency of each of Trait 1 of the Normal Distribution
   relative.frequency.trait.1 = calculate_density_of_trait_values(vector.length = vector.length,
-                                                                 trait.mean = trait.mean.1, #value does not technically matter
+                                                                 trait.mean = trait.mean.1,
                                                                  standard.deviation = standard.deviation)
 
 
   #Relative Frequency of each of Trait 2 of the Normal Distribution
   relative.frequency.trait.2 = calculate_density_of_trait_values(vector.length = vector.length,
-                                                                 trait.mean = trait.mean.2, #value does not technically matter
+                                                                 trait.mean = trait.mean.2,
                                                                  standard.deviation = standard.deviation)
 
 
@@ -66,85 +77,45 @@ perform_micromosaic_smooth = function(max.cycles,
                                                                        current.insecticide.efficacy = current.insecticide.efficacy.2)
 
 
-  do.not.encounter = proportion_do_not_encounter_micro_mosaic(insecticide.coverage.1 = insecticide.coverage.1,
-                                                              insecticide.coverage.2 = insecticide.coverage.2,
-                                                              female.exposure = female.exposure)
-
-  update.density.1 = list()
-  update.mean.z.1 = list()
-  pop.size.1 = list()
-  selection.diff.1 = list()
-  response.1 = list()
-  update.density.2 = list()
-  update.mean.z.2 = list()
-  selection.diff.2 = list()
-  response.2 = list()
-  pop.size.2 = list()
-
-  #Need to figure out a way to put in dispersal in each gonotrophic cycle???
-
-  for(i in 1:max.cycles){
-
-    if(i == 1){temp.vec.1 = ((relative.frequency.trait.1*do.not.encounter) +
-                               (relative.frequency.trait.1*female.exposure*insecticide.coverage.2*mean(survival.probability.2)) +
-                               (relative.frequency.trait.1*female.exposure*insecticide.coverage.1*survival.probability.1))
-
-    temp.vec.2 = ((relative.frequency.trait.2*do.not.encounter) +
-                    (relative.frequency.trait.2*female.exposure*insecticide.coverage.2*survival.probability.2) +
-                    (relative.frequency.trait.2*female.exposure*insecticide.coverage.1*mean(survival.probability.1)))
-    }
-
-    if(i != 1){temp.vec.1 = ((update.density.1[[i-1]]*do.not.encounter) +
-                               (update.density.1[[i-1]]*female.exposure*insecticide.coverage.2*mean(survival.probability.2)) +
-                               (update.density.1[[i-1]]*insecticide.coverage.1*female.exposure*survival.probability.1))
+  do.not.encounter = proportion_do_not_encounter_micro_mosaic_males(insecticide.coverage.1 = insecticide.coverage.1,
+                                                                    insecticide.coverage.2 = insecticide.coverage.2,
+                                                                    female.exposure = female.exposure,
+                                                                    male.exposure = male.exposure)
 
 
-    temp.vec.2 = ((update.density.2[[i-1]]*do.not.encounter)+
-                    (update.density.2[[i-1]]*insecticide.coverage.1*female.exposure*mean(survival.probability.1))+
-                    (update.density.2[[i-1]]*female.exposure*insecticide.coverage.2*survival.probability.2))
 
-    }
+  temp.vec.1 = ((relative.frequency.trait.1*do.not.encounter) +
+                  (relative.frequency.trait.1*female.exposure*male.exposure*insecticide.coverage.2*mean(survival.probability.2)) +
+                  (relative.frequency.trait.1*female.exposure*male.exposure*insecticide.coverage.1*survival.probability.1))
+
+  temp.vec.2 = ((relative.frequency.trait.2*do.not.encounter) +
+                  (relative.frequency.trait.2*female.exposure*male.exposure*insecticide.coverage.2*survival.probability.2) +
+                  (relative.frequency.trait.2*female.exposure*male.exposure*insecticide.coverage.1*mean(survival.probability.1)))
+
+
 
     ##Tracking Trait 1
-    update.density.1[[i]] = temp.vec.1
+    update.density.1 = temp.vec.1
 
-    pop.size.1[[i]] = sum(update.density.1[[i]])
+    pop.size.1 = sum(update.density.1)
 
-    update.mean.z.1[[i]] = (sum(normal.distribution.trait.1 * update.density.1[[i]]))/ pop.size.1[[i]]
+    update.mean.z.1 = (sum(normal.distribution.trait.1 * update.density.1))/ pop.size.1
 
-    selection.diff.1[[i]] = update.mean.z.1[[i]] - trait.mean.1
+    selection.diff.1 = update.mean.z.1 - trait.mean.1
 
 
 
     #Tracking Trait 2
-    update.density.2[[i]] = temp.vec.2
+    update.density.2 = temp.vec.2
 
-    pop.size.2[[i]] = sum(update.density.2[[i]])
+    pop.size.2 = sum(update.density.2)
 
-    update.mean.z.2[[i]] = (sum(normal.distribution.trait.2 * update.density.2[[i]]))/ pop.size.2[[i]]
+    update.mean.z.2= (sum(normal.distribution.trait.2 * update.density.2))/ pop.size.2
 
-    selection.diff.2[[i]] = update.mean.z.2[[i]] - trait.mean.2
-
-
-    #Track Responses
-   response.1[[i]] = heritability.trait.1 * exposure.scaling.factor * ((selection.diff.1[[i]] + male.selection.diff.1) / 2) +
-      (cross.selection * (heritability.trait.2 * exposure.scaling.factor * ((selection.diff.2[[i]] + male.selection.diff.2) / 2)))
-
-    response.2[[i]] = heritability.trait.2 * exposure.scaling.factor * ((selection.diff.2[[i]] + male.selection.diff.2) / 2) +
-      (cross.selection * (heritability.trait.1 * exposure.scaling.factor * ((selection.diff.1[[i]] + male.selection.diff.1) / 2)))
-
-  }
+    selection.diff.2= update.mean.z.2 - trait.mean.2
 
 
-  #Create separate module function.
-  total.oviposition.1 = sum(unlist(pop.size.1))
-  overall.response.1 = sum(unlist(response.1)*(unlist(pop.size.1)/total.oviposition.1))
-
-  total.oviposition.2 = sum(unlist(pop.size.2))
-  overall.response.2 = sum(unlist(response.2)*(unlist(pop.size.2)/total.oviposition.2))
-
-
-  return(list(overall.response.1, overall.response.2))
+  return(list(selection.diff.1, selection.diff.2))
 }
 
 # perform_micromosaic_smooth(max.cycles = 6,

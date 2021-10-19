@@ -6,9 +6,9 @@
 #'@param = The proportion of males encountering the insecticide, as a proportion of females
 
 proportion_do_not_encounter_micro_mosaic_males = function(insecticide.coverage.1,
-                                                    insecticide.coverage.2,
-                                                    female.exposure,
-                                                    male.exposure){
+                                                          insecticide.coverage.2,
+                                                          female.exposure,
+                                                          male.exposure){
 
 
   if(insecticide.coverage.1 + insecticide.coverage.2 != 1){
