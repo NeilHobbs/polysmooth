@@ -60,6 +60,7 @@ perform_male_micromosaic_smooth = function(insecticide.coverage.1,
                                                                  standard.deviation = standard.deviation)
 
 
+  #Create a vector of the field survival to the first insecticide dependent on the insecticide efficacy
   survival.probability.1 = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean = normal.distribution.trait.1,
                                                                                                                                          half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
                                                                                                                                          michaelis.menten.slope = michaelis.menten.slope,
@@ -68,6 +69,7 @@ perform_male_micromosaic_smooth = function(insecticide.coverage.1,
                                                                        regression.intercept = regression.intercept,
                                                                        current.insecticide.efficacy = current.insecticide.efficacy.1)
 
+  #Create a vector of the field survival to the second insecticide dependent on the insecticide efficact
   survival.probability.2 = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean = normal.distribution.trait.2,
                                                                                                                                          half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
                                                                                                                                          michaelis.menten.slope = michaelis.menten.slope,
@@ -77,6 +79,7 @@ perform_male_micromosaic_smooth = function(insecticide.coverage.1,
                                                                        current.insecticide.efficacy = current.insecticide.efficacy.2)
 
 
+  #The proportion of males who do not encounter the insecticides and therefore escape insecticide selection.
   do.not.encounter = proportion_do_not_encounter_micro_mosaic_males(insecticide.coverage.1 = insecticide.coverage.1,
                                                                     insecticide.coverage.2 = insecticide.coverage.2,
                                                                     female.exposure = female.exposure,
