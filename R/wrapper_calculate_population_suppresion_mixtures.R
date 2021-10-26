@@ -1,5 +1,16 @@
-#A function that obtains the population suppression caused by the insecticide mixture in the intervention site.
+#'@title A function that obtains the population suppression caused by the insecticide mixture in the intervention site.
 
+#'@param vector.length = The length of the vector used
+#'@param current.generation = The generation the simulation is up to
+#'@param standard.deviation = The standard deviation of the polygneic resistance score
+#'@param maximum.bioassay.survival.proportion = maximum survival proportion in the bioassay, should be set at 1
+#'@param michaelis.menten.slope = slope of the michaelis menten equation, should be set at 1
+#'@param half.population.bioassay.survival.resistance = the polygenic resistance score which gives 50% bioassay survival
+#'@param regression.coefficient = regression coefficient between field and bioassay survival, obtained from a linear model
+#'@param regression.intercept = regression intercept between field and bioassay survival, obtained from a linear model
+#'@param sim.array = the array holding the simulation
+#'@param population.supression = Is this special case being included, TRUE or FALSE
+#'@param deployed.mixture = the dataframe containing the deployed mixture information
 
 wrapper_calculate_population_suppresion_mixtures = function(vector.length,
                                                             current.generation,
@@ -37,10 +48,6 @@ wrapper_calculate_population_suppresion_mixtures = function(vector.length,
 
 
 
-    create_normal_distribution(vector.length = vector.length,
-                               trait.mean = 0, #value does not matter
-                               standard.deviation = standard.deviation)
-
     relative.contributions.before.selection = calculate_density_of_trait_values(vector.length = vector.length,
                                                                                 trait.mean = 0, #value does not matter
                                                                                 standard.deviation = standard.deviation)
@@ -66,11 +73,8 @@ wrapper_calculate_population_suppresion_mixtures = function(vector.length,
 
 
     #Finally find the proportion of the population in the intervention site that survives.
-    proportion.surviving =  calculate_insecticide_population_suppression(female.population.size.after.selection = female.population.size.after.selection,
-                                                                         total.female.population.size = total.female.population.size)
+    insecticide.population.suppression = 1 - (female.population.size.after.selection / total.female.population.size)
 
-    #insecticide.population.suppression = 1 - proportion.surviving
-    insecticide.population.suppression =  proportion.surviving
   }
 
   if(population.suppression == FALSE){insecticide.population.suppression = 0}
