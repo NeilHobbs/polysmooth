@@ -1,10 +1,11 @@
-#It may be feasible that the standard deviation of the population varies with
-# the mean polygenic resistance score. We may expect the standard deviation to increase
-#with increasing mean values to highlight an increasingly variable population.
+#'@title Allow the standard deviation to vary with the magnitude of the mean population resistance
 
-#How to implement that is challenging as this is an area where field data is not
-# available, i.e. how to scale appropriately. A simple method would be to allow
-#linear increase in the SD a proportion of the initial zero PRS SD.
+#'@description It may be feasible that the standard deviation of the population varies with the mean polygenic resistance score. We may expect the standard deviation to increase
+#' with increasing mean values to highlight an increasingly variable population. How to implement that is challenging as this is an area where field data is not
+#' available, i.e. how to scale appropriately. A simple method would be to allow linear increase in the SD a proportion of the initial zero PRS SD.
+
+#'@param standard.deviation.at.zero = The standard deviation of the trait when at zero.
+#'@param current.trait.mean = the current population mean of the trait.
 
 standard_deviation_varies_with_score = function(standard.deviation.at.zero,
                                                 current.trait.mean){
