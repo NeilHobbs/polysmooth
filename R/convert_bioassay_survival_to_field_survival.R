@@ -14,5 +14,11 @@ convert_bioassay_survival_to_field_survival = function(bioassay.survival,
 
   field.survival = ((bioassay.survival * regression.coefficient) + regression.intercept)^current.insecticide.efficacy
 
+  field.survival = ifelse(field.survival > 1,
+                          yes = 1,
+                          no = ifelse(field.survival < 0,
+                                      yes = 0,
+                                      no = field.survival))
+
   return(field.survival)
 }
