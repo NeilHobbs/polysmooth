@@ -22,6 +22,9 @@ create_starting_array = function(n.insecticides, maximum.generations){
   simulation.data = array_named(site = c("refugia", "intervention"),
                                 insecticide = 1:n.insecticides,
                                 generation = 1:maximum.generations) #this is the insecticide that is currently deployed
+
+
+  return(simulation.data)
   }
 
 
