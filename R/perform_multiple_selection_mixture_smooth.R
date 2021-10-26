@@ -1,3 +1,5 @@
+#'@title Allow multiple rounds of selection for females.
+
 perform_multiple_selection_mixture_smooth = function(max.cycles,
                                                      trait.mean.1,
                                                      trait.mean.2,
@@ -41,6 +43,8 @@ perform_multiple_selection_mixture_smooth = function(max.cycles,
                                                                  standard.deviation = standard.deviation)
 
 
+
+  #Create vectors of the field survival probability for each of the trait values (first insecticide) given the current insecticide efficacy
   survival.probability.1 = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean = normal.distribution.trait.1,
                                                                                                                                          half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
                                                                                                                                          michaelis.menten.slope = michaelis.menten.slope,
@@ -49,6 +53,7 @@ perform_multiple_selection_mixture_smooth = function(max.cycles,
                                                                        regression.intercept = regression.intercept,
                                                                        current.insecticide.efficacy = current.insecticide.efficacy.1)
 
+  #Create vectors of the field survival probability for each of the trait values (second insecticide) given the current insecticide efficacy
   survival.probability.2 = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean = normal.distribution.trait.2,
                                                                                                                                          half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
                                                                                                                                          michaelis.menten.slope = michaelis.menten.slope,
@@ -57,23 +62,30 @@ perform_multiple_selection_mixture_smooth = function(max.cycles,
                                                                        regression.intercept = regression.intercept,
                                                                        current.insecticide.efficacy = current.insecticide.efficacy.2)
 
+  #Calculate the proportion of females who escape insecticide exposure each gonotrophic cycle
   do.not.encounter = 1 - ((insecticide.coverage) * female.exposure)
 
+  #Create empty lists to hold the vectors obtained during each gonotrophic cycle:
+    #First Insecticide:::
   update.density.1 = list()
   update.mean.z.1 = list()
   pop.size.1 = list()
   selection.diff.1 = list()
   response.1 = list()
+
+    #Second Insecticide:::
   update.density.2 = list()
   update.mean.z.2 = list()
   selection.diff.2 = list()
   response.2 = list()
   pop.size.2 = list()
 
-  #Need to figure out a way to put in dispersal in each gonotrophic cycle???
+  #Need to figure out a way to put in dispersal in each gonotrophic cycle??? - avoid doing; painfully complicated...
 
+  #Loop over the number of gonotrophic cycles
   for(i in 1:max.cycles){
 
+    #First gonotrophic cycle is different
     if(i == 1){temp.vec.1 = ((relative.frequency.trait.1*do.not.encounter) +
                                (relative.frequency.trait.1*female.exposure*insecticide.coverage*survival.probability.1*mean(survival.probability.2)))
 
