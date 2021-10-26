@@ -46,10 +46,6 @@ wrapper_intervention_refugia_deployed_dispersal_mixtures = function(insecticide.
                                                                     current.generation){
 
 
-
-
-
-
   survival.to.other.mixture = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
                                                                                                                                                        trait.mean = sim.array["intervention", other.mixture.part, current.generation-1],
                                                                                                                                                        michaelis.menten.slope = michaelis.menten.slope,
