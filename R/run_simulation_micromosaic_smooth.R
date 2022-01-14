@@ -24,7 +24,10 @@ run_simulation_micromosaic_smooth = function(number.of.insecticides,
                                              half.population.bioassay.survival.resistance,
                                              michaelis.menten.slope,
                                              maximum.bioassay.survival.proportion,
-                                             cross.selection){
+                                             cross.selection,
+                                             male.natural.survival.probability,
+                                             female.natural.survival.probability
+                                             ){
 
   #Start by creating an array (calls the array_named function):
   #dimension 1: site = c("refugia", "intervention"), which hold resistance scores
@@ -90,7 +93,8 @@ run_simulation_micromosaic_smooth = function(number.of.insecticides,
                                                                    regression.intercept = regression.intercept,
                                                                    half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
                                                                    michaelis.menten.slope = michaelis.menten.slope,
-                                                                   maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion)
+                                                                   maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                                   male.natural.survival.probability = male.natural.survival.probability)
 
     tracked.response = perform_micromosaic_smooth(max.cycles = max.cycles,
                                                   insecticide.coverage.1 = intervention.coverage.1,
@@ -112,7 +116,8 @@ run_simulation_micromosaic_smooth = function(number.of.insecticides,
                                                   half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
                                                   michaelis.menten.slope = michaelis.menten.slope,
                                                   maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
-                                                  cross.selection = cross.selection)
+                                                  cross.selection = cross.selection,
+                                                  female.natural.survival.probability = female.natural.survival.probability)
 
     sim.array['intervention', 1, generation] = tracked.response[[1]] + sim.array['intervention', 1, generation-1]
     sim.array['intervention', 2, generation] = tracked.response[[2]] + sim.array['intervention', 2, generation-1]
