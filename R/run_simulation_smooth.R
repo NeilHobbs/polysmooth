@@ -37,7 +37,7 @@ run_simulation_smooth = function(number.of.insecticides = 2,
                                  min.cross.selection,
                                  max.cross.selection,
                                  deployment.type, #"mixtures or singles
-                                 mixture.strategy #only needed if deployment.type == "mixtures"
+                                 mixture.strategy #only needed if deployment.type = "mixtures"
 ){
 
   #Start by creating an array (calls the array_named function):
