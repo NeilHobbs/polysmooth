@@ -35,7 +35,8 @@ perform_male_micromosaic_smooth = function(insecticide.coverage.1,
                                            regression.intercept,
                                            half.population.bioassay.survival.resistance,
                                            michaelis.menten.slope,
-                                           maximum.bioassay.survival.proportion){
+                                           maximum.bioassay.survival.proportion,
+                                           male.natural.survival.probability){
 
   #create the starting conditions for the first gonotrophic cycle
   #Values of the Normal Distrition of Trait 1 (insecticide 1)
@@ -87,13 +88,25 @@ perform_male_micromosaic_smooth = function(insecticide.coverage.1,
 
 
 
-  temp.vec.1 = ((relative.frequency.trait.1*do.not.encounter) +
-                  (relative.frequency.trait.1*female.exposure*male.exposure*insecticide.coverage.2*mean(survival.probability.2)) +
-                  (relative.frequency.trait.1*female.exposure*male.exposure*insecticide.coverage.1*survival.probability.1))
 
-  temp.vec.2 = ((relative.frequency.trait.2*do.not.encounter) +
-                  (relative.frequency.trait.2*female.exposure*male.exposure*insecticide.coverage.2*survival.probability.2) +
-                  (relative.frequency.trait.2*female.exposure*male.exposure*insecticide.coverage.1*mean(survival.probability.1)))
+
+  temp.vec.1 = ((relative.frequency.trait.1*do.not.encounter*male.natural.survival.probability) +
+                  (relative.frequency.trait.1*female.exposure*male.exposure*insecticide.coverage.2*(ifelse(mean(survival.probability.2)>male.natural.survival.probability,
+                                                                                                          yes = male.natural.survival.probability,
+                                                                                                          no = mean(survival.probability.2)))) +
+                  (relative.frequency.trait.1*female.exposure*male.exposure*insecticide.coverage.1*ifelse(survival.probability.1 >survival.probability.1,
+                                                                                                          yes = mean(survival.probability.1),
+                                                                                                          no = survival.probability.1)))
+
+  temp.vec.2 = ((relative.frequency.trait.2*do.not.encounter*male.natural.survival.probability) +
+                  (relative.frequency.trait.2*female.exposure*male.exposure*insecticide.coverage.2* ifelse(survival.probability.2 > male.natural.survival.probability,
+                                                                                                           yes = survival.probability.2,
+                                                                                                           no = survival.probability.2)) +
+
+                  (relative.frequency.trait.2*female.exposure*male.exposure*insecticide.coverage.1* ifelse(mean(survival.probability.1) > male.natural.survival.probability,
+                                                                                                           yes = male.natural.survival.probability,
+                                                                                                           no = mean(survival.probability.1))))
+
 
 
 

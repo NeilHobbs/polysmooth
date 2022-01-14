@@ -24,7 +24,8 @@ perform_micromosaic_smooth = function(max.cycles,
                                       half.population.bioassay.survival.resistance,
                                       michaelis.menten.slope,
                                       maximum.bioassay.survival.proportion,
-                                      cross.selection){
+                                      cross.selection,
+                                      female.natural.survival.probability){
 
   #create the starting conditions for the first gonotrophic cycle
   #Values of the Normal Distrition of Trait 1 (insecticide 1)
@@ -85,23 +86,39 @@ perform_micromosaic_smooth = function(max.cycles,
 
   for(i in 1:max.cycles){
 
-    if(i == 1){temp.vec.1 = ((relative.frequency.trait.1*do.not.encounter) +
-                               (relative.frequency.trait.1*female.exposure*insecticide.coverage.2*mean(survival.probability.2)) +
-                               (relative.frequency.trait.1*female.exposure*insecticide.coverage.1*survival.probability.1))
+    if(i == 1){temp.vec.1 = ((relative.frequency.trait.1*do.not.encounter*female.natural.survival.probability) +
+                               (relative.frequency.trait.1*female.exposure*insecticide.coverage.2* ifelse(mean(survival.probability.2)>female.natural.survival.probability,
+                                                                                                          yes = female.natural.survival.probability,
+                                                                                                          no = mean(survival.probability.2))) +
+                               (relative.frequency.trait.1*female.exposure*insecticide.coverage.1* ifelse(survival.probability.1> female.natural.survival.probability,
+                                                                                                          yes = female.natural.survival.probability,
+                                                                                                           no = survival.probability.1)))
 
-    temp.vec.2 = ((relative.frequency.trait.2*do.not.encounter) +
-                    (relative.frequency.trait.2*female.exposure*insecticide.coverage.2*survival.probability.2) +
-                    (relative.frequency.trait.2*female.exposure*insecticide.coverage.1*mean(survival.probability.1)))
+    temp.vec.2 = ((relative.frequency.trait.2*do.not.encounter*female.natural.survival.probability) +
+                    (relative.frequency.trait.2*female.exposure*insecticide.coverage.2*ifelse(survival.probability.2>female.natural.survival.probability,
+                                                                                              yes = female.natural.survival.probability,
+                                                                                              no = survival.probability.2))+
+                    (relative.frequency.trait.2*female.exposure*insecticide.coverage.1*ifelse(mean(survival.probability.1)>female.natural.survival.probability,
+                                                                                              yes = female.natural.survival.probability,
+                                                                                              no = mean(survival.probability.1))))
     }
 
-    if(i != 1){temp.vec.1 = ((update.density.1[[i-1]]*do.not.encounter) +
-                               (update.density.1[[i-1]]*female.exposure*insecticide.coverage.2*mean(survival.probability.2)) +
-                               (update.density.1[[i-1]]*insecticide.coverage.1*female.exposure*survival.probability.1))
+    if(i != 1){temp.vec.1 = ((update.density.1[[i-1]]*do.not.encounter*female.natural.survival.probability) +
+                               (update.density.1[[i-1]]*female.exposure*insecticide.coverage.2*ifelse(mean(survival.probability.2)>female.natural.survival.probability,
+                                                                                                      yes = female.natural.survival.probability,
+                                                                                                      no = mean(survival.probability.2)) +
+                               (update.density.1[[i-1]]*insecticide.coverage.1*female.exposure*ifelse(survival.probability.1> female.natural.survival.probability,
+                                                                                                      yes = female.natural.survival.probability,
+                                                                                                      no = survival.probability.1))))
 
 
-    temp.vec.2 = ((update.density.2[[i-1]]*do.not.encounter)+
-                    (update.density.2[[i-1]]*insecticide.coverage.1*female.exposure*mean(survival.probability.1))+
-                    (update.density.2[[i-1]]*female.exposure*insecticide.coverage.2*survival.probability.2))
+    temp.vec.2 = ((update.density.2[[i-1]]*do.not.encounter * female.natural.survival.probability)+
+                    (update.density.2[[i-1]]*insecticide.coverage.1*female.exposure*ifelse(mean(survival.probability.1)>female.natural.survival.probability,
+                                                                                           yes = female.natural.survival.probability,
+                                                                                           no = mean(survival.probability.1))+
+                    (update.density.2[[i-1]]*female.exposure*insecticide.coverage.2*ifelse(survival.probability.2>female.natural.survival.probability,
+                                                                                           yes = female.natural.survival.probability,
+                                                                                           no = survival.probability.2))))
 
     }
 

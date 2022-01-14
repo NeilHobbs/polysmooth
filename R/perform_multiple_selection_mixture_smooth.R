@@ -13,7 +13,8 @@ perform_multiple_selection_mixture_smooth = function(max.cycles,
                                                      current.insecticide.efficacy.2,
                                                      regression.coefficient,
                                                      regression.intercept,
-                                                     heritability,
+                                                     heritability.1,
+                                                     heritability.2,
                                                      exposure.scaling.factor,
                                                      half.population.bioassay.survival.resistance,
                                                      michaelis.menten.slope,
@@ -125,11 +126,11 @@ perform_multiple_selection_mixture_smooth = function(max.cycles,
 
 
     #Track Responses
-    response.1[[i]] = heritability * exposure.scaling.factor * ((selection.diff.1[[i]] + male.selection.diff.1) / 2) +
-            (cross.selection * (heritability * exposure.scaling.factor * ((selection.diff.2[[i]] + male.selection.diff.2) / 2)))
+    response.1[[i]] = heritability.1 * exposure.scaling.factor * ((selection.diff.1[[i]] + male.selection.diff.1) / 2) +
+            (cross.selection * (heritability.2 * exposure.scaling.factor * ((selection.diff.2[[i]] + male.selection.diff.2) / 2)))
 
-    response.2[[i]] = heritability * exposure.scaling.factor * ((selection.diff.2[[i]] + male.selection.diff.2) / 2) +
-      (cross.selection * (heritability * exposure.scaling.factor * ((selection.diff.1[[i]] + male.selection.diff.1) / 2)))
+    response.2[[i]] = heritability.2 * exposure.scaling.factor * ((selection.diff.2[[i]] + male.selection.diff.2) / 2) +
+      (cross.selection * (heritability.1 * exposure.scaling.factor * ((selection.diff.1[[i]] + male.selection.diff.1) / 2)))
   }
 
   total.oviposition.1 = sum(unlist(pop.size.1))
