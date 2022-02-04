@@ -14,8 +14,8 @@ parameter.space = df%>%
   dplyr::mutate(Heritability = qunif(Heritability, 0.05, 0.3))%>%
   dplyr::mutate(`Male Insecticide Exposure` = qunif(`Male Insecticide Exposure`, 0, 1))%>% #
   dplyr::mutate(`Female Insecticide Exposure` = qunif(`Female Insecticide Exposure`, 0.4, 0.9))%>% #Defaults from Ian
-  dplyr::mutate(`Female Fitness Cost` = qunif(`Female Fitness Cost`, 0, 1))%>%
-  dplyr::mutate(`Male Fitness Cost` = qunif(`Male Fitness Cost`, 0, 1))%>%
+  dplyr::mutate(`Female Fitness Cost` = qunif(`Female Fitness Cost`, 0, 0.58))%>%
+  dplyr::mutate(`Male Fitness Cost` = qunif(`Male Fitness Cost`, 0, 0.58))%>%
   dplyr::mutate(`Intervention Coverage` = qunif(`Intervention Coverage`, 0.1, 0.9))%>%
   dplyr::mutate(Dispersal = qunif(Dispersal, 0.1, 0.9))
 
