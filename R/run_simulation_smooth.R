@@ -402,6 +402,21 @@ run_simulation_smooth = function(number.of.insecticides = 2,
                                                                                         deployment.frequency = deployment.frequency,
                                                                                         deployment.df = deployed.mixture,
                                                                                         insecticide.parameters.df = insecticide.parameters.df)
+                                                  }else{
+                                                  if(irm.strategy == "insecticide.1"){
+                                                    decision_on_insecticide_1_only(number.of.insecticides = number.of.insecticides,
+                                                                                   current.generation = generation,
+                                                                                   withdrawal.threshold = calc.withdrawal.threshold,
+                                                                                   return.threshold = calc.return.threshold,
+                                                                                   simulation.array = sim.array,
+                                                                                   available.vector = available.vector,
+                                                                                   withdrawn.vector = withdrawn.vector,
+                                                                                   mixture.df = mixture.df,
+                                                                                   current.mixture = deployed.mixture$mixture.id[generation],
+                                                                                   deployment.frequency = deployment.frequency,
+                                                                                   deployment.df = deployed.mixture,
+                                                                                   insecticide.parameters.df = insecticide.parameters.df)
+                                                  }
                                                   }
                                                 }
 
