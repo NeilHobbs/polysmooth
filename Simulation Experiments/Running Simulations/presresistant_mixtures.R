@@ -218,9 +218,26 @@ write.csv(df, ".//mixture.preresistance.smooth.csv")
 
 #using half dose insecticides
 
+#Now do as mixture with pre-resistance:::
+parameter.space.df = read.csv("C:/Users/neilp/OneDrive - LSTM/polysmooth/Simulation Experiments/Setting up Simulations/parameter.space.smooth.csv")
+
+start.resistance.old = c(rep(0, 5000),
+                         rep(100, 5000),
+                         rep(900, 5000),
+                         rep(3600, 5000),
+                         rep(8100, 5000))
+
+parameter.space.df = rbind(parameter.space.df, parameter.space.df,
+                           parameter.space.df, parameter.space.df,
+                           parameter.space.df)
+
+parameter.space.df$start.resistance.old = start.resistance.old
+
+
+
 mixture.list.half = list() #need to adapt code to make decision only on insecticide 1.
 
-for(v in 1:nrow(parameter.space.df)){
+for(v in 11940:nrow(parameter.space.df)){
 
   A = get_simulation_dataframe_mixtures(simulation.array = run_simulation_smooth(number.of.insecticides = 2,
                                                                                  exposure.scaling.factor = 10,
