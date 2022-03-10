@@ -585,3 +585,57 @@ ggplot(temp.df, aes(y=value, x=g.cycle, fill = type))+
 
 
 
+individual_genetic_correlation_diagram = function(){
+  norm.dist = create_normal_distribution(vector.length = 1000,
+                                         trait.mean = 100,
+                                         standard.deviation = 50)
+
+  rel.freq = calculate_density_of_trait_values(vector.length = 1000,
+                                               trait.mean = 100,
+                                               standard.deviation = 50)
+
+  df = data.frame(norm.dist, rel.freq)
+
+  p.1 = ggplot(df, aes(x=norm.dist, y=rel.freq))+
+    geom_area(fill = "#c994c7")+
+    geom_point(aes(x= norm.dist[650],
+                   y=rel.freq[650]), size=4,
+               colour = "black")+
+    ylim(0, 0.008)+
+    xlab("Polygenic Resistance Score")+
+    ylab("Frequency in the Population")+
+    theme_bw()+
+    theme( axis.text.x = element_blank(),
+           axis.text.y = element_blank(),
+           axis.ticks = element_blank(),
+           legend.position = "none")
+
+  p.2 = ggplot(df, aes(x=norm.dist, y=rel.freq))+
+    geom_area(fill = "#7fcdbb")+
+    geom_point(aes(x= norm.dist[40],
+                   y=rel.freq[40]), size=4)+
+    geom_point(aes(x= norm.dist[140],
+                   y=rel.freq[140]), size=4)+
+    geom_point(aes(x= norm.dist[370],
+                   y=rel.freq[370]), size=4)+
+    geom_point(aes(x= norm.dist[510],
+                   y=rel.freq[510]), size=4)+
+    geom_point( aes(x= norm.dist[750],
+                    y=rel.freq[750]), size=4)+
+    geom_point(aes(x= norm.dist[890],
+                   y=rel.freq[890]), size=4)+
+    ylim(0, 0.008)+
+    xlab("Polygenic Resistance Score")+
+    ylab("Frequency in the Population")+
+    theme_bw()+
+    theme( axis.text.x = element_blank(),
+           axis.text.y = element_blank(),
+           axis.ticks = element_blank(),
+           legend.position = "none")
+
+  p.3 = p.1 + p.2
+
+  return(p.3)
+
+}
+individual_genetic_correlation_diagram()
