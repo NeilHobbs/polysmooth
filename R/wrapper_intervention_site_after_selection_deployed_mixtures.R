@@ -36,7 +36,7 @@ wrapper_intervention_site_after_selection_deployed_mixtures = function(intervent
                                                               survival.to.other.insecticide){
 
   #Calculate insecticide fitness response in Intervention Site
-  response.insecticide.fitness = wrapper_breeders_equation_male_female_insecticide_fitness(trait.mean = intervention.before.selection,
+  response.insecticide.fitness = wrapper_breeders_equation_male_female_insecticide_fitness_mixtures(trait.mean = intervention.before.selection,
                                                                                            female.fitness.cost = female.fitness.cost,
                                                                                            male.fitness.cost= male.fitness.cost,
                                                                                            female.insecticide.exposure = female.insecticide.exposure,
@@ -50,7 +50,8 @@ wrapper_intervention_site_after_selection_deployed_mixtures = function(intervent
                                                                                            regression.intercept = regression.intercept,
                                                                                            current.insecticide.efficacy = current.insecticide.efficacy,
                                                                                            exposure.scaling.factor = exposure.scaling.factor,
-                                                                                           heritability = heritability)*survival.to.other.insecticide
+                                                                                           heritability = heritability,
+                                                                                           survival.to.other.insecticide = survival.to.other.insecticide)
 
 
   intervention.after.selection = calculate_intervention_site_after_selection_deployed(intervention.before.selection = intervention.before.selection,
