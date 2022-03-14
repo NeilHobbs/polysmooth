@@ -56,21 +56,29 @@ multiple_gonotrophic_cycles_micromosaic_dispersal_sd_scaled = function(intervent
 
   intervention.normal.distribution.i = create_normal_distribution(vector.length = vector.length,
                                                                   trait.mean = intervention.trait.mean.i,
-                                                                  standard.deviation = standard.deviation)
+                                                                  standard.deviation = sd_changes_with_z(current.z = intervention.trait.mean.i,
+                                                                                                         z.sd.intercept = z.sd.intercept,
+                                                                                                         z.sd.coefficient = z.sd.coefficient))
   #Insecticide j: emerge in intervention:
   intervention.normal.distribution.j = create_normal_distribution(vector.length = vector.length,
                                                                   trait.mean = intervention.trait.mean.j,
-                                                                  standard.deviation = standard.deviation)
+                                                                  standard.deviation = sd_changes_with_z(current.z = intervention.trait.mean.j,
+                                                                                                         z.sd.intercept = z.sd.intercept,
+                                                                                                         z.sd.coefficient = z.sd.coefficient))
 
 
   #Insecticide i: emerge in refugia:
   refugia.normal.distribution.i = create_normal_distribution(vector.length = vector.length,
                                                              trait.mean = refugia.trait.mean.i,
-                                                             standard.deviation = standard.deviation)
+                                                             standard.deviation = sd_changes_with_z(current.z = refugia.trait.mean.i,
+                                                                                                    z.sd.intercept = z.sd.intercept,
+                                                                                                    z.sd.coefficient = z.sd.coefficient))
   #Insecticide j: emerge in refugia:
   refugia.normal.distribution.j = create_normal_distribution(vector.length = vector.length,
                                                              trait.mean = refugia.trait.mean.j,
-                                                             standard.deviation = standard.deviation)
+                                                             standard.deviation = sd_changes_with_z(current.z = refugia.trait.mean.j,
+                                                                                                    z.sd.intercept = z.sd.intercept,
+                                                                                                    z.sd.coefficient = z.sd.coefficient))
 
 
   #Step 2: Create initial relative frequencies of the normal distibution:
