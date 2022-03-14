@@ -34,10 +34,10 @@ if(dispersal.rate > 1| dispersal.rate < 0){stop("dispersal.rate must be between 
 if(maximum.bioassay.survival.proportion != 1){stop("maximum.bioassay.survival.proportion must equal 1")}
 if(michaelis.menten.slope != 1){stop("michaelis.menten.slope must equal 1")}
 
-if(applied.insecticide.dose < 0){stop("applied.insecticide.dose must be greater than or equal to 0")}
-if(recommended.insecticide.dose < 0){stop("recommended.insecticide.dose must be greater than 0")}
-if(starting.refugia.resistance.score < 0){stop("starting.refugia.resistance.score must be greater than or equal to 0")}
-if(starting.intervention.resistance.score < 0){stop("starting.intervention.resistance.score must be greater than or equal to 0")}
+# if(applied.insecticide.dose < 0){stop("applied.insecticide.dose must be greater than or equal to 0")}
+# if(recommended.insecticide.dose < 0){stop("recommended.insecticide.dose must be greater than 0")}
+# if(starting.refugia.resistance.score < 0){stop("starting.refugia.resistance.score must be greater than or equal to 0")}
+# if(starting.intervention.resistance.score < 0){stop("starting.intervention.resistance.score must be greater than or equal to 0")}
 
 if(irm.deployment.strategy == "combinations"){
   if(intervention.coverage.1 + intervention.coverage.2 + intervention.coverage.1.2 != 1){stop("toal intervention coverages must add to 1")}
