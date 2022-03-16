@@ -32,8 +32,25 @@ decision_on_insecticide_1_only = function(number.of.insecticides,
                                                   withdrawn.insecticides = unavailable.to.deploy)
 
 
+  #return "pyrethroid":::
+  if(1 %in% available.to.deploy == TRUE){
+    available.to.deploy = available.to.deploy
+  }
+
+  if(1 %in% available.to.deploy == FALSE){
+    available.to.deploy = c(1, available.to.deploy)
+  }
 
 
+  #And remove from unavailable:::
+  if(1 %in% available.to.deploy == TRUE){
+    unavailable.to.deploy = unavailable.to.deploy[!unavailable.to.deploy %in% 1]
+
+  }
+
+  if(1 %in% available.to.deploy == FALSE){
+    unavailable.to.deploy = unavailable.to.deploy
+  }
 
   if(simulation.array["intervention", 1, current.generation] >= withdrawal.threshold){
     deployment.df.updated = deploy_mixture_with_decay(candidate.mixture.id = NA,
