@@ -57,7 +57,7 @@ irm_strategy_rotation_mixture_decay = function(number.of.insecticides,
   else{
     candidate.mixture = choose_next_mixture(previous.mixture = current.mixture,
                                             total.mixtures = nrow(mixture.df),
-                                            available.mixtures = available.mixtures.df)}
+                                            available.mixtures = available.mixtures.df$mixture.id)}
 
   #if the candidate insecticide is the currently deployed insecticide set deployed to NA to stop the simulation
   if(candidate.mixture == current.mixture){
