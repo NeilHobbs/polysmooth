@@ -62,7 +62,7 @@ irm_strategy_sequence_mixture_decay = function(number.of.insecticides,
     #otherwise move on to the next insecticide
     else{deployment.df.updated = deploy_mixture_with_decay(candidate.mixture.id = choose_next_mixture(previous.mixture = current.mixture,
                                                                                            total.mixtures = nrow(mixture.df),
-                                                                                           available.mixtures = available.mixtures.df),
+                                                                                           available.mixtures = available.mixtures.df$mixture.id),
                                                 mixture.df = mixture.df,
                                                 deployment.df = deployment.df,
                                                 deployment.frequency = deployment.frequency,
