@@ -19,86 +19,190 @@ wrapper_run_simulation_micromosaics = function(insecticide.parameters.df,
                                                available.vector,
                                                withdrawn.vector,
                                                intervention.coverage.1,
-                                               intervention.coverage.2){
+                                               intervention.coverage.2,
+                                               irm.switch.strategy){
 
-  #The first insecticide deployed is always insecticide 1
-  insecticide.efficacy.vector.1 = rep(create_insecticide_efficacy_vector(applied.insecticide.dose = insecticide.parameters.df[1,2],
-                                                                         recommended.insecticide.dose = insecticide.parameters.df[1,3],
-                                                                         threshold.generations = insecticide.parameters.df[1,4],
-                                                                         base.efficacy.decay.rate = insecticide.parameters.df[1,5],
-                                                                         rapid.decay.rate = insecticide.parameters.df[1,6],
-                                                                         deployment.frequency = deployment.frequency), (maximum.generations/deployment.frequency))
+  #starts with insecticide 1
+  deployed.vector.1 = rep(1, depdeployment.frequency)
 
 
-  #The first insecticide deployed is always insecticide 2
-  insecticide.efficacy.vector.2 = rep(create_insecticide_efficacy_vector(applied.insecticide.dose = insecticide.parameters.df[2,2],
-                                                                         recommended.insecticide.dose = insecticide.parameters.df[2,3],
-                                                                         threshold.generations = insecticide.parameters.df[2,4],
-                                                                         base.efficacy.decay.rate = insecticide.parameters.df[2,5],
-                                                                         rapid.decay.rate = insecticide.parameters.df[2,6],
-                                                                         deployment.frequency = deployment.frequency), (maximum.generations/deployment.frequency))
+  #The first insecticide deployed is always insecticide 1 for coverage.i
+  insecticide.efficacy.vector.1 = create_insecticide_efficacy_vector(applied.insecticide.dose = insecticide.parameters.df[1,2],
+                                                                     recommended.insecticide.dose = insecticide.parameters.df[1,3],
+                                                                     threshold.generations = insecticide.parameters.df[1,4],
+                                                                     base.efficacy.decay.rate = insecticide.parameters.df[1,5],
+                                                                     rapid.decay.rate = insecticide.parameters.df[1,6],
+                                                                     deployment.frequency = deployment.frequency)
+
+  #starts with insecticide 2
+  deployed.vector.2 = rep(2, depdeployment.frequency)
+
+  #The first insecticide deployed is always insecticide 2 for coverage.j
+  insecticide.efficacy.vector.2 = create_insecticide_efficacy_vector(applied.insecticide.dose = insecticide.parameters.df[2,2],
+                                                                     recommended.insecticide.dose = insecticide.parameters.df[2,3],
+                                                                     threshold.generations = insecticide.parameters.df[2,4],
+                                                                     base.efficacy.decay.rate = insecticide.parameters.df[2,5],
+                                                                     rapid.decay.rate = insecticide.parameters.df[2,6],
+                                                                     deployment.frequency = deployment.frequency)
 
   for(generation in 2:maximum.generations){
+    for(insecticide in 1:number.of.insecticides){
+      if(insecticide == deployed.vector.1[generation]|
+         insecticide == deployed.vector.2[generation]){
 
-    male.selection.differentials = perform_male_micromosaic_smooth(insecticide.coverage.1 = intervention.coverage.1,
-                                                                   insecticide.coverage.2 = intervention.coverage.2,
-                                                                   trait.mean.1 = sim.array["intervention", 1, generation-1],
-                                                                   trait.mean.2 = sim.array["intervention", 2, generation-1],
-                                                                   standard.deviation = standard.deviation,
-                                                                   vector.length = vector.length,
-                                                                   female.exposure = female.exposure,
-                                                                   male.exposure = male.exposure,
-                                                                   current.insecticide.efficacy.1 = insecticide.efficacy.vector.1[generation],
-                                                                   current.insecticide.efficacy.2 = insecticide.efficacy.vector.2[generation],
-                                                                   regression.coefficient = regression.coefficient,
-                                                                   regression.intercept = regression.intercept,
-                                                                   half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
-                                                                   michaelis.menten.slope = michaelis.menten.slope,
-                                                                   maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
-                                                                   male.natural.survival.probability = 1)
+        if(insecticide == deployed.vector.1[generation]){other.insecticide = deployed.vector.2[generation]}
+        if(insecticide == deployed.vector.2[generation]){other.insecticide = deployed.vector.1[generation]}
 
-    tracked.resistance = multiple_gonotrophic_cycles_micromosaic_dispersal(intervention.trait.mean.i = sim.array['intervention', 1, generation-1],
-                                                                           intervention.trait.mean.j = sim.array['intervention', 2, generation-1],
-                                                                           refugia.trait.mean.i = sim.array['refugia', 1, generation-1],
-                                                                           refugia.trait.mean.j = sim.array['refugia', 2, generation-1],
-                                                                           standard.deviation = standard.deviation,
-                                                                           vector.length = vector.length,
-                                                                           female.exposure = female.exposure,
-                                                                           exposure.scaling.factor = exposure.scaling.factor,
-                                                                           coverage = coverage,
-                                                                           dispersal.rate = dispersal.rate,
-                                                                           male.differential.intervention.i = calculate_male_insecticide_fitness_selection_differential(male.insecticide.selection.differential = male.selection.differentials[[1]],
-                                                                                                                                                                        exposure.scaling.factor = exposure.scaling.factor,
-                                                                                                                                                                        male.fitness.selection.differential = insecticide.parameters.df$male.fitness.cost[1]),
-                                                                           male.differential.intervention.j = calculate_male_insecticide_fitness_selection_differential(male.insecticide.selection.differential = male.selection.differentials[[2]],
-                                                                                                                                                                        exposure.scaling.factor = exposure.scaling.factor,
-                                                                                                                                                                        male.fitness.selection.differential = insecticide.parameters.df$male.fitness.cost[2]),
-                                                                           male.differential.refugia.i = wrapper_male_fitness_selection_differential(male.trait.mean = sim.array['refugia', 1, generation-1],
-                                                                                                                                                     male.fitness.cost = insecticide.parameters.df$male.fitness.cost[1]),
-                                                                           male.differential.refugia.j = wrapper_male_fitness_selection_differential(male.trait.mean = sim.array['refugia', 2, generation-1],
-                                                                                                                                                     male.fitness.cost = insecticide.parameters.df$male.fitness.cost[2]),
-                                                                           female.fitness.cost.i = insecticide.parameters.df$female.fitness.cost[1],
-                                                                           female.fitness.cost.j = insecticide.parameters.df$female.fitness.cost[2],
-                                                                           heritability.i = insecticide.parameters.df$heritability[1],
-                                                                           heritability.j = insecticide.parameters.df$heritability[2],
-                                                                           n.cycles = n.cycles,
-                                                                           half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
-                                                                           michaelis.menten.slope = michaelis.menten.slope,
-                                                                           maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
-                                                                           regression.coefficient = regression.coefficient,
-                                                                           regression.intercept = regression.intercept,
-                                                                           current.insecticide.efficacy.i = insecticide.efficacy.vector.1[generation],
-                                                                           current.insecticide.efficacy.j = insecticide.efficacy.vector.2[generation],
-                                                                           coverage.i = intervention.coverage.1,
-                                                                           coverage.j = intervention.coverage.2)
+        #Figure out which coverages are correct::::::
+        if(insecticide == deployed.vector.1[generation]){tracked.coverage = intervention.coverage.1}
+        if(insecticide == deployed.vector.2[generation]){tracked.coverage = intervention.coverage.2}
 
-    sim.array['intervention', 1, generation] = tracked.resistance[[1]]
-    sim.array['refugia', 1, generation] = tracked.resistance[[2]]
-    sim.array['intervention', 2, generation] = tracked.resistance[[3]]
-    sim.array['refugia', 2, generation] = tracked.resistance[[4]]
+        if(other.insecticide == deployed.vector.1[generation]){other.coverage == intervention.coverage.1}
+        if(other.insecticide == deployed.vector.2[generation]){other.coverage == intervention.coverage.2}
+
+
+        ##Figure out which is then the corresponding insecticide efficacies:::::
+        if(insecticide == deployed.vector.1[generation]){tracked.efficacy = insecticide.efficacy.vector.1[generation]}
+        if(insecticide == deployed.vector.2[generation]){tracked.efficacy = insecticide.efficacy.vector.2[generation]}
+
+        if(other.insecticide == deployed.vector.1[generation]){other.insecticide.efficacy = insecticide.efficacy.vector.1[generation]}
+        if(other.insecticide == deployed.vector.2[generation]){other.insecticide.efficacy = insecticide.efficacy.vector.2[generation]}
+
+
+
+
+        male.selection.differentials = perform_male_micromosaic_smooth(insecticide.coverage.1 = tracked.coverage,
+                                                                       insecticide.coverage.2 = other.coverage,
+                                                                       trait.mean.1 = sim.array["intervention", insecticide, generation-1],
+                                                                       trait.mean.2 = sim.array["intervention", other.insecticide, generation-1],
+                                                                       standard.deviation = standard.deviation,
+                                                                       vector.length = vector.length,
+                                                                       female.exposure = female.exposure,
+                                                                       male.exposure = male.exposure,
+                                                                       current.insecticide.efficacy.1 = tracked.efficacy,
+                                                                       current.insecticide.efficacy.2 = other.insecticde.efficacy,
+                                                                       regression.coefficient = regression.coefficient,
+                                                                       regression.intercept = regression.intercept,
+                                                                       half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                       michaelis.menten.slope = michaelis.menten.slope,
+                                                                       maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                                       male.natural.survival.probability = 1)
+
+        tracked.resistance = multiple_gonotrophic_cycles_micromosaic_dispersal(intervention.trait.mean.i = sim.array['intervention', insecticide, generation-1],
+                                                                               intervention.trait.mean.j = sim.array['intervention', other.insecticide, generation-1],
+                                                                               refugia.trait.mean.i = sim.array['refugia', insecticide, generation-1],
+                                                                               refugia.trait.mean.j = sim.array['refugia', other.insecticide, generation-1],
+                                                                               standard.deviation = standard.deviation,
+                                                                               vector.length = vector.length,
+                                                                               female.exposure = female.exposure,
+                                                                               exposure.scaling.factor = exposure.scaling.factor,
+                                                                               coverage = coverage,
+                                                                               dispersal.rate = dispersal.rate,
+                                                                               male.differential.intervention.i = calculate_male_insecticide_fitness_selection_differential(male.insecticide.selection.differential = male.selection.differentials[[1]],
+                                                                                                                                                                            exposure.scaling.factor = exposure.scaling.factor,
+                                                                                                                                                                            male.fitness.selection.differential = insecticide.parameters.df$male.fitness.cost[insecticide]),
+                                                                               male.differential.intervention.j = calculate_male_insecticide_fitness_selection_differential(male.insecticide.selection.differential = male.selection.differentials[[2]],
+                                                                                                                                                                            exposure.scaling.factor = exposure.scaling.factor,
+                                                                                                                                                                            male.fitness.selection.differential = insecticide.parameters.df$male.fitness.cost[other.insecticide]),
+                                                                               male.differential.refugia.i = wrapper_male_fitness_selection_differential(male.trait.mean = sim.array['refugia', insecticide, generation-1],
+                                                                                                                                                         male.fitness.cost = insecticide.parameters.df$male.fitness.cost[insecticide]),
+                                                                               male.differential.refugia.j = wrapper_male_fitness_selection_differential(male.trait.mean = sim.array['refugia', other.insecticide, generation-1],
+                                                                                                                                                         male.fitness.cost = insecticide.parameters.df$male.fitness.cost[other.insecticide]),
+                                                                               female.fitness.cost.i = insecticide.parameters.df$female.fitness.cost[insecticide],
+                                                                               female.fitness.cost.j = insecticide.parameters.df$female.fitness.cost[other.insecticide],
+                                                                               heritability.i = insecticide.parameters.df$heritability[insecticide],
+                                                                               heritability.j = insecticide.parameters.df$heritability[other.insecticide],
+                                                                               n.cycles = n.cycles,
+                                                                               half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                               michaelis.menten.slope = michaelis.menten.slope,
+                                                                               maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                                               regression.coefficient = regression.coefficient,
+                                                                               regression.intercept = regression.intercept,
+                                                                               current.insecticide.efficacy.i = tracked.efficacy,
+                                                                               current.insecticide.efficacy.j = other.insecticide.efficacy,
+                                                                               coverage.i = tracked.coverage,
+                                                                               coverage.j = other.coverage)
+
+        sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]
+        sim.array['refugia', insecticide, generation] = tracked.resistance[[2]]
+
+      } #end if deployed
+      if(insecticide != deployed.vector.1[generation]|
+         insecticide != deployed.vector.2[generation]){
+
+        male.selection.differentials = perform_male_micromosaic_smooth(insecticide.coverage.1 = tracked.coverage,
+                                                                       insecticide.coverage.2 = other.coverage,
+                                                                       trait.mean.1 = sim.array["intervention", insecticide, generation-1],
+                                                                       trait.mean.2 = sim.array["intervention", other.insecticide, generation-1],
+                                                                       standard.deviation = standard.deviation,
+                                                                       vector.length = vector.length,
+                                                                       female.exposure = female.exposure,
+                                                                       male.exposure = male.exposure,
+                                                                       current.insecticide.efficacy.1 = tracked.efficacy,
+                                                                       current.insecticide.efficacy.2 = other.insecticde.efficacy,
+                                                                       regression.coefficient = regression.coefficient,
+                                                                       regression.intercept = regression.intercept,
+                                                                       half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                       michaelis.menten.slope = michaelis.menten.slope,
+                                                                       maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                                       male.natural.survival.probability = 1)
+
+
+        tracked.resistance =   multiple_gonotrophic_cycles_micromosaics_dispersal_not_deployed(intervention.trait.mean.i = sim.array['intervention', deployed.vector.1[generation], generation-1],
+                                                                                               intervention.trait.mean.j = sim.array['intervention', deployed.vector.2[generation], generation-1],
+                                                                                               intervention.trait.mean.tracked = sim.array['intervention', insecticide, generation-1],
+                                                                                               refugia.trait.mean.i = sim.array['refugia', deployed.vector.1[generation], generation-1],
+                                                                                               refugia.trait.mean.j = sim.array['refugia', deployed.vector.2[generation], generation-1],
+                                                                                               refugia.trait.mean.tracked = sim.array['refugia', tracked, generation-1],
+                                                                                               standard.deviation = standard.deviation,
+                                                                                               vector.length = vector.length,
+                                                                                               female.exposure = female.exposure,
+                                                                                               exposure.scaling.factor = exposure.scaling.factor,
+                                                                                               coverage = coverage,
+                                                                                               dispersal.rate = dispersal.rate,
+                                                                                               male.differential.intervention.i = calculate_male_insecticide_fitness_selection_differential(male.insecticide.selection.differential = male.selection.differentials[[1]],
+                                                                                                                                                                                            exposure.scaling.factor = exposure.scaling.factor,
+                                                                                                                                                                                            male.fitness.selection.differential = insecticide.parameters.df$male.fitness.cost[deployed.vector.1[generation]]),
+                                                                                               male.differential.intervention.j = calculate_male_insecticide_fitness_selection_differential(male.insecticide.selection.differential = male.selection.differentials[[2]],
+                                                                                                                                                                                            exposure.scaling.factor = exposure.scaling.factor,
+                                                                                                                                                                                            male.fitness.selection.differential = insecticide.parameters.df$male.fitness.cost[deployed.vector.2[generation]]),
+                                                                                               male.differential.intervention.tracked = wrapper_male_fitness_selection_differential(male.trait.mean = sim.array['intervention', insecticide, generation-1],
+                                                                                                                                                                                    male.fitness.cost = insecticide.parameters.df$male.fitness.cost[insecticide]),
+                                                                                               male.differential.refugia.i = wrapper_male_fitness_selection_differential(male.trait.mean = sim.array['refugia', deployed.vector.1[generation], generation-1],
+                                                                                                                                                                         male.fitness.cost = insecticide.parameters.df$male.fitness.cost[deployed.vector.1[generation]]),
+                                                                                               male.differential.refugia.j = wrapper_male_fitness_selection_differential(male.trait.mean = sim.array['refugia', deployed.vector.2[generation], generation-1],
+                                                                                                                                                                         male.fitness.cost = insecticide.parameters.df$male.fitness.cost[deployed.vector.2[generation]]),
+                                                                                               male.differential.refugia.tracked = wrapper_male_fitness_selection_differential(male.trait.mean = sim.array['refugia', insecticide, generation-1],
+                                                                                                                                                                                 male.fitness.cost = insecticide.parameters.df$male.fitness.cost[insecticide]),
+                                                                                               female.fitness.cost.i = insecticide.parameters.df$female.fitness.cost[deployed.vector.1[generation]],
+                                                                                               female.fitness.cost.j = insecticide.parameters.df$female.fitness.cost[deployed.vector.2[generation]],
+                                                                                               female.fitness.cost.tracked = insecticide.parameters.df$female.fitness.cost[insecticide],
+                                                                                               heritability.i = insecticide.parameters.df$heritability[deployed.vector.1[generation]],
+                                                                                               heritability.j =  insecticide.parameters.df$heritability[deployed.vector.2[generation]],
+                                                                                               heritability.tracked =  insecticide.parameters.df$heritability[insecticide],
+                                                                                               n.cycles = n.cycles,
+                                                                                               half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                                               michaelis.menten.slope = michaelis.menten.slope ,
+                                                                                               maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                                                               regression.coefficient = regression.coefficient,
+                                                                                               regression.intercept = regression.intercept,
+                                                                                               current.insecticide.efficacy.i = insecticide.efficacy.vector.1[generation],
+                                                                                               current.insecticide.efficacy.j = insecticide.efficacy.vector.2[generation],
+                                                                                               coverage.i = intervention.coverage.1,
+                                                                                               coverage.j = intervention.coverage.2)
+
+
+
+        sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]
+        sim.array['refugia', insecticide, generation] = tracked.resistance[[2]]
+      } #end if not deployed
+    }#end insecticide loop
+
+    ##Insecticide Deployment Switching Section::::::::
+
+
+
+}#end generation loop
+    return(list(sim.array, insecticide.efficacy.vector.1, insecticide.efficacy.vector.2))
+
   }
-
-
-  return(list(sim.array, insecticide.efficacy.vector.1, insecticide.efficacy.vector.2))
-
-}
