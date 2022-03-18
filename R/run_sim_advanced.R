@@ -2,6 +2,7 @@
 
 run_simulation_advanced = function(irm.deployment.strategy = "combinations", #singles, mixtures, micromosaics, combinations
                                    irm.switch.strategy = "sequence", #"rotation", "sequence", "insecticide.1"
+                                   number.of.insecticides = 2,
                                    sd.scaled = FALSE, ##TRUE or FALSE
                                    exposure.scaling.factor = 10,
                                    female.fitness.cost = 0,
@@ -31,7 +32,6 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                    base.efficacy.decay.rate = 0.015,
                                    rapid.decay.rate = 0.08,
                                    cross.selection = 0,
-                                   mixture.strategy, #only needed if deployment.type = "mixtures"
                                    deployment.interval.llin = 30, #only for combinations
                                    deployment.interval.irs = 10, #only for combinations
                                    probability.only.i.male = 0.7, #only for combinations
@@ -45,7 +45,8 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                    intervention.coverage.2 = 0.4,
                                    intervention.coverage.1.2 = 0.2,
                                    z.sd.intercept = 24.800904,
-                                   z.sd.coefficient = 0.396678){
+                                   z.sd.coefficient = 0.396678,
+                                   mixture.strategy = "pyrethroid.plus"){
 
 
   check_for_errors_and_warnings(coverage = coverage,
@@ -79,8 +80,6 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
   #Easier to include both, but refugia won't happen if no dispersal
   #dimension 2: insectide to which the resistance intensity corresponds to
   #dimension 3: generation.
-
-  number.of.insecticides = 2
 
   sim.array = create_starting_array(n.insecticides = number.of.insecticides,
                                     maximum.generations = maximum.generations)
@@ -180,7 +179,8 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                             calc.withdrawal.threshold = calc.withdrawal.threshold,
                                                             calc.return.threshold = calc.return.threshold,
                                                             available.vector = available.vector,
-                                                            withdrawn.vector = withdrawn.vector)
+                                                            withdrawn.vector = withdrawn.vector,
+                                                            mixture.strategy = mixture.strategy)
     }#end of mixtures if statement
 
     if(irm.deployment.strategy == "micromosaics"){
@@ -203,10 +203,13 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                               n.cycles = n.cycles,
                                                               deployment.frequency = deployment.frequency,
                                                               number.of.insecticides = number.of.insecticides,
-                                                              available.vector = available.vector,
-                                                              withdrawn.vector = withdrawn.vector,
                                                               intervention.coverage.1 = intervention.coverage.1,
-                                                              intervention.coverage.2 = intervention.coverage.2)
+                                                              intervention.coverage.2 = intervention.coverage.2,
+                                                              irm.switch.strategy = irm.switch.strategy,
+                                                              withdrawal.threshold = calc.withdrawal.threshold,
+                                                              return.threshold = calc.return.threshold,
+                                                              available.vector = available.vector,
+                                                              withdrawn.vector = withdrawn.vector)
 
 
     } #end of micromosaics if statement
