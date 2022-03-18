@@ -36,46 +36,85 @@ irm_strategy_micromosaics_partial_rotation = function(number.of.insecticides,
     return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j))
   }
 
+
+
+  ##otherwise...::::
   ###replace the lowest number insecticide
     #Note that it would be more practical to replace the insecticide to which there is the most resistance...
   to.replace = min(c(deployed.insecticide.i, deployed.insecticide.j))
   to.remain.deployed = max(c(deployed.insecticide.i, deployed.insecticide.j))
 
+  if(to.remain.deployed %in% available.to.deploy){
+    available.to.deploy.temp = available.to.deploy[!available.to.deploy %in% to.remain.deployed]
+    available.to.deploy.temp = available.to.deploy.temp[!available.to.deploy.temp %in% to.replace]
 
+    if(length(available.to.deploy.temp) >= 1){
+      candidate.insecticide = choose_the_next_insecticide(previous.insecticide = to.remain.deployed,
+                                                          available.insecticides = available.to.deploy.temp,
+                                                          number.of.insecticides = number.of.insecticides)
 
+      deployment.vector.updated.i = deploy_the_chosen_insecticide(insecticide.to.deploy = to.remain.deployed,
+                                                                  deployment.frequency = deployment.frequency,
+                                                                  deployment.vector = deployment.vector.i)
 
-  #Temporarily make the to.replace insecticide unavailable; this means it cannot be a new candidate,
-    #and prevents the same insecticide being deployed as both i and j
-  if(to.replace %in% available.to.deploy == TRUE){
-    available.to.deploy.temp = available.to.deploy[!available.to.deploy %in% to.replace]}
-    available.to.deploy.temp = available.to.deploy.temp[!available.to.deploy.temp %in% to.remain.deployed]
+      deployment.vector.updated.j = deploy_the_chosen_insecticide(insecticide.to.deploy = candidate.insecticide,
+                                                                  deployment.frequency = deployment.frequency,
+                                                                  deployment.vector = deployment.vector.j)
 
-  #Choose the candidate insecticide
-    candidate.insecticide = choose_the_next_insecticide(previous.insecticide = to.replace,
-                                                        available.insecticides = available.to.deploy.temp,
-                                                        number.of.insecticides = number.of.insecticides)
-
-    #if the candidate insecticide is either of the currently deployed insecticides set deployed to NA to stop the simulation
-    if(candidate.insecticide == deployed.insecticide.i |
-       candidate.insecticide == deployed.insecticide.j){
+      return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j, "A"))
+    }else{
       deployment.vector.updated.i = deploy_the_chosen_insecticide(insecticide.to.deploy = NA,
                                                                   deployment.frequency = 1,
                                                                   deployment.vector = deployment.vector.i)
       deployment.vector.updated.j = deploy_the_chosen_insecticide(insecticide.to.deploy = NA,
                                                                   deployment.frequency = 1,
-                                                                  deployment.vector = deployment.vector.j)}
+                                                                  deployment.vector = deployment.vector.j)
 
-    #otherwise the candidate insecticide can be deployed.
-    else{deployment.vector.updated.i = deploy_the_chosen_insecticide(insecticide.to.deploy = to.remain.deployed,
-                                                                       deployment.frequency = deployment.frequency,
-                                                                       deployment.vector = deployment.vector.i)
+      return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j, "B"))
+    }
 
-    deployment.vector.updated.j = deploy_the_chosen_insecticide(insecticide.to.deploy = candidate.insecticide,
-                                                                deployment.frequency = deployment.frequency,
-                                                                deployment.vector = deployment.vector.j)}
+  }
+
+    #However if the previous option not viable try switching the other insecticide out instead
+
+    if(to.remain.deployed %in% unavailable.to.deploy &
+       to.replace %in% available.to.deploy){
+      available.to.deploy.temp = available.to.deploy[!available.to.deploy %in% to.remain.deployed]
+      available.to.deploy.temp = available.to.deploy.temp[!available.to.deploy.temp %in% to.replace]
+
+      if(length(available.to.deploy.temp) >= 1){
+        candidate.insecticide = choose_the_next_insecticide(previous.insecticide = to.replace,
+                                                            available.insecticides = available.to.deploy.temp,
+                                                            number.of.insecticides = number.of.insecticides)
+
+        deployment.vector.updated.i = deploy_the_chosen_insecticide(insecticide.to.deploy = to.replace,
+                                                                    deployment.frequency = deployment.frequency,
+                                                                    deployment.vector = deployment.vector.i)
+
+        deployment.vector.updated.j = deploy_the_chosen_insecticide(insecticide.to.deploy = candidate.insecticide,
+                                                                    deployment.frequency = deployment.frequency,
+                                                                    deployment.vector = deployment.vector.j)
+
+        return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j), "C")
+      }else{
+        deployment.vector.updated.i = deploy_the_chosen_insecticide(insecticide.to.deploy = NA,
+                                                                    deployment.frequency = 1,
+                                                                    deployment.vector = deployment.vector.i)
+        deployment.vector.updated.j = deploy_the_chosen_insecticide(insecticide.to.deploy = NA,
+                                                                    deployment.frequency = 1,
+                                                                    deployment.vector = deployment.vector.j)
+
+        return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j), "D")
+      }
+    }
+  }
 
 
 
-  return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j))
 
-}
+
+
+
+
+
+
