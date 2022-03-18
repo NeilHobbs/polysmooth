@@ -5,6 +5,7 @@ irm_strategy_micromosaics_partial_rotation = function(number.of.insecticides,
                                                       simulation.array,
                                                       available.vector,
                                                       withdrawn.vector,
+                                                      deployment.frequency,
                                                       deployed.insecticide.i,
                                                       deployed.insecticide.j,
                                                       deployment.vector.i,
@@ -24,13 +25,15 @@ irm_strategy_micromosaics_partial_rotation = function(number.of.insecticides,
 
 
   #If there is 1 or less insecticide left micro-mosaics no longer possible --> set conditions to terminate simulation
-  if(length(available.to.deploy < 1)){#set deployments to NA to stop the simulation
+  if(length(available.to.deploy) <= 1){#set deployments to NA to stop the simulation
     deployment.vector.updated.i = deploy_the_chosen_insecticide(insecticide.to.deploy = NA,
                                                                 deployment.frequency = 1,
-                                                                deployment.vector = deployment.vector)
+                                                                deployment.vector = deployment.vector.i)
     deployment.vector.updated.j = deploy_the_chosen_insecticide(insecticide.to.deploy = NA,
                                                                 deployment.frequency = 1,
-                                                                deployment.vector = deployment.vector)
+                                                                deployment.vector = deployment.vector.j)
+
+    return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j))
   }
 
   ###replace the lowest number insecticide
@@ -38,20 +41,23 @@ irm_strategy_micromosaics_partial_rotation = function(number.of.insecticides,
   to.replace = min(c(deployed.insecticide.i, deployed.insecticide.j))
   to.remain.deployed = max(c(deployed.insecticide.i, deployed.insecticide.j))
 
+
+
+
   #Temporarily make the to.replace insecticide unavailable; this means it cannot be a new candidate,
     #and prevents the same insecticide being deployed as both i and j
   if(to.replace %in% available.to.deploy == TRUE){
     available.to.deploy.temp = available.to.deploy[!available.to.deploy %in% to.replace]}
-
+    available.to.deploy.temp = available.to.deploy.temp[!available.to.deploy.temp %in% to.remain.deployed]
 
   #Choose the candidate insecticide
-    candidate.insecticide = choose_the_next_insecticide(previous.insecticide = current.insecticide,
+    candidate.insecticide = choose_the_next_insecticide(previous.insecticide = to.replace,
                                                         available.insecticides = available.to.deploy.temp,
                                                         number.of.insecticides = number.of.insecticides)
 
     #if the candidate insecticide is either of the currently deployed insecticides set deployed to NA to stop the simulation
-    if(candidate.insecticide == deployed.i |
-       candidate.insecticide == deployed.j){
+    if(candidate.insecticide == deployed.insecticide.i |
+       candidate.insecticide == deployed.insecticide.j){
       deployment.vector.updated.i = deploy_the_chosen_insecticide(insecticide.to.deploy = NA,
                                                                   deployment.frequency = 1,
                                                                   deployment.vector = deployment.vector.i)
@@ -66,10 +72,10 @@ irm_strategy_micromosaics_partial_rotation = function(number.of.insecticides,
 
     deployment.vector.updated.j = deploy_the_chosen_insecticide(insecticide.to.deploy = candidate.insecticide,
                                                                 deployment.frequency = deployment.frequency,
-                                                                deployment.vector = deployment.vector.j))}
-  }
+                                                                deployment.vector = deployment.vector.j)}
 
 
-  return(list(deployment.vector.updated.i, deployment.vector.updated.j, available.to.deploy , unavailable.to.deploy))
+
+  return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j))
 
 }
