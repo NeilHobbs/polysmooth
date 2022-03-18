@@ -18,14 +18,14 @@ wrapper_run_simulation_micromosaics = function(insecticide.parameters.df,
                                                number.of.insecticides,
                                                intervention.coverage.1,
                                                intervention.coverage.2,
-                                               irm.switch.strategy,
                                                withdrawal.threshold,
                                                return.threshold,
                                                available.vector,
-                                               withdrawn.vector){
+                                               withdrawn.vector,
+                                               irm.switch.strategy){
 
   #starts with insecticide 1
-  deployed.vector.1 = rep(1, depdeployment.frequency)
+  deployed.vector.1 = rep(1, deployment.frequency)
 
 
   #The first insecticide deployed is always insecticide 1 for coverage.i
@@ -37,7 +37,7 @@ wrapper_run_simulation_micromosaics = function(insecticide.parameters.df,
                                                                      deployment.frequency = deployment.frequency)
 
   #starts with insecticide 2
-  deployed.vector.2 = rep(2, depdeployment.frequency)
+  deployed.vector.2 = rep(2, deployment.frequency)
 
   #The first insecticide deployed is always insecticide 2 for coverage.j
   insecticide.efficacy.vector.2 = create_insecticide_efficacy_vector(applied.insecticide.dose = insecticide.parameters.df[2,2],
@@ -49,8 +49,8 @@ wrapper_run_simulation_micromosaics = function(insecticide.parameters.df,
 
   for(generation in 2:maximum.generations){
     for(insecticide in 1:number.of.insecticides){
-      if(insecticide == deployed.vector.1[generation]|
-         insecticide == deployed.vector.2[generation]){
+      if(insecticide == deployed.vector.1[generation] |
+         insecticide == deployed.vector.2[generation] ){
 
         if(insecticide == deployed.vector.1[generation]){other.insecticide = deployed.vector.2[generation]}
         if(insecticide == deployed.vector.2[generation]){other.insecticide = deployed.vector.1[generation]}
@@ -59,8 +59,8 @@ wrapper_run_simulation_micromosaics = function(insecticide.parameters.df,
         if(insecticide == deployed.vector.1[generation]){tracked.coverage = intervention.coverage.1}
         if(insecticide == deployed.vector.2[generation]){tracked.coverage = intervention.coverage.2}
 
-        if(other.insecticide == deployed.vector.1[generation]){other.coverage == intervention.coverage.1}
-        if(other.insecticide == deployed.vector.2[generation]){other.coverage == intervention.coverage.2}
+        if(other.insecticide == deployed.vector.1[generation]){other.coverage = intervention.coverage.1}
+        if(other.insecticide == deployed.vector.2[generation]){other.coverage = intervention.coverage.2}
 
 
         ##Figure out which is then the corresponding insecticide efficacies:::::
@@ -82,7 +82,7 @@ wrapper_run_simulation_micromosaics = function(insecticide.parameters.df,
                                                                        female.exposure = female.exposure,
                                                                        male.exposure = male.exposure,
                                                                        current.insecticide.efficacy.1 = tracked.efficacy,
-                                                                       current.insecticide.efficacy.2 = other.insecticde.efficacy,
+                                                                       current.insecticide.efficacy.2 = other.insecticide.efficacy,
                                                                        regression.coefficient = regression.coefficient,
                                                                        regression.intercept = regression.intercept,
                                                                        half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
@@ -129,7 +129,7 @@ wrapper_run_simulation_micromosaics = function(insecticide.parameters.df,
         sim.array['refugia', insecticide, generation] = tracked.resistance[[2]]
 
       } #end if deployed
-      if(insecticide != deployed.vector.1[generation]|
+      if(insecticide != deployed.vector.1[generation] &
          insecticide != deployed.vector.2[generation]){
 
         male.selection.differentials = perform_male_micromosaic_smooth(insecticide.coverage.1 = tracked.coverage,
@@ -141,7 +141,7 @@ wrapper_run_simulation_micromosaics = function(insecticide.parameters.df,
                                                                        female.exposure = female.exposure,
                                                                        male.exposure = male.exposure,
                                                                        current.insecticide.efficacy.1 = tracked.efficacy,
-                                                                       current.insecticide.efficacy.2 = other.insecticde.efficacy,
+                                                                       current.insecticide.efficacy.2 = other.insecticide.efficacy,
                                                                        regression.coefficient = regression.coefficient,
                                                                        regression.intercept = regression.intercept,
                                                                        half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
@@ -155,7 +155,7 @@ wrapper_run_simulation_micromosaics = function(insecticide.parameters.df,
                                                                                                intervention.trait.mean.tracked = sim.array['intervention', insecticide, generation-1],
                                                                                                refugia.trait.mean.i = sim.array['refugia', deployed.vector.1[generation], generation-1],
                                                                                                refugia.trait.mean.j = sim.array['refugia', deployed.vector.2[generation], generation-1],
-                                                                                               refugia.trait.mean.tracked = sim.array['refugia', tracked, generation-1],
+                                                                                               refugia.trait.mean.tracked = sim.array['refugia', insecticide, generation-1],
                                                                                                standard.deviation = standard.deviation,
                                                                                                vector.length = vector.length,
                                                                                                female.exposure = female.exposure,
@@ -215,7 +215,7 @@ if(generation < maximum.generations){
                                                                           deployed.insecticide.j = deployed.vector.2[generation],
                                                                           deployment.vector.i = deployed.vector.1,
                                                                           deployment.vector.j = deployed.vector.2)
-    }
+    }else{
     if(irm.switch.strategy == "full.rotation"){
       update.deployment.info = irm_strategy_micromosaics_full_rotation(number.of.insecticides = number.of.insecticides,
                                                                           current.generation = generation,
@@ -228,7 +228,7 @@ if(generation < maximum.generations){
                                                                           deployed.insecticide.j = deployed.vector.2[generation],
                                                                           deployment.vector.i = deployed.vector.1,
                                                                           deployment.vector.j = deployed.vector.2)
-    }
+    }else{
     if(irm.switch.strategy == "sequence"){
       update.deployment.info = irm_strategy_micromosaics_sequence(number.of.insecticides = number.of.insecticides,
                                                                        current.generation = generation,
@@ -241,7 +241,7 @@ if(generation < maximum.generations){
                                                                        deployed.insecticide.j = deployed.vector.2[generation],
                                                                        deployment.vector.i = deployed.vector.1,
                                                                        deployment.vector.j = deployed.vector.2)
-    }
+    }else{
     if(irm.switch.strategy == "rotate.expensive"){
       update.deployment.info = irm_strategy_micromosaics_rotate_expensive(number.of.insecticides = number.of.insecticides,
                                                                        current.generation = generation,
@@ -254,13 +254,13 @@ if(generation < maximum.generations){
                                                                        deployed.insecticide.j = deployed.vector.2[generation],
                                                                        deployment.vector.i = deployed.vector.1,
                                                                        deployment.vector.j = deployed.vector.2)
-    }
-  }
+    }}}}
+}
 
-  if(generation %% deployment.frequency == 0){available.vector = update.insecticide.info[[1]]}
-  if(generation %% deployment.frequency == 0){withdrawn.vector = update.insecticide.info[[2]]}
-  if(generation %% deployment.frequency == 0){deployed.vector.1 = update.insecticide.info[[3]]}
-  if(generation %% deployment.frequency == 0){deployed.vector.2 = update.insecticide.info[[4]]}
+  if(generation %% deployment.frequency == 0){available.vector = update.deployment.info[[1]]}
+  if(generation %% deployment.frequency == 0){withdrawn.vector = update.deployment.info[[2]]}
+  if(generation %% deployment.frequency == 0){deployed.vector.1 = update.deployment.info[[3]]}
+  if(generation %% deployment.frequency == 0){deployed.vector.2 = update.deployment.info[[4]]}
   if(generation %% deployment.frequency == 0){insecticide.i = deployed.vector.1[generation+1]}
   if(generation %% deployment.frequency == 0){insecticide.j = deployed.vector.2[generation+1]}
   if(generation %% deployment.frequency == 0){insecticide.efficacy.vector.1 = c(insecticide.efficacy.vector.1,
