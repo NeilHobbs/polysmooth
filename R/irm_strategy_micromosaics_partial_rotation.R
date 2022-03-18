@@ -61,7 +61,7 @@ irm_strategy_micromosaics_partial_rotation = function(number.of.insecticides,
                                                                   deployment.frequency = deployment.frequency,
                                                                   deployment.vector = deployment.vector.j)
 
-      return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j, "A"))
+      return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j))
     }else{
       deployment.vector.updated.i = deploy_the_chosen_insecticide(insecticide.to.deploy = NA,
                                                                   deployment.frequency = 1,
@@ -70,7 +70,7 @@ irm_strategy_micromosaics_partial_rotation = function(number.of.insecticides,
                                                                   deployment.frequency = 1,
                                                                   deployment.vector = deployment.vector.j)
 
-      return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j, "B"))
+      return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j))
     }
 
   }
@@ -95,7 +95,7 @@ irm_strategy_micromosaics_partial_rotation = function(number.of.insecticides,
                                                                     deployment.frequency = deployment.frequency,
                                                                     deployment.vector = deployment.vector.j)
 
-        return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j), "C")
+        return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j))
       }else{
         deployment.vector.updated.i = deploy_the_chosen_insecticide(insecticide.to.deploy = NA,
                                                                     deployment.frequency = 1,
@@ -104,7 +104,7 @@ irm_strategy_micromosaics_partial_rotation = function(number.of.insecticides,
                                                                     deployment.frequency = 1,
                                                                     deployment.vector = deployment.vector.j)
 
-        return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j), "D")
+        return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j))
       }
     }
   }
