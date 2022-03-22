@@ -20,12 +20,19 @@ wrapper_run_simulation_singles = function(insecticide.parameters.df,
                                   calc.withdrawal.threshold,
                                   calc.return.threshold,
                                   available.vector,
-                                  withdrawn.vector){
+                                  withdrawn.vector,
+                                  min.cross.selection,
+                                  max.cross.selection){
 
   deployed.insecticide = rep(1, times = deployment.frequency)#Always start with insecticide 1.
   #This is fine as all insecticides have equivalent properties.
 
 
+  ##Make the cross selection matrix
+
+  cross.selection.matrix = make_cross_selection_matrix(number.of.insecticides = number.of.insecticides,
+                                                       min.cross.selection = min.cross.selection,
+                                                       max.cross.selection = max.cross.selection)
 
   #The first insecticide deployed is always insecticide 1
   insecticide.efficacy.vector = create_insecticide_efficacy_vector(applied.insecticide.dose = insecticide.parameters.df[1,2],
@@ -97,6 +104,8 @@ wrapper_run_simulation_singles = function(insecticide.parameters.df,
 
         if(insecticide != deployed.insecticide[generation]){
 
+          cross.selection.j.i = cross.selection.matrix[deployed.insecticide[generation], insecticide]
+
           tracked.resistance = multiple_gonotrophic_cycles_singles_dispersal_not_deployed(intervention.trait.mean.i = sim.array['intervention', insecticide, generation-1],
                                                                                           intervention.trait.mean.j = sim.array['intervention', deployed.insecticide[generation], generation-1],
                                                                                           refugia.trait.mean.i = sim.array['refugia', insecticide, generation-1],
@@ -136,7 +145,8 @@ wrapper_run_simulation_singles = function(insecticide.parameters.df,
                                                                                           maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
                                                                                           regression.coefficient = regression.coefficient,
                                                                                           regression.intercept = regression.intercept,
-                                                                                          current.insecticide.efficacy.j = insecticide.efficacy.vector[generation])
+                                                                                          current.insecticide.efficacy.j = insecticide.efficacy.vector[generation],
+                                                                                          cross.selection.j.i = cross.selection.j.i)
           sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]
           sim.array['refugia', insecticide, generation] = tracked.resistance[[2]]
 

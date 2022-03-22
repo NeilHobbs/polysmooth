@@ -21,7 +21,12 @@ wrapper_run_simulation_singles_sd_scaled = function(insecticide.parameters.df,
                                                     available.vector,
                                                     withdrawn.vector,
                                                     z.sd.intercept,
-                                                    z.sd.coefficient){
+                                                    z.sd.coefficient,
+                                                    min.cross.selection,
+                                                    max.cross.selection){
+
+
+
 
   deployed.insecticide = rep(1, times = deployment.frequency)#Always start with insecticide 1.
   #This is fine as all insecticides have equivalent properties.
@@ -39,6 +44,9 @@ wrapper_run_simulation_singles_sd_scaled = function(insecticide.parameters.df,
 
   insecticide.info = list(available.vector, withdrawn.vector, deployed.insecticide)
 
+  cross.selection.matrix = make_cross_selection_matrix(number.of.insecticides = number.of.insecticides,
+                                                       min.cross.selection = min.cross.selection,
+                                                       max.cross.selection = max.cross.selection)
 
   #Also worth considering turning the for generation and for insecticide loops into functions,
   #as the code is other wise very large and chunky and therefore complicated to edit and adapt.
@@ -101,6 +109,8 @@ wrapper_run_simulation_singles_sd_scaled = function(insecticide.parameters.df,
 
         if(insecticide != deployed.insecticide[generation]){
 
+          cross.selection.j.i = cross.selection.matrix[deployed.insecticide[generation], insecticide]
+
           tracked.resistance = multiple_gonotrophic_cycles_singles_dispersal_not_deployed_sd_scaled(intervention.trait.mean.i = sim.array['intervention', insecticide, generation-1],
                                                                                                     intervention.trait.mean.j = sim.array['intervention', deployed.insecticide[generation], generation-1],
                                                                                                     refugia.trait.mean.i = sim.array['refugia', insecticide, generation-1],
@@ -146,7 +156,8 @@ wrapper_run_simulation_singles_sd_scaled = function(insecticide.parameters.df,
                                                                                                     regression.intercept = regression.intercept,
                                                                                                     current.insecticide.efficacy.j = insecticide.efficacy.vector[generation],
                                                                                                     z.sd.coefficient = z.sd.coefficient,
-                                                                                                    z.sd.intercept = z.sd.intercept)
+                                                                                                    z.sd.intercept = z.sd.intercept,
+                                                                                                    cross.selection.j.i = cross.selection.j.i)
           sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]
           sim.array['refugia', insecticide, generation] = tracked.resistance[[2]]
 
