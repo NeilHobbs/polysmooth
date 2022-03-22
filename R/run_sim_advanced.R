@@ -48,7 +48,9 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                    z.sd.coefficient = 0.396678,
                                    mixture.strategy = "pyrethroid.plus",
                                    llin.insecticides,
-                                   irs.insecticides){
+                                   irs.insecticides,
+                                   min.cross.selection,
+                                   max.cross.selection){
 
 
   check_for_errors_and_warnings(coverage = coverage,
@@ -154,7 +156,9 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                             calc.withdrawal.threshold = calc.withdrawal.threshold,
                                                             calc.return.threshold = calc.return.threshold,
                                                             available.vector = available.vector,
-                                                            withdrawn.vector = withdrawn.vector)
+                                                            withdrawn.vector = withdrawn.vector,
+                                                            min.cross.selection = min.cross.selection,
+                                                            max.cross.selection = max.cross.selection)
 
       #convert to dataframe::
 
@@ -325,7 +329,9 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                                    available.vector = available.vector,
                                                                    withdrawn.vector = withdrawn.vector,
                                                                    z.sd.intercept = z.sd.intercept,
-                                                                   z.sd.coefficient = z.sd.coefficient)
+                                                                   z.sd.coefficient = z.sd.coefficient,
+                                                                   min.cross.selection = min.cross.selection,
+                                                                   max.cross.selection = max.cross.selection)
 
       #convert to dataframe::
 
