@@ -155,6 +155,17 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                             calc.return.threshold = calc.return.threshold,
                                                             available.vector = available.vector,
                                                             withdrawn.vector = withdrawn.vector)
+
+      #convert to dataframe::
+
+      simulation.df = convert_output_to_dataframe_singles(simulation.results = simulation.results,
+                                                          half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                          michaelis.menten.slope = michaelis.menten.slope,
+                                                          maximum.generations = maximum.generations,
+                                                          maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                          number.of.insecticides = number.of.insecticides)
+
+
     }#end of singles if statement
 
     if(irm.deployment.strategy == "mixtures"){
@@ -183,6 +194,16 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                             available.vector = available.vector,
                                                             withdrawn.vector = withdrawn.vector,
                                                             mixture.strategy = mixture.strategy)
+
+      #convert to dataframe::
+
+      simulation.df = convert_output_to_dataframe_mixtures(simulation.results = simulation.results,
+                                                          half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                          michaelis.menten.slope = michaelis.menten.slope,
+                                                          maximum.generations = maximum.generations,
+                                                          maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                          number.of.insecticides = number.of.insecticides)
+
     }#end of mixtures if statement
 
     if(irm.deployment.strategy == "micromosaics"){
@@ -212,6 +233,15 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                               return.threshold = calc.return.threshold,
                                                               available.vector = available.vector,
                                                               withdrawn.vector = withdrawn.vector)
+
+      #convert to dataframe::
+
+      simulation.df = convert_output_to_dataframe_micromosaics(simulation.results = simulation.results,
+                                                               half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                               michaelis.menten.slope = michaelis.menten.slope,
+                                                               maximum.generations = maximum.generations,
+                                                               maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                               number.of.insecticides = number.of.insecticides)
 
 
     } #end of micromosaics if statement
@@ -253,6 +283,14 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                                 available.vector = available.vector,
                                                                 withdrawn.vector = withdrawn.vector)
 
+      #convert to dataframe::
+
+      simulation.df = convert_output_to_dataframe_combinations(simulation.results = simulation.results,
+                                                               half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                               michaelis.menten.slope = michaelis.menten.slope,
+                                                               maximum.generations = maximum.generations,
+                                                               maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                               number.of.insecticides = number.of.insecticides)
 
 
     } #end of combinations if statement
@@ -288,6 +326,16 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                                    withdrawn.vector = withdrawn.vector,
                                                                    z.sd.intercept = z.sd.intercept,
                                                                    z.sd.coefficient = z.sd.coefficient)
+
+      #convert to dataframe::
+
+      simulation.df = convert_output_to_dataframe_singles(simulation.results = simulation.results,
+                                                          half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                          michaelis.menten.slope = michaelis.menten.slope,
+                                                          maximum.generations = maximum.generations,
+                                                          maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                          number.of.insecticides = number.of.insecticides)
+
     }#end of singles if statement
 
     if(irm.deployment.strategy == "mixtures"){
@@ -316,6 +364,16 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                                       available.vector = available.vector,
                                                                       withdrawn.vector = withdrawn.vector,
                                                                       mixture.strategy = mixture.strategy)
+
+      #convert to dataframe::
+
+      simulation.df = convert_output_to_dataframe_mixtures(simulation.results = simulation.results,
+                                                          half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                          michaelis.menten.slope = michaelis.menten.slope,
+                                                          maximum.generations = maximum.generations,
+                                                          maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                          number.of.insecticides = number.of.insecticides)
+
     }#end of mixtures if statement
 
     if(irm.deployment.strategy == "micromosaics"){
@@ -348,6 +406,14 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                                         return.threshold = calc.return.threshold)
 
 
+      #convert to dataframe::
+
+      simulation.df = convert_output_to_dataframe_micromosaics(simulation.results = simulation.results,
+                                                               half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                               michaelis.menten.slope = michaelis.menten.slope,
+                                                               maximum.generations = maximum.generations,
+                                                               maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                               number.of.insecticides = number.of.insecticides)
 
     } #end of micromosaics if statement
 
@@ -388,6 +454,15 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                                           return.threshold = calc.return.threshold,
                                                                           available.vector = available.vector,
                                                                           withdrawn.vector = withdrawn.vector)
+      #convert to dataframe::
+
+      simulation.df = convert_output_to_dataframe_combinations(simulation.results = simulation.results,
+                                                               half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                               michaelis.menten.slope = michaelis.menten.slope,
+                                                               maximum.generations = maximum.generations,
+                                                               maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                               number.of.insecticides = number.of.insecticides)
+
 
     } #end of combinations if statement
 
@@ -395,6 +470,6 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
 
   }#sd.scaled = TRUE end
 
-  return(simulation.results)
+  return(simulation.df)
 
 }
