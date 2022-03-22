@@ -47,7 +47,6 @@ wrapper_run_simulation_combinations = function(insecticide.parameters.df,
                                                regression.coefficient,
                                                regression.intercept,
                                                n.cycles,
-                                               deployment.frequency,
                                                deployment.interval.llin,
                                                deployment.interval.irs,
                                                probability.only.i.male,
@@ -91,7 +90,7 @@ wrapper_run_simulation_combinations = function(insecticide.parameters.df,
                                                                          deployment.frequency = deployment.interval.irs)
 
 
-  which.insecticide.is.llin = rep(1, deployment.interval.llin)
+  which.insecticide.is.llin = rep(1, maximum.generations) #no changes made to LLIN so just have deployed continuously for now
   which.insecticide.is.irs = rep(2, deployment.interval.irs)
 
   for(generation in 2:maximum.generations){
@@ -397,43 +396,43 @@ wrapper_run_simulation_combinations = function(insecticide.parameters.df,
 
     }
 
+    ##Insecticide Deployment Switching Section::::::::
     if(generation < maximum.generations){
       if(generation %% deployment.interval.irs == 0){
-        if(irm.switch.strategy == "irs.rotation"){
-          update.insecticide.info = irm_strategy_combinations_rotate_irs(
-            number.of.insecticides = number.of.insecticides,
-            current.generation = generation,
-            withdrawal.threshold = calc.withdrawal.threshold,
-            return.threshold = calc.return.threshold,
-            simulation.array = sim.array,
-            available.vector = available.vector,
-            withdrawn.vector = withdrawn.vector,
-            current.irs.insecticide = which.insecticide.is.irs[generation],
-            deployment.vector = which.insecticide.is.irs,
-            irs.insecticides = irs.insecticides,
-            deployment.interval.irs = deployment.interval.irs)}else(
-          if(irm.switch.strategy == "irs.sequence"){
-            update.insecticide.info = irm_strategy_combinations_sequence_irs(
-              number.of.insecticides = number.of.insecticides,
-              current.generation = generation,
-              withdrawal.threshold = calc.withdrawal.threshold,
-              return.threshold = calc.return.threshold,
-              simulation.array = sim.array,
-              available.vector = available.vector,
-              withdrawn.vector = withdrawn.vector,
-              current.irs.insecticide = which.insecticide.is.irs[generation],
-              deployment.vector = which.insecticide.is.irs,
-              irs.insecticides = irs.insecticides,
-              deployment.interval.irs = deployment.interval.irs)
-          })
+        if(irm.switch.strategy == "rotate.irs"){
+          update.deployment.info = irm_strategy_combinations_rotate_irs(number.of.insecticides = number.of.insecticides,
+                                                                                   irs.insecticides = irs.insecticides,
+                                                                                   available.vector = available.vector,
+                                                                                   withdrawn.vector = withdrawn.vector,
+                                                                                   withdrawal.threshold = withdrawal.threshold,
+                                                                                   return.threshold = return.threshold,
+                                                                                   current.generation = generation,
+                                                                                   simulation.array = sim.array,
+                                                                                   current.irs.insecticide = which.insecticide.is.irs[generation],
+                                                                                   deployment.vector = which.insecticide.is.irs,
+                                                                                   deployment.interval.irs = deployment.interval.irs)} else{
+                                                                                if(irm.switch.strategy == "sequence.irs"){
+                                                                                  update.deployment.info = irm_strategy_combinations_sequence_irs(number.of.insecticides = number.of.insecticides,
+                                                                                                                                                  irs.insecticides = irs.insecticides,
+                                                                                                                                                  available.vector = available.vector,
+                                                                                                                                                  withdrawn.vector = withdrawn.vector,
+                                                                                                                                                  withdrawal.threshold = withdrawal.threshold,
+                                                                                                                                                  return.threshold = return.threshold,
+                                                                                                                                                  current.generation = generation,
+                                                                                                                                                  simulation.array = sim.array,
+                                                                                                                                                  current.irs.insecticide = which.insecticide.is.irs[generation],
+                                                                                                                                                  deployment.vector = which.insecticide.is.irs,
+                                                                                                                                                  deployment.interval.irs = deployment.interval.irs)
+                                                                                }
+      }
 
         #update.insectide.info[[1]] is the vector of the available insecticides
         #update.insecticide.info[[2]] is the vector of the withdrawn insecticides
         #update.insecticide.info[[3]] is the vector of the whole deployment =c(previous.deployment, new.deployment)
 
-      if(generation %% deployment.interval.irs == 0){available.vector = update.insecticide.info[[1]]}
-      if(generation %% deployment.interval.irs == 0){withdrawn.vector = update.insecticide.info[[2]]}
-      if(generation %% deployment.interval.irs == 0){which.insecticide.is.irs = update.insecticide.info[[3]]}
+      if(generation %% deployment.interval.irs == 0){available.vector = update.deployment.info[[1]]}
+      if(generation %% deployment.interval.irs == 0){withdrawn.vector = update.deployment.info[[2]]}
+      if(generation %% deployment.interval.irs == 0){which.insecticide.is.irs = update.deployment.info[[3]]}
       if(generation %% deployment.interval.irs == 0){current.irs = which.insecticide.is.irs[generation+1]}
       if(generation %% deployment.interval.irs == 0){insecticide.efficacy.vector.irs = c(insecticide.efficacy.vector.irs,
                                                                                   create_insecticide_efficacy_vector(applied.insecticide.dose = insecticide.parameters.df[current.irs, 2],
@@ -451,7 +450,8 @@ wrapper_run_simulation_combinations = function(insecticide.parameters.df,
                                                                                                                          threshold.generations = insecticide.parameters.df[1, 4],
                                                                                                                          base.efficacy.decay.rate = insecticide.parameters.df[1, 5],
                                                                                                                          rapid.decay.rate = insecticide.parameters.df[1, 6],
-                                                                                                                         deployment.frequency = deployment.interval.llin))}
+                                                                                                                         deployment.frequency = deployment.interval.llin))
+}
       }
 
 

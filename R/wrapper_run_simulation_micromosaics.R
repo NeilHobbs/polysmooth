@@ -201,61 +201,67 @@ wrapper_run_simulation_micromosaics = function(insecticide.parameters.df,
     }#end insecticide loop
 
     ##Insecticide Deployment Switching Section::::::::
-if(generation < maximum.generations){
-  if(generation %% deployment.frequency == 0){
-    if(irm.switch.strategy == "partial.rotation"){
-      update.deployment.info = irm_strategy_micromosaics_partial_rotation(number.of.insecticides = number.of.insecticides,
-                                                                          current.generation = generation,
-                                                                          withdrawal.threshold = withdrawal.threshold,
-                                                                          return.threshold  = return.threshold,
-                                                                          simulation.array = sim.array,
-                                                                          available.vector = available.vector,
-                                                                          withdrawn.vector = withdrawn.vector,
-                                                                          deployed.insecticide.i = deployed.vector.1[generation],
-                                                                          deployed.insecticide.j = deployed.vector.2[generation],
-                                                                          deployment.vector.i = deployed.vector.1,
-                                                                          deployment.vector.j = deployed.vector.2)
-    }else{
-    if(irm.switch.strategy == "full.rotation"){
-      update.deployment.info = irm_strategy_micromosaics_full_rotation(number.of.insecticides = number.of.insecticides,
-                                                                          current.generation = generation,
-                                                                          withdrawal.threshold = withdrawal.threshold,
-                                                                          return.threshold  = return.threshold,
-                                                                          simulation.array = sim.array,
-                                                                          available.vector = available.vector,
-                                                                          withdrawn.vector = withdrawn.vector,
-                                                                          deployed.insecticide.i = deployed.vector.1[generation],
-                                                                          deployed.insecticide.j = deployed.vector.2[generation],
-                                                                          deployment.vector.i = deployed.vector.1,
-                                                                          deployment.vector.j = deployed.vector.2)
-    }else{
-    if(irm.switch.strategy == "sequence"){
-      update.deployment.info = irm_strategy_micromosaics_sequence(number.of.insecticides = number.of.insecticides,
-                                                                       current.generation = generation,
-                                                                       withdrawal.threshold = withdrawal.threshold,
-                                                                       return.threshold  = return.threshold,
-                                                                       simulation.array = sim.array,
-                                                                       available.vector = available.vector,
-                                                                       withdrawn.vector = withdrawn.vector,
-                                                                       deployed.insecticide.i = deployed.vector.1[generation],
-                                                                       deployed.insecticide.j = deployed.vector.2[generation],
-                                                                       deployment.vector.i = deployed.vector.1,
-                                                                       deployment.vector.j = deployed.vector.2)
-    }else{
-    if(irm.switch.strategy == "rotate.expensive"){
-      update.deployment.info = irm_strategy_micromosaics_rotate_expensive(number.of.insecticides = number.of.insecticides,
-                                                                       current.generation = generation,
-                                                                       withdrawal.threshold = withdrawal.threshold,
-                                                                       return.threshold  = return.threshold,
-                                                                       simulation.array = sim.array,
-                                                                       available.vector = available.vector,
-                                                                       withdrawn.vector = withdrawn.vector,
-                                                                       deployed.insecticide.i = deployed.vector.1[generation],
-                                                                       deployed.insecticide.j = deployed.vector.2[generation],
-                                                                       deployment.vector.i = deployed.vector.1,
-                                                                       deployment.vector.j = deployed.vector.2)
-    }}}}
-}
+    if(generation < maximum.generations){
+      if(generation %% deployment.frequency == 0){
+        if(irm.switch.strategy == "partial.rotation"){
+          update.deployment.info = irm_strategy_micromosaics_partial_rotation(number.of.insecticides = number.of.insecticides,
+                                                                              current.generation = generation,
+                                                                              withdrawal.threshold = withdrawal.threshold,
+                                                                              return.threshold = return.threshold,
+                                                                              simulation.array = sim.array,
+                                                                              available.vector = available.vector,
+                                                                              withdrawn.vector = withdrawn.vector,
+                                                                              deployment.frequency = deployment.frequency,
+                                                                              deployed.insecticide.i = deployed.vector.1[generation],
+                                                                              deployed.insecticide.j = deployed.vector.2[generation],
+                                                                              deployment.vector.i = deployed.vector.1,
+                                                                              deployment.vector.j = deployed.vector.2)} else{
+                                                                      if(irm.switch.strategy == "full.rotation"){
+                                                                        update.deployment.info = irm_strategy_micromosaics_full_rotation(number.of.insecticides = number.of.insecticides,
+                                                                                                                                            current.generation = generation,
+                                                                                                                                            withdrawal.threshold = withdrawal.threshold,
+                                                                                                                                            return.threshold = return.threshold,
+                                                                                                                                            simulation.array = sim.array,
+                                                                                                                                            available.vector = available.vector,
+                                                                                                                                            withdrawn.vector = withdrawn.vector,
+                                                                                                                                            deployment.frequency = deployment.frequency,
+                                                                                                                                            deployed.insecticide.i = deployed.vector.1[generation],
+                                                                                                                                            deployed.insecticide.j = deployed.vector.2[generation],
+                                                                                                                                            deployment.vector.i = deployed.vector.1,
+                                                                                                                                            deployment.vector.j = deployed.vector.2)
+                                                                      }else{
+                                                                        if(irm.switch.strategy == "rotate.expensive"){
+                                                                          update.deployment.info = irm_strategy_micromosaics_rotate_expensive(number.of.insecticides = number.of.insecticides,
+                                                                                                                                              current.generation = generation,
+                                                                                                                                              withdrawal.threshold = withdrawal.threshold,
+                                                                                                                                              return.threshold = return.threshold,
+                                                                                                                                              simulation.array = sim.array,
+                                                                                                                                              available.vector = available.vector,
+                                                                                                                                              withdrawn.vector = withdrawn.vector,
+                                                                                                                                              deployment.frequency = deployment.frequency,
+                                                                                                                                              deployed.insecticide.i = deployed.vector.1[generation],
+                                                                                                                                              deployed.insecticide.j = deployed.vector.2[generation],
+                                                                                                                                              deployment.vector.i = deployed.vector.1,
+                                                                                                                                              deployment.vector.j = deployed.vector.2)
+                                                                        }else{
+                                                                          if(irm.switch.strategy == "sequence"){
+                                                                            update.deployment.info = irm_strategy_micromosaics_sequence(number.of.insecticides = number.of.insecticides,
+                                                                                                                                        current.generation = generation,
+                                                                                                                                        withdrawal.threshold = withdrawal.threshold,
+                                                                                                                                        return.threshold = return.threshold,
+                                                                                                                                        simulation.array = sim.array,
+                                                                                                                                        available.vector = available.vector,
+                                                                                                                                        withdrawn.vector = withdrawn.vector,
+                                                                                                                                        deployment.frequency = deployment.frequency,
+                                                                                                                                        deployed.insecticide.i = deployed.vector.1[generation],
+                                                                                                                                        deployed.insecticide.j = deployed.vector.2[generation],
+                                                                                                                                        deployment.vector.i = deployed.vector.1,
+                                                                                                                                        deployment.vector.j = deployed.vector.2)
+                                                                          }}
+                                                                      }
+                                                                    }
+
+      }
 
   if(generation %% deployment.frequency == 0){available.vector = update.deployment.info[[1]]}
   if(generation %% deployment.frequency == 0){withdrawn.vector = update.deployment.info[[2]]}
