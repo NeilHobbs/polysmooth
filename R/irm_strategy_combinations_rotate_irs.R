@@ -5,7 +5,6 @@
 
 irm_strategy_combinations_rotate_irs = function(number.of.insecticides,
                                                 irs.insecticides,
-                                                deployment.frequency.irs,
                                                 available.vector,
                                                 withdrawn.vector,
                                                 withdrawal.threshold,
