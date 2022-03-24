@@ -31,7 +31,9 @@ multiple_gonotrophic_cycles_mixture_dispersal_not_deployed = function(interventi
                                                                       regression.coefficient,
                                                                       regression.intercept,
                                                                       current.insecticide.efficacy.i,
-                                                                      current.insecticide.efficacy.j){
+                                                                      current.insecticide.efficacy.j,
+                                                                      cross.selection.i.k,
+                                                                      cross.selection.j.k){
 
   #Step 1: create the Normal Distributions:::
   #Insecticide i: emerge in intervention:
@@ -527,8 +529,8 @@ multiple_gonotrophic_cycles_mixture_dispersal_not_deployed = function(interventi
     #of which from "intervention" females:
     N.int.in.ref.tracked  = sum(unlist(int.number.in.ref.tracked ))
 
-    av.ref.in.ref.response.tracked  = sum((unlist(ref.response.in.ref.tracked ) * (unlist(ref.number.in.ref.tracked )/N.ref.in.ref.tracked )))
-    av.int.in.ref.response.tracked  = sum((unlist(int.response.in.ref.tracked ) * (unlist(int.number.in.ref.tracked )/N.int.in.ref.tracked )))
+    av.ref.in.ref.response.tracked  = sum(((unlist(ref.response.in.ref.tracked ) + (cross.selection.i.k * ref.response.in.ref.i) + (cross.selection.j.k * ref.response.in.ref.j)) * (unlist(ref.number.in.ref.tracked )/N.ref.in.ref.tracked )))
+    av.int.in.ref.response.tracked  = sum(((unlist(int.response.in.ref.tracked ) + (cross.selection.i.k * int.response.in.ref.i) + (cross.selection.j.k * int.response.in.ref.j)) * (unlist(int.number.in.ref.tracked )/N.int.in.ref.tracked )))
 
     final.ref.mean.tracked  = ((N.ref.in.ref.tracked  * (refugia.trait.mean.tracked  + av.ref.in.ref.response.tracked )) +
                                  (N.int.in.ref.tracked  * (intervention.trait.mean.tracked  + av.int.in.ref.response.tracked )))/(N.total.ref.tracked )
@@ -543,8 +545,8 @@ multiple_gonotrophic_cycles_mixture_dispersal_not_deployed = function(interventi
     #of which from "intervention" females:
     N.int.in.int.tracked  = sum(unlist(int.number.in.int.tracked ))
 
-    av.int.in.int.response.tracked  = sum((unlist(int.response.in.int.tracked ) * (unlist(int.number.in.int.tracked )/N.int.in.int.tracked )))
-    av.ref.in.int.response.tracked  = sum((unlist(ref.response.in.int.tracked ) * (unlist(ref.number.in.int.tracked )/N.ref.in.int.tracked )))
+    av.int.in.int.response.tracked  = sum(((unlist(int.response.in.int.tracked ) + (cross.selection.i.k * int.response.in.int.i) + (cross.selection.j.k * int.response.in.int.j)) * (unlist(int.number.in.int.tracked )/N.int.in.int.tracked )))
+    av.ref.in.int.response.tracked  = sum(((unlist(ref.response.in.int.tracked ) + (cross.selection.i.k * ref.response.in.int.i) + (cross.selection.j.k * ref.response.in.int.j)) * (unlist(ref.number.in.int.tracked )/N.ref.in.int.tracked )))
 
     final.int.mean.tracked  = ((N.int.in.int.tracked  * (intervention.trait.mean.tracked  + av.int.in.int.response.tracked )) +
                                  (N.ref.in.int.tracked  * (refugia.trait.mean.tracked  + av.ref.in.int.response.tracked )))/(N.total.int.tracked )
@@ -730,7 +732,7 @@ multiple_gonotrophic_cycles_mixture_dispersal_not_deployed = function(interventi
 
     N.int.in.int.tracked = sum(unlist(int.number.in.int.tracked))
 
-    av.int.in.int.response.tracked = sum((unlist(int.response.in.int.tracked) * (unlist(int.number.in.int.tracked)/N.int.in.int.tracked)))
+    av.int.in.int.response.tracked = sum(((unlist(int.response.in.int.tracked) + (cross.selection.i.k * int.response.in.int.i) + (cross.selection.j.k * int.response.in.int.j))* (unlist(int.number.in.int.tracked)/N.int.in.int.tracked)))
 
     final.int.mean.tracked = intervention.trait.mean.tracked + av.int.in.int.response.tracked
 
