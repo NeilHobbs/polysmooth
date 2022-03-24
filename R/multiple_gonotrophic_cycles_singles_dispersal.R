@@ -253,6 +253,13 @@ multiple_gonotrophic_cycles_singles_dispersal = function(intervention.trait.mean
 
     final.int.mean.i = intervention.trait.mean.i + av.int.in.int.response.i
 
+    final.ref.mean.i = ifelse(final.ref.mean.i < 0,
+                              yes = 0,
+                              no = final.ref.mean.i)
+
+    final.int.mean.i = ifelse(final.int.mean.i < 0,
+                              yes = 0,
+                              no = final.int.mean.i)
 
     return(list(final.int.mean.i, final.ref.mean.i))
   }
