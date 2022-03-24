@@ -57,7 +57,6 @@ wrapper_run_simulation_singles = function(insecticide.parameters.df,
       for(insecticide in 1:number.of.insecticides){ #track the resistance intensity for each insecticide
         ##                                                   #ask whether insecticide is the same as deployed insecticide
 
-
         if(insecticide == deployed.insecticide[generation]){
 
           #The inclusion of the population suppression as a result of insecticidal deployment is causing some weird problems - appears to be restting to 0 after each new deployment.
@@ -95,12 +94,12 @@ wrapper_run_simulation_singles = function(insecticide.parameters.df,
                                                                              regression.intercept = regression.intercept,
                                                                              current.insecticide.efficacy.i = insecticide.efficacy.vector[generation])
 
+          #Update to give the means of the next generation
 
+          sim.array['intervention', insecticide, generation] = tracked.resistance[[1]] #[[1]] is intervention
+          sim.array['refugia', insecticide, generation] = tracked.resistance[[2]]     #[[2]] is refugia
 
-          sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]
-          sim.array['refugia', insecticide, generation] = tracked.resistance[[2]]
-
-        }
+        } else{
 
         if(insecticide != deployed.insecticide[generation]){
 
@@ -152,7 +151,7 @@ wrapper_run_simulation_singles = function(insecticide.parameters.df,
 
 
           #end insecticide not deployed
-        }
+        }}
         #NEED TO FIGURE OUT A WAY TO MAKE ALL THIS LESS MESSY AND MORE READABLE!!!!!!!!!!!
       }#end of for insecticide loop
 
