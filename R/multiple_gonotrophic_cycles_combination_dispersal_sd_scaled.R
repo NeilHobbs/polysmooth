@@ -30,8 +30,10 @@ multiple_gonotrophic_cycles_combination_dispersal_sd_scaled = function(intervent
                                                              probability.only.i,
                                                              probability.only.j,
                                                              probability.both.i.j,
-                                                             z.sd.intercept = 24.8,
-                                                             z.sd.coefficient = 0.4){
+                                                             z.sd.intercept,
+                                                             z.sd.coefficient,
+                                                             cross.selection.i.j,
+                                                             cross.selection.j.i){
 
   #create the fitness cost selection differentials for females::
   calculate.female.fitness.cost.refugia.i  = female.fitness.cost.i * (sd_changes_with_z(current.z = refugia.trait.mean.i,
@@ -450,9 +452,8 @@ multiple_gonotrophic_cycles_combination_dispersal_sd_scaled = function(intervent
     #of which from "intervention" females:
     N.int.in.ref.i = sum(unlist(int.number.in.ref.i))
 
-    av.ref.in.ref.response.i = sum((unlist(ref.response.in.ref.i) * (unlist(ref.number.in.ref.i)/N.ref.in.ref.i)))
-    av.int.in.ref.response.i = sum((unlist(int.response.in.ref.i) * (unlist(int.number.in.ref.i)/N.int.in.ref.i)))
-
+    av.ref.in.ref.response.i = sum(((unlist(ref.response.in.ref.i) + (cross.selection.j.i * unlist(ref.response.in.ref.j)))* (unlist(ref.number.in.ref.i)/N.ref.in.ref.i)))
+    av.int.in.ref.response.i = sum(((unlist(int.response.in.ref.i) + (cross.selection.j.i * unlist(int.response.in.ref.j)))* (unlist(int.number.in.ref.i)/N.int.in.ref.i)))
 
     final.ref.mean.i = ((N.ref.in.ref.i * (refugia.trait.mean.i + av.ref.in.ref.response.i)) +
                           (N.int.in.ref.i * (intervention.trait.mean.i + av.int.in.ref.response.i)))/(N.total.ref.i)
@@ -467,9 +468,8 @@ multiple_gonotrophic_cycles_combination_dispersal_sd_scaled = function(intervent
     #of which from "intervention" females:
     N.int.in.int.i = sum(unlist(int.number.in.int.i))
 
-    av.int.in.int.response.i = sum((unlist(int.response.in.int.i) * (unlist(int.number.in.int.i)/N.int.in.int.i)))
-    av.ref.in.int.response.i = sum((unlist(ref.response.in.int.i) * (unlist(ref.number.in.int.i)/N.ref.in.int.i)))
-
+    av.int.in.int.response.i = sum(((unlist(int.response.in.int.i) + (cross.selection.j.i * unlist(int.response.in.int.j))) * (unlist(int.number.in.int.i)/N.int.in.int.i)))
+    av.ref.in.int.response.i = sum(((unlist(ref.response.in.int.i) + (cross.selection.j.i * unlist(ref.response.in.int.j))) * (unlist(ref.number.in.int.i)/N.ref.in.int.i)))
 
     final.int.mean.i = ((N.int.in.int.i * (intervention.trait.mean.i + av.int.in.int.response.i)) +
                           (N.ref.in.int.i * (refugia.trait.mean.i + av.ref.in.int.response.i)))/(N.total.int.i)
@@ -486,8 +486,8 @@ multiple_gonotrophic_cycles_combination_dispersal_sd_scaled = function(intervent
     #of which from "intervention" females:
     N.int.in.ref.j = sum(unlist(int.number.in.ref.j))
 
-    av.ref.in.ref.response.j = sum((unlist(ref.response.in.ref.j) * (unlist(ref.number.in.ref.j)/N.ref.in.ref.j)))
-    av.int.in.ref.response.j = sum((unlist(int.response.in.ref.j) * (unlist(int.number.in.ref.j)/N.int.in.ref.j)))
+    av.ref.in.ref.response.j = sum(((unlist(ref.response.in.ref.j) + (cross.selection.i.j * unlist(ref.response.in.ref.i)))* (unlist(ref.number.in.ref.j)/N.ref.in.ref.j)))
+    av.int.in.ref.response.j = sum(((unlist(int.response.in.ref.j) + (cross.selection.i.j * unlist(int.response.in.ref.i)))* (unlist(int.number.in.ref.i)/N.int.in.ref.j)))
 
     final.ref.mean.j = ((N.ref.in.ref.j * (refugia.trait.mean.j + av.ref.in.ref.response.j)) +
                           (N.int.in.ref.j * (intervention.trait.mean.j + av.int.in.ref.response.j)))/(N.total.ref.j)
@@ -502,12 +502,12 @@ multiple_gonotrophic_cycles_combination_dispersal_sd_scaled = function(intervent
     #of which from "intervention" females:
     N.int.in.int.j = sum(unlist(int.number.in.int.j))
 
-    av.int.in.int.response.j = sum((unlist(int.response.in.int.j) * (unlist(int.number.in.int.j)/N.int.in.int.j)))
-    av.ref.in.int.response.j = sum((unlist(ref.response.in.int.j) * (unlist(ref.number.in.int.j)/N.ref.in.int.j)))
+    av.int.in.int.response.j = sum(((unlist(int.response.in.int.j) + (cross.selection.i.j * unlist(int.response.in.int.i)))* (unlist(int.number.in.int.j)/N.int.in.int.j)))
+    av.ref.in.int.response.j = sum(((unlist(ref.response.in.int.j) + (cross.selection.i.j * unlist(ref.response.in.int.i)))* (unlist(ref.number.in.int.j)/N.ref.in.int.j)))
+
 
     final.int.mean.j = ((N.int.in.int.j * (intervention.trait.mean.j + av.int.in.int.response.j)) +
                           (N.ref.in.int.j * (refugia.trait.mean.j + av.ref.in.int.response.j)))/(N.total.int.j)
-
 
 
     return(list(final.int.mean.i, final.ref.mean.i, final.int.mean.j, final.ref.mean.j))
@@ -627,7 +627,7 @@ multiple_gonotrophic_cycles_combination_dispersal_sd_scaled = function(intervent
     #of which from "intervention" females:
     N.int.in.int.i = sum(unlist(int.number.in.int.i))
 
-    av.int.in.int.response.i = sum((unlist(int.response.in.int.i) * (unlist(int.number.in.int.i)/N.int.in.int.i)))
+    av.int.in.int.response.i = sum(((unlist(int.response.in.int.i) + (cross.selection.j.i * unlist(int.response.in.int.j)))* (unlist(int.number.in.int.i)/N.int.in.int.i)))
 
     final.int.mean.i = intervention.trait.mean.i + av.int.in.int.response.i
 
@@ -642,9 +642,10 @@ multiple_gonotrophic_cycles_combination_dispersal_sd_scaled = function(intervent
     #of which from "intervention" females:
     N.int.in.int.j = sum(unlist(int.number.in.int.j))
 
-    av.int.in.int.response.j = sum((unlist(int.response.in.int.j) * (unlist(int.number.in.int.j)/N.int.in.int.j)))
+    av.int.in.int.response.j = sum(((unlist(int.response.in.int.j) + (cross.selection.i.j * unlist(int.response.in.int.i)))* (unlist(int.number.in.int.j)/N.int.in.int.j)))
 
     final.int.mean.j = intervention.trait.mean.j + av.int.in.int.response.j
+
 
     #prevent mean PRS values falling below 0:::
 

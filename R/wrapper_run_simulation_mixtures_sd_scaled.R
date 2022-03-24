@@ -22,7 +22,14 @@ wrapper_run_simulation_mixtures_sd_scaled = function(insecticide.parameters.df,
                                            withdrawn.vector,
                                            z.sd.coefficient,
                                            z.sd.intercept,
-                                           mixture.strategy){
+                                           mixture.strategy,
+                                           min.cross.selection,
+                                           max.cross.selection){
+
+
+  cross.selection.matrix = make_cross_selection_matrix(number.of.insecticides = number.of.insecticides,
+                                                       min.cross.selection = min.cross.selection,
+                                                       max.cross.selection = max.cross.selection)
 
   mixture.df = select_mixing_stategy(mixture.strategy = mixture.strategy,
                                      number.of.insecticides = number.of.insecticides)
@@ -80,6 +87,8 @@ wrapper_run_simulation_mixtures_sd_scaled = function(insecticide.parameters.df,
                                               no = deployed.mixture$insecticide.efficacy.vector.part.2[generation])
 
 
+          cross.selection.i.j = cross.selection.matrix[insecticide, other.insecticide]
+          cross.selection.j.i = cross.selection.matrix[other.insecticide, insecticide]
 
           tracked.resistance =   multiple_gonotrophic_cycles_mixture_dispersal_sd_scaled(intervention.trait.mean.i = sim.array['intervention', insecticide, generation-1],
                                                                                          intervention.trait.mean.j = sim.array['intervention', other.insecticide, generation-1],
@@ -149,7 +158,9 @@ wrapper_run_simulation_mixtures_sd_scaled = function(insecticide.parameters.df,
                                                                                          regression.coefficient = regression.coefficient,
                                                                                          regression.intercept = regression.intercept,
                                                                                          current.insecticide.efficacy.i = tracked.insecticide.efficacy,
-                                                                                         current.insecticide.efficacy.j = other.insecticide.efficacy)
+                                                                                         current.insecticide.efficacy.j = other.insecticide.efficacy,
+                                                                                         cross.selection.i.j = cross.selection.i.j,
+                                                                                         cross.selection.j.i = cross.selection.j.i)
 
           sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]
           sim.array['refugia', insecticide, generation] = tracked.resistance[[2]]
@@ -158,6 +169,10 @@ wrapper_run_simulation_mixtures_sd_scaled = function(insecticide.parameters.df,
         if(insecticide != deployed.mixture$mixture.part.1[generation]&
            insecticide != deployed.mixture$mixture.part.2[generation]){
 
+
+          cross.selection.i.k = cross.selection.matrix[deployed.mixture$mixture.part.1[generation], insecticide]
+
+          cross.selection.j.k = cross.selection.matrix[deployed.mixture$mixture.part.2[generation], insecticide]
 
           tracked.resistance = multiple_gonotrophic_cycles_mixture_dispersal_not_deployed_sd_scaled(intervention.trait.mean.i = sim.array['intervention', deployed.mixture$mixture.part.1[generation], generation - 1],
                                                                                                     intervention.trait.mean.j = sim.array['intervention', deployed.mixture$mixture.part.2[generation], generation - 1],
@@ -236,7 +251,9 @@ wrapper_run_simulation_mixtures_sd_scaled = function(insecticide.parameters.df,
                                                                                                     regression.coefficient = regression.coefficient,
                                                                                                     regression.intercept = regression.intercept,
                                                                                                     current.insecticide.efficacy.i = deployed.mixture$insecticide.efficacy.vector.part.1[generation],
-                                                                                                    current.insecticide.efficacy.j = deployed.mixture$insecticide.efficacy.vector.part.2[generation])
+                                                                                                    current.insecticide.efficacy.j = deployed.mixture$insecticide.efficacy.vector.part.2[generation],
+                                                                                                    cross.selection.i.k = cross.selection.i.k,
+                                                                                                    cross.selection.j.k = cross.selection.j.k)
 
 
           sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]

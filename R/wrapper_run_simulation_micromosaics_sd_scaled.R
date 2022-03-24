@@ -23,7 +23,13 @@ wrapper_run_simulation_micromosaics_sd_scaled = function(insecticide.parameters.
                                                          withdrawn.vector,
                                                          intervention.coverage.1,
                                                          intervention.coverage.2,
-                                                         irm.switch.strategy){
+                                                         irm.switch.strategy,
+                                                         min.cross.selection,
+                                                         max.cross.selection){
+
+  cross.selection.matrix = make_cross_selection_matrix(number.of.insecticides = number.of.insecticides,
+                                                       min.cross.selection = min.cross.selection,
+                                                       max.cross.selection = max.cross.selection)
 
   #starts with insecticide 1
   deployed.vector.1 = rep(1, deployment.frequency)
@@ -71,7 +77,8 @@ wrapper_run_simulation_micromosaics_sd_scaled = function(insecticide.parameters.
         if(other.insecticide == deployed.vector.1[generation]){other.insecticide.efficacy = insecticide.efficacy.vector.1[generation]}
         if(other.insecticide == deployed.vector.2[generation]){other.insecticide.efficacy = insecticide.efficacy.vector.2[generation]}
 
-
+        cross.selection.i.j = cross.selection.matrix[insecticide, other.insecticide]
+        cross.selection.j.i = cross.selection.matrix[other.insecticide, insecticide]
 
 
         male.selection.differentials = perform_male_micromosaic_smooth_sd_scaled(insecticide.coverage.1 = tracked.coverage,
@@ -134,7 +141,9 @@ wrapper_run_simulation_micromosaics_sd_scaled = function(insecticide.parameters.
                                                                                          current.insecticide.efficacy.i = tracked.efficacy,
                                                                                          current.insecticide.efficacy.j = other.insecticide.efficacy,
                                                                                          coverage.i = tracked.coverage,
-                                                                                         coverage.j = other.coverage)
+                                                                                         coverage.j = other.coverage,
+                                                                                         cross.selection.i.j = cross.selection.i.j,
+                                                                                         cross.selection.j.i = cross.selection.j.i)
 
         sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]
         sim.array['refugia', insecticide, generation] = tracked.resistance[[2]]
@@ -142,6 +151,11 @@ wrapper_run_simulation_micromosaics_sd_scaled = function(insecticide.parameters.
       } #end if deployed
       if(insecticide != deployed.vector.1[generation] &
          insecticide != deployed.vector.2[generation]){
+
+
+      cross.selection.i.k = cross.selection.matrix[deployed.vector.1[generation], insecticide]
+      cross.selection.j.k = cross.selection.matrix[deployed.vector.2[generation], insecticide]
+
 
       male.insecticide.selection.differentials = perform_male_micromosaic_smooth_sd_scaled(insecticide.coverage.1 = tracked.coverage,
                                                   insecticide.coverage.2 = other.coverage,
@@ -215,7 +229,9 @@ wrapper_run_simulation_micromosaics_sd_scaled = function(insecticide.parameters.
                                                                                                      current.insecticide.efficacy.i = insecticide.efficacy.vector.1[generation],
                                                                                                      current.insecticide.efficacy.j = insecticide.efficacy.vector.2[generation],
                                                                                                      coverage.i = intervention.coverage.1,
-                                                                                                     coverage.j = intervention.coverage.2)
+                                                                                                     coverage.j = intervention.coverage.2,
+                                                                                                     cross.selection.i.k = cross.selection.i.k,
+                                                                                                     cross.selection.j.k = cross.selection.j.k)
 
 
         sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]

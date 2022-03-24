@@ -66,9 +66,13 @@ wrapper_run_simulation_combinations_sd_scaled = function(insecticide.parameters.
                                                withdrawal.threshold,
                                                return.threshold,
                                                available.vector,
-                                               withdrawn.vector){
+                                               withdrawn.vector,
+                                               min.cross.selection,
+                                               max.cross.selection){
 
-
+  cross.selection.matrix = make_cross_selection_matrix(number.of.insecticides = number.of.insecticides,
+                                                       min.cross.selection = min.cross.selection,
+                                                       max.cross.selection = max.cross.selection)
   #Starting conditions
 
   #The first insecticide deployed is always insecticide 1
@@ -100,6 +104,9 @@ wrapper_run_simulation_combinations_sd_scaled = function(insecticide.parameters.
       if(insecticide == which.insecticide.is.llin[generation]){#if the insecticide tracked is the LLIN insecticide
 
         insecticide.j = which.insecticide.is.irs[generation]
+
+        cross.selection.i.j = cross.selection.matrix[insecticide, insecticide.j]
+        cross.selection.j.i = cross.selection.matrix[insecticide.j, insecticide]
 
         male.insecticide.intervention.i =  perform_male_combination_insecticide_selection_differential_smooth_sd_scaled(coverage = coverage,
                                                                                                               coverage.i = intervention.coverage.llin,
@@ -150,8 +157,8 @@ wrapper_run_simulation_combinations_sd_scaled = function(insecticide.parameters.
                                                                     intervention.trait.mean.j = sim.array['intervention', insecticide.j, generation-1],
                                                                     refugia.trait.mean.i = sim.array['refugia', insecticide, generation-1],
                                                                     refugia.trait.mean.j = sim.array['refugia', insecticide.j, generation-1],
-                                                                    standard.deviation = standard.deviation,
-                                                                    vector.length = vector.length,
+                                                                    z.sd.intercept = z.sd.intercept,
+                                                                    z.sd.coefficient = z.sd.coefficient,                                                                    vector.length = vector.length,
                                                                     female.exposure = female.exposure,
                                                                     exposure.scaling.factor = exposure.scaling.factor,
                                                                     coverage = coverage,
@@ -192,7 +199,9 @@ wrapper_run_simulation_combinations_sd_scaled = function(insecticide.parameters.
                                                                     coverage.ij = intervention.coverage.llin.irs,
                                                                     probability.only.i = probability.only.i.female,
                                                                     probability.only.j = probability.only.j.female,
-                                                                    probability.both.i.j = probability.both.i.j.female)
+                                                                    probability.both.i.j = probability.both.i.j.female,
+                                                                    cross.selection.i.j = cross.selection.i.j,
+                                                                    cross.selection.j.i = cross.selection.j.i)
 
 
         sim.array['intervention', insecticide, generation] = tracked[[1]]
@@ -201,6 +210,9 @@ wrapper_run_simulation_combinations_sd_scaled = function(insecticide.parameters.
       if(insecticide == which.insecticide.is.irs[generation]){#if the insecticide tracked is the IRS insecticide
 
         insecticide.i = which.insecticide.is.llin[generation]
+
+        cross.selection.i.j = cross.selection.matrix[insecticide.i, insecticide]
+        cross.selection.j.i = cross.selection.matrix[insecticide, insecticide.i]
 
         male.insecticide.intervention.i =  perform_male_combination_insecticide_selection_differential_smooth_sd_scaled(coverage = coverage,
                                                                                                               coverage.i = intervention.coverage.llin,
@@ -251,8 +263,8 @@ wrapper_run_simulation_combinations_sd_scaled = function(insecticide.parameters.
                                                                     intervention.trait.mean.j = sim.array['intervention', insecticide, generation-1],
                                                                     refugia.trait.mean.i = sim.array['refugia', insecticide.i, generation-1],
                                                                     refugia.trait.mean.j = sim.array['refugia', insecticide, generation-1],
-                                                                    standard.deviation = standard.deviation,
-                                                                    vector.length = vector.length,
+                                                                    z.sd.intercept = z.sd.intercept,
+                                                                    z.sd.coefficient = z.sd.coefficient,                                                                    vector.length = vector.length,
                                                                     female.exposure = female.exposure,
                                                                     exposure.scaling.factor = exposure.scaling.factor,
                                                                     coverage = coverage,
@@ -295,7 +307,9 @@ wrapper_run_simulation_combinations_sd_scaled = function(insecticide.parameters.
                                                                     coverage.ij = intervention.coverage.llin.irs,
                                                                     probability.only.i = probability.only.i.female,
                                                                     probability.only.j = probability.only.j.female,
-                                                                    probability.both.i.j = probability.both.i.j.female)
+                                                                    probability.both.i.j = probability.both.i.j.female,
+                                                                    cross.selection.i.j = cross.selection.i.j,
+                                                                    cross.selection.j.i = cross.selection.j.i)
 
 
         sim.array['intervention', insecticide, generation] = tracked[[3]]
@@ -307,6 +321,9 @@ wrapper_run_simulation_combinations_sd_scaled = function(insecticide.parameters.
 
         insecticide.i = which.insecticide.is.llin[generation]
         insecticide.j = which.insecticide.is.irs[generation]
+
+        cross.selection.i.k = cross.selection.matrix[insecticide.i, insecticide]
+        cross.selection.j.k = cross.selection.matrix[insecticide.j, insecticide]
 
         male.insecticide.intervention.i =  perform_male_combination_insecticide_selection_differential_smooth_sd_scaled(coverage = coverage,
                                                                                                               coverage.i = intervention.coverage.llin,
@@ -417,7 +434,9 @@ wrapper_run_simulation_combinations_sd_scaled = function(insecticide.parameters.
                                                                                                                                                                                                         z.sd.coefficient = z.sd.coefficient) * insecticide.parameters.df$male.fitness.cost[insecticide])
                                                                                   ),
                                                                                   female.fitness.cost.tracked = insecticide.parameters.df$female.fitness.cost[insecticide],
-                                                                                  heritability.tracked = insecticide.parameters.df$heritability[insecticide]
+                                                                                  heritability.tracked = insecticide.parameters.df$heritability[insecticide],
+                                                                                  cross.selection.i.k = cross.selection.i.k,
+                                                                                  cross.selection.j.k = cross.selection.j.
         )
 
 

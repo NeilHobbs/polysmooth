@@ -35,7 +35,9 @@ multiple_gonotrophic_cycles_combinations_dispersal_not_deployed = function(inter
                                                                            probability.both.i.j,
                                                                            coverage.i,
                                                                            coverage.j,
-                                                                           coverage.ij){
+                                                                           coverage.ij,
+                                                                           cross.selection.i.j,
+                                                                           cross.selection.j.i){
 
 
   #Step 1: create the Normal Distributions:::
@@ -526,75 +528,6 @@ multiple_gonotrophic_cycles_combinations_dispersal_not_deployed = function(inter
 
       }
     }
-    #total eggs laid for Trait i in refugia
-    N.total.ref.i = sum(unlist(ref.number.in.ref.i), unlist(int.number.in.ref.i))
-
-    #of which from "refugia" females:
-    N.ref.in.ref.i = sum(unlist(ref.number.in.ref.i))
-
-    #of which from "intervention" females:
-    N.int.in.ref.i = sum(unlist(int.number.in.ref.i))
-
-    av.ref.in.ref.response.i = sum((unlist(ref.response.in.ref.i) * (unlist(ref.number.in.ref.i)/N.ref.in.ref.i)))
-    av.int.in.ref.response.i = sum((unlist(int.response.in.ref.i) * (unlist(int.number.in.ref.i)/N.int.in.ref.i)))
-
-
-    final.ref.mean.i = ((N.ref.in.ref.i * (refugia.trait.mean.i + av.ref.in.ref.response.i)) +
-                          (N.int.in.ref.i * (intervention.trait.mean.i + av.int.in.ref.response.i)))/(N.total.ref.i)
-
-
-    #total eggs laid for Trait i in intervention
-    N.total.int.i = sum(unlist(int.number.in.int.i), unlist(ref.number.in.int.i))
-
-    #of which from "refugia" females:
-    N.ref.in.int.i = sum(unlist(ref.number.in.int.i))
-
-    #of which from "intervention" females:
-    N.int.in.int.i = sum(unlist(int.number.in.int.i))
-
-    av.int.in.int.response.i = sum((unlist(int.response.in.int.i) * (unlist(int.number.in.int.i)/N.int.in.int.i)))
-    av.ref.in.int.response.i = sum((unlist(ref.response.in.int.i) * (unlist(ref.number.in.int.i)/N.ref.in.int.i)))
-
-
-    final.int.mean.i = ((N.int.in.int.i * (intervention.trait.mean.i + av.int.in.int.response.i)) +
-                          (N.ref.in.int.i * (refugia.trait.mean.i + av.ref.in.int.response.i)))/(N.total.int.i)
-
-
-
-    ###Repeat for Trait j:::
-    #total eggs laid for Trait i in refugia
-    N.total.ref.j = sum(unlist(ref.number.in.ref.j), unlist(int.number.in.ref.j))
-
-    #of which from "refugia" females:
-    N.ref.in.ref.j = sum(unlist(ref.number.in.ref.j))
-
-    #of which from "intervention" females:
-    N.int.in.ref.j = sum(unlist(int.number.in.ref.j))
-
-    av.ref.in.ref.response.j = sum((unlist(ref.response.in.ref.j) * (unlist(ref.number.in.ref.j)/N.ref.in.ref.j)))
-    av.int.in.ref.response.j = sum((unlist(int.response.in.ref.j) * (unlist(int.number.in.ref.j)/N.int.in.ref.j)))
-
-    final.ref.mean.j = ((N.ref.in.ref.j * (refugia.trait.mean.j + av.ref.in.ref.response.j)) +
-                          (N.int.in.ref.j * (intervention.trait.mean.j + av.int.in.ref.response.j)))/(N.total.ref.j)
-
-
-    #total eggs laid for Trait i in intervention
-    N.total.int.j = sum(unlist(int.number.in.int.j), unlist(ref.number.in.int.j))
-
-    #of which from "refugia" females:
-    N.ref.in.int.j = sum(unlist(ref.number.in.int.j))
-
-    #of which from "intervention" females:
-    N.int.in.int.j = sum(unlist(int.number.in.int.j))
-
-    av.int.in.int.response.j = sum((unlist(int.response.in.int.j) * (unlist(int.number.in.int.j)/N.int.in.int.j)))
-    av.ref.in.int.response.j = sum((unlist(ref.response.in.int.j) * (unlist(ref.number.in.int.j)/N.ref.in.int.j)))
-
-    final.int.mean.j = ((N.int.in.int.j * (intervention.trait.mean.j + av.int.in.int.response.j)) +
-                          (N.ref.in.int.j * (refugia.trait.mean.j + av.ref.in.int.response.j)))/(N.total.int.j)
-
-
-
     #repeat for tracked (not deployed) insecticide:::::;:
     #total eggs laid  in refugia
     N.total.ref.tracked = sum(unlist(ref.number.in.ref.tracked ), unlist(int.number.in.ref.tracked ))
@@ -605,11 +538,11 @@ multiple_gonotrophic_cycles_combinations_dispersal_not_deployed = function(inter
     #of which from "intervention" females:
     N.int.in.ref.tracked  = sum(unlist(int.number.in.ref.tracked ))
 
-    av.ref.in.ref.response.tracked  = sum((unlist(ref.response.in.ref.tracked ) * (unlist(ref.number.in.ref.tracked )/N.ref.in.ref.tracked )))
-    av.int.in.ref.response.tracked  = sum((unlist(int.response.in.ref.tracked ) * (unlist(int.number.in.ref.tracked )/N.int.in.ref.tracked )))
+    av.ref.in.ref.response.tracked  = sum(((unlist(ref.response.in.ref.tracked ) + (cross.selection.i.k * ref.response.in.ref.i) + (cross.selection.j.k * ref.response.in.ref.j)) * (unlist(ref.number.in.ref.tracked )/N.ref.in.ref.tracked )))
+    av.int.in.ref.response.tracked  = sum(((unlist(int.response.in.ref.tracked ) + (cross.selection.i.k * int.response.in.ref.i) + (cross.selection.j.k * int.response.in.ref.j)) * (unlist(int.number.in.ref.tracked )/N.int.in.ref.tracked )))
 
     final.ref.mean.tracked  = ((N.ref.in.ref.tracked  * (refugia.trait.mean.tracked  + av.ref.in.ref.response.tracked )) +
-                          (N.int.in.ref.tracked  * (intervention.trait.mean.tracked  + av.int.in.ref.response.tracked )))/(N.total.ref.tracked )
+                                 (N.int.in.ref.tracked  * (intervention.trait.mean.tracked  + av.int.in.ref.response.tracked )))/(N.total.ref.tracked )
 
 
     #total eggs laid for Trait i in intervention
@@ -621,11 +554,11 @@ multiple_gonotrophic_cycles_combinations_dispersal_not_deployed = function(inter
     #of which from "intervention" females:
     N.int.in.int.tracked  = sum(unlist(int.number.in.int.tracked ))
 
-    av.int.in.int.response.tracked  = sum((unlist(int.response.in.int.tracked ) * (unlist(int.number.in.int.tracked )/N.int.in.int.tracked )))
-    av.ref.in.int.response.tracked  = sum((unlist(ref.response.in.int.tracked ) * (unlist(ref.number.in.int.tracked )/N.ref.in.int.tracked )))
+    av.int.in.int.response.tracked  = sum(((unlist(int.response.in.int.tracked ) + (cross.selection.i.k * int.response.in.int.i) + (cross.selection.j.k * int.response.in.int.j)) * (unlist(int.number.in.int.tracked )/N.int.in.int.tracked )))
+    av.ref.in.int.response.tracked  = sum(((unlist(ref.response.in.int.tracked ) + (cross.selection.i.k * ref.response.in.int.i) + (cross.selection.j.k * ref.response.in.int.j)) * (unlist(ref.number.in.int.tracked )/N.ref.in.int.tracked )))
 
     final.int.mean.tracked  = ((N.int.in.int.tracked  * (intervention.trait.mean.tracked  + av.int.in.int.response.tracked )) +
-                          (N.ref.in.int.tracked  * (refugia.trait.mean.tracked  + av.ref.in.int.response.tracked )))/(N.total.int.tracked )
+                                 (N.ref.in.int.tracked  * (refugia.trait.mean.tracked  + av.ref.in.int.response.tracked )))/(N.total.int.tracked )
 
 
 
@@ -778,50 +711,50 @@ multiple_gonotrophic_cycles_combinations_dispersal_not_deployed = function(inter
 
       }
     }
-    final.ref.mean.i = 0
-
-    #total eggs laid for Trait i in intervention
-    N.total.int.i = sum(unlist(int.number.in.int.i))
-
-    #of which from "intervention" females:
-    N.int.in.int.i = sum(unlist(int.number.in.int.i))
-
-    av.int.in.int.response.i = sum((unlist(int.response.in.int.i) * (unlist(int.number.in.int.i)/N.int.in.int.i)))
-
-    final.int.mean.i = intervention.trait.mean.i + av.int.in.int.response.i
-
-
-    ###Repeat for Trait j:::
-
-    final.ref.mean.j = 0
-
-    #total eggs laid for Trait i in intervention
-    N.total.int.j = sum(unlist(int.number.in.int.j))
-
-    #of which from "intervention" females:
-    N.int.in.int.j = sum(unlist(int.number.in.int.j))
-
-    av.int.in.int.response.j = sum((unlist(int.response.in.int.j) * (unlist(int.number.in.int.j)/N.int.in.int.j)))
-
-    final.int.mean.j = intervention.trait.mean.j + av.int.in.int.response.j
-
-    #prevent mean PRS values falling below 0:::
-
-    final.ref.mean.i = ifelse(final.ref.mean.i < 0,
-                              yes = 0,
-                              no = final.ref.mean.i)
-
-    final.int.mean.i = ifelse(final.int.mean.i < 0,
-                              yes = 0,
-                              no = final.int.mean.i)
-
-    final.ref.mean.j = ifelse(final.ref.mean.j < 0,
-                              yes = 0,
-                              no = final.ref.mean.j)
-
-    final.int.mean.j = ifelse(final.int.mean.j < 0,
-                              yes = 0,
-                              no = final.int.mean.j)
+    # final.ref.mean.i = 0
+    #
+    # #total eggs laid for Trait i in intervention
+    # N.total.int.i = sum(unlist(int.number.in.int.i))
+    #
+    # #of which from "intervention" females:
+    # N.int.in.int.i = sum(unlist(int.number.in.int.i))
+    #
+    # av.int.in.int.response.i = sum((unlist(int.response.in.int.i) * (unlist(int.number.in.int.i)/N.int.in.int.i)))
+    #
+    # final.int.mean.i = intervention.trait.mean.i + av.int.in.int.response.i
+    #
+    #
+    # ###Repeat for Trait j:::
+    #
+    # final.ref.mean.j = 0
+    #
+    # #total eggs laid for Trait i in intervention
+    # N.total.int.j = sum(unlist(int.number.in.int.j))
+    #
+    # #of which from "intervention" females:
+    # N.int.in.int.j = sum(unlist(int.number.in.int.j))
+    #
+    # av.int.in.int.response.j = sum((unlist(int.response.in.int.j) * (unlist(int.number.in.int.j)/N.int.in.int.j)))
+    #
+    # final.int.mean.j = intervention.trait.mean.j + av.int.in.int.response.j
+    #
+    # #prevent mean PRS values falling below 0:::
+    #
+    # final.ref.mean.i = ifelse(final.ref.mean.i < 0,
+    #                           yes = 0,
+    #                           no = final.ref.mean.i)
+    #
+    # final.int.mean.i = ifelse(final.int.mean.i < 0,
+    #                           yes = 0,
+    #                           no = final.int.mean.i)
+    #
+    # final.ref.mean.j = ifelse(final.ref.mean.j < 0,
+    #                           yes = 0,
+    #                           no = final.ref.mean.j)
+    #
+    # final.int.mean.j = ifelse(final.int.mean.j < 0,
+    #                           yes = 0,
+    #                           no = final.int.mean.j)
 
 
     #And for Tracked insecticide:::
@@ -833,18 +766,17 @@ multiple_gonotrophic_cycles_combinations_dispersal_not_deployed = function(inter
 
     N.int.in.int.tracked = sum(unlist(int.number.in.int.tracked))
 
-    av.int.in.int.response.tracked = sum((unlist(int.response.in.int.tracked) * (unlist(int.number.in.int.tracked)/N.int.in.int.tracked)))
+    av.int.in.int.response.tracked = sum(((unlist(int.response.in.int.tracked) + (cross.selection.i.k * int.response.in.int.i) + (cross.selection.j.k * int.response.in.int.j))* (unlist(int.number.in.int.tracked)/N.int.in.int.tracked)))
 
     final.int.mean.tracked = intervention.trait.mean.tracked + av.int.in.int.response.tracked
 
     final.ref.mean.tracked = ifelse(final.ref.mean.tracked < 0,
-                              yes = 0,
-                              no = final.ref.mean.tracked)
+                                    yes = 0,
+                                    no = final.ref.mean.tracked)
 
     final.int.mean.tracked = ifelse(final.int.mean.tracked < 0,
-                              yes = 0,
-                              no = final.int.mean.tracked)
-
+                                    yes = 0,
+                                    no = final.int.mean.tracked)
 
     return(list(final.int.mean.tracked, final.ref.mean.tracked))
   }

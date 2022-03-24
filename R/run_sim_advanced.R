@@ -197,7 +197,9 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                             calc.return.threshold = calc.return.threshold,
                                                             available.vector = available.vector,
                                                             withdrawn.vector = withdrawn.vector,
-                                                            mixture.strategy = mixture.strategy)
+                                                            mixture.strategy = mixture.strategy,
+                                                            min.cross.selection = min.cross.selection,
+                                                            max.cross.selection = max.cross.selection)
 
       #convert to dataframe::
 
@@ -236,7 +238,9 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                               withdrawal.threshold = calc.withdrawal.threshold,
                                                               return.threshold = calc.return.threshold,
                                                               available.vector = available.vector,
-                                                              withdrawn.vector = withdrawn.vector)
+                                                              withdrawn.vector = withdrawn.vector,
+                                                              min.cross.selection = min.cross.selection,
+                                                              max.cross.selection = max.cross.selection)
 
       #convert to dataframe::
 
@@ -285,7 +289,9 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                                 withdrawal.threshold = calc.return.threshold,
                                                                 return.threshold = calc.return.threshold,
                                                                 available.vector = available.vector,
-                                                                withdrawn.vector = withdrawn.vector)
+                                                                withdrawn.vector = withdrawn.vector,
+                                                                min.cross.selection = min.cross.selection,
+                                                                max.cross.selection = max.cross.selection)
 
       #convert to dataframe::
 
@@ -369,7 +375,9 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                                       calc.return.threshold = calc.return.threshold,
                                                                       available.vector = available.vector,
                                                                       withdrawn.vector = withdrawn.vector,
-                                                                      mixture.strategy = mixture.strategy)
+                                                                      mixture.strategy = mixture.strategy,
+                                                                      min.cross.selection = min.cross.selection,
+                                                                      max.cross.selection = max.cross.selection)
 
       #convert to dataframe::
 
@@ -409,7 +417,9 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                                         intervention.coverage.2 = intervention.coverage.2,
                                                                         irm.switch.strategy = irm.switch.strategy,
                                                                         withdrawal.threshold = calc.withdrawal.threshold,
-                                                                        return.threshold = calc.return.threshold)
+                                                                        return.threshold = calc.return.threshold,
+                                                                        min.cross.selection = min.cross.selection,
+                                                                        max.cross.selection = max.cross.selection)
 
 
       #convert to dataframe::
@@ -459,7 +469,9 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                                           withdrawal.threshold = calc.return.threshold,
                                                                           return.threshold = calc.return.threshold,
                                                                           available.vector = available.vector,
-                                                                          withdrawn.vector = withdrawn.vector)
+                                                                          withdrawn.vector = withdrawn.vector,
+                                                                          min.cross.selection = min.cross.selection,
+                                                                          max.cross.selection = max.cross.selection)
       #convert to dataframe::
 
       simulation.df = convert_output_to_dataframe_combinations(simulation.results = simulation.results,
