@@ -1,3 +1,5 @@
+
+<h1> polysmooth <h1>
 # polysmooth
 Modelling insecticide resistance as a polygenetic trait: SMOOTH SELECTION
 
@@ -28,7 +30,7 @@ rapid.decay.rate
 
 
 ## Operational Parameters
-##number.of.insecticides
+number.of.insecticides
 irm.deployment.strategy : 
 withdrawal.threshold.value 
 return.threshold.value 
