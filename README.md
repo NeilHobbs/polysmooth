@@ -1,5 +1,5 @@
 
-<h1> polysmooth <h1>
+<h1> polysmooth
 # polysmooth
 Modelling insecticide resistance as a polygenetic trait: SMOOTH SELECTION
 
