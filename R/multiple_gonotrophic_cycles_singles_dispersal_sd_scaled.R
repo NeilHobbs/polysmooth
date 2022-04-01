@@ -1,6 +1,5 @@
 multiple_gonotrophic_cycles_singles_dispersal_sd_scaled = function(intervention.trait.mean.i,
                                                                    refugia.trait.mean.i,
-                                                                   standard.deviation,
                                                                    vector.length,
                                                                    female.exposure,
                                                                    exposure.scaling.factor,
@@ -270,6 +269,10 @@ multiple_gonotrophic_cycles_singles_dispersal_sd_scaled = function(intervention.
     av.int.in.int.response.i = sum((unlist(int.response.in.int.i) * (unlist(int.number.in.int.i)/N.int.in.int.i)))
 
     final.int.mean.i = intervention.trait.mean.i + av.int.in.int.response.i
+
+    final.int.mean.i = ifelse(final.int.mean.i < 0,
+                              yes = 0,
+                              no = final.int.mean.i)
 
 
     return(list(final.int.mean.i, final.ref.mean.i))
