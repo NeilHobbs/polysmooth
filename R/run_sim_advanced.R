@@ -1,4 +1,61 @@
-
+#' @title Run the Insecticide Resistance Management Simulation
+#'
+#' @description Overall wrapper function for the running of the polysmooth model. This is the
+#' function that should be used for running any simulations regardless of strategy.
+#'
+#' @param maximum.generations = the maximum number of generations in the simulation
+#' @param standard.deviation = the standard deviation of the Normal distribution of the polygenic resistance score
+#' @param vector.length = the length of the vector which contains the values in the Normal distribution
+#' @param female.exposure = The probability a female mosquito will encounter the insecticide
+#' @param exposure.scaling.factor =  A factor which converts the exposure to the selection differential
+#' @param coverage = The proportion of the area (and mosquito population) emerging in the intervention site
+#' @param dispersal.rate = The proportion of female mosquitoes dispersing each gonotrophic cycle
+#' @param male.exposure = The probability a male mosquito encounters the insecticide as a proportion of the female exposre
+#' @param maximum.bioassay.survival.proportion = The maximum bioassay survival probability
+#' @param michaelis.menten.slope = The slope of the Michaelis-Menten equation
+#' @param half.population.bioassay.survival.resistance = The polygenic resistance score which gives 50% bioassay survival
+#' @param regression.coefficient = The regression coefficient of a linear model between hut survival ~ bioassay survival
+#' @param regression.intercept = the regression intercept of a linear model between hut survival ~ bioassay survival
+#' @param n.cycles = The maximum number of gonotrophic cycles allow in the model
+#' @param deployment.interval.llin = The deployment interval for the LLIN in mosquito generations
+#' @param deployment.interval.irs = The deployment interval for the IRS in mosquito generations
+#' @param probability.only.i.male  = The probability a male mosquito which enters a house with both LLIN and IRS only encounters the LLIN insecticide
+#' @param probability.only.j.male = The probability a male mosquito which enters a house with both LLIN and IRS only encounters the IRS insecticide
+#' @param probability.both.i.j.male = The probability a male mosquito which enters a house with both LLIN and IRS  encounters both the LLIN and IRS insecticides
+#' @param probability.only.i.female = The probability a female mosquito which enters a house with both LLIN and IRS only encounters the LLIN insecticide
+#' @param probability.only.j.female = The probability a female mosquito which enters a house with both LLIN and IRS only encounters the IRS insecticide
+#' @param probability.both.i.j.female = The probability a female mosquito which enters a house with both LLIN and IRS  encounters both the LLIN and IRS insecticides
+#' @param intervention.coverage.1 = The proportion of insecticide treated houses with only the LLIN insecticide
+#' @param intervention.coverage.2 = The proportion of insecticide treated houses with only the IRS insecticide
+#' @param intervention.coverage.1.2 = The proportion of insectiicde treated houses with both the LLIN and IRS insecticides
+#' @param number.of.insecticides = The total number of insecticides in the simulation
+#' @param llin.insecticides = a vector containing the numbers associated with insecticides deployed as LLINs (eg. c(1))
+#' @param irs.insecticides = a vector containing the numbers associated with insecticides deployed as IRS (e.g. c(2, 3, 4, 5))
+#' @param min.cross.selection = The minimum cross selection between insecticides
+#' @param max.cross.selection = The maximim cross selection between insecticides
+#' @param irm.switch.strategy = the strategy for how insecticides will be switched
+#' @param withdrawal.threshold = The withdrawal threshold for when an insecticide can no longer be deployed
+#' @param return.threshold = The return threshold for when a previously withdrawn insecticide can be made re-available
+#' @param z.sd.intercept =
+#' @param z.sd.coefficient =
+#' @param mixture.strategy =
+#' @param withdrawal.threshold.value =
+#' @param return.threshold.value
+#' @param deployment.frequency
+#' @param maximum.resistance.value = 25000,
+#' @param starting.refugia.resistance.score = 0,
+#' @param starting.intervention.resistance.score = 0,
+#' @param applied.insecticide.dose = 1,
+#' @param recommended.insecticide.dose = 1,
+#' @param threshold.generations = 15,
+#' @param base.efficacy.decay.rate = 0.015,
+#' @param rapid.decay.rate = 0.08,
+#' @param female.fitness.cost = 0,
+#' @param male.fitness.cost = 0,
+#' @param irm.deployment.strategy = How the insecticides are deployed, one of "singles", "mixtures", "micromosaics" or "combinations"
+#' @param irm.switch.strategy = How the insecticide switches are made and will depend on the irm.deployment.strategy
+#' @param sd.scaled
+#' @param heritability
 
 run_simulation_advanced = function(irm.deployment.strategy = "combinations", #singles, mixtures, micromosaics, combinations
                                    irm.switch.strategy = "sequence", #"rotation", "sequence", "insecticide.1"
@@ -31,7 +88,6 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                    threshold.generations = 15,
                                    base.efficacy.decay.rate = 0.015,
                                    rapid.decay.rate = 0.08,
-                                   cross.selection = 0,
                                    deployment.interval.llin = 30, #only for combinations
                                    deployment.interval.irs = 10, #only for combinations
                                    probability.only.i.male = 0.7, #only for combinations

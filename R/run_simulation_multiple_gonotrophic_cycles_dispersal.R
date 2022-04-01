@@ -1,5 +1,6 @@
 # ##This is the development version
-#
+##Superceded by run_sim_advanced methodology
+
 #
 # run_simulation_multiple_gonotrophic_cycles_dispersal= function(coverage = 0.8,
 #                                                                natural.survival = 0.7,
