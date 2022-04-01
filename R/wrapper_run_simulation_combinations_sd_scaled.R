@@ -1,35 +1,45 @@
-# insecticide.parameters.df,
-# maximum.generations,
-# sim.array,
-# standard.deviation,
-# vector.length,
-# female.exposure,
-# exposure.scaling.factor,
-# coverage,
-# dispersal.rate,
-# male.exposure ,
-# maximum.bioassay.survival.proportion,
-# michaelis.menten.slope ,
-# half.population.bioassay.survival.resistance,
-# regression.coefficient,
-# regression.intercept,
-# n.cycles,
-# deployment.frequency,
-# deployment.interval.llin,
-# deployment.interval.irs,
-# probability.only.i.male, i is the llin insecticide
-# probability.only.j.male, j is the irs insecticide
-# probability.both.i.j.male,
-# probability.only.i.female,
-# probability.only.j.female,
-# probability.both.i.j.female,
-# intervention.coverage.1,
-# intervention.coverage.2,
-# intervention.coverage.1.2,
-# number.of.insecticides,
-# llin.insecticides = a vector containing the numbers associated with insecticides deployed as LLINs (eg. c(1, 3))
-# irs.insecticides = a vector containing the numbers associated with insecticides deployed as IRS (e.g. c(2, 4, 5))
+#' @title Run the simulation with LLIN and IRS Combination
 
+#' @description Run a simulation when the irm.deployment.strategy = "combinations". This branch
+#' assumes the standard deviation of the polygenic resistance score remains constant.
+
+#' @param insecticide.parameters.df = a dataframe containing the information for the insecticide efficacies and decay rates
+#' @param maximum.generations = the maximum number of generations in the simulation
+#' @param sim.array = the array which holds the simulation results
+#' @param standard.deviation = the standard deviation of the Normal distribution of the polygenic resistance score
+#' @param vector.length = the length of the vector which contains the values in the Normal distribution
+#' @param female.exposure = The probability a female mosquito will encounter the insecticide
+#' @param exposure.scaling.factor =  A factor which converts the exposure to the selection differential
+#' @param coverage = The proportion of the area (and mosquito population) emerging in the intervention site
+#' @param dispersal.rate = The proportion of female mosquitoes dispersing each gonotrophic cycle
+#' @param male.exposure = The probability a male mosquito encounters the insecticide as a proportion of the female exposre
+#' @param maximum.bioassay.survival.proportion = The maximum bioassay survival probability
+#' @param michaelis.menten.slope = The slope of the Michaelis-Menten equation
+#' @param half.population.bioassay.survival.resistance = The polygenic resistance score which gives 50% bioassay survival
+#' @param regression.coefficient = The regression coefficient of a linear model between hut survival ~ bioassay survival
+#' @param regression.intercept = the regression intercept of a linear model between hut survival ~ bioassay survival
+#' @param n.cycles = The maximum number of gonotrophic cycles allow in the model
+#' @param deployment.interval.llin = The deployment interval for the LLIN in mosquito generations
+#' @param deployment.interval.irs = The deployment interval for the IRS in mosquito generations
+#' @param probability.only.i.male  = The probability a male mosquito which enters a house with both LLIN and IRS only encounters the LLIN insecticide
+#' @param probability.only.j.male = The probability a male mosquito which enters a house with both LLIN and IRS only encounters the IRS insecticide
+#' @param probability.both.i.j.male = The probability a male mosquito which enters a house with both LLIN and IRS  encounters both the LLIN and IRS insecticides
+#' @param probability.only.i.female = The probability a female mosquito which enters a house with both LLIN and IRS only encounters the LLIN insecticide
+#' @param probability.only.j.female = The probability a female mosquito which enters a house with both LLIN and IRS only encounters the IRS insecticide
+#' @param probability.both.i.j.female = The probability a female mosquito which enters a house with both LLIN and IRS  encounters both the LLIN and IRS insecticides
+#' @param intervention.coverage.1 = The proportion of insecticide treated houses with only the LLIN insecticide
+#' @param intervention.coverage.2 = The proportion of insecticide treated houses with only the IRS insecticide
+#' @param intervention.coverage.1.2 = The proportion of insectiicde treated houses with both the LLIN and IRS insecticides
+#' @param number.of.insecticides = The total number of insecticides in the simulation
+#' @param llin.insecticides = a vector containing the numbers associated with insecticides deployed as LLINs (eg. c(1))
+#' @param irs.insecticides = a vector containing the numbers associated with insecticides deployed as IRS (e.g. c(2, 3, 4, 5))
+#' @param min.cross.selection = The minimum cross selection between insecticides
+#' @param max.cross.selection = The maximim cross selection between insecticides
+#' @param irm.switch.strategy = the strategy for how insecticides will be switched
+#' @param withdrawal.threshold = The withdrawal threshold for when an insecticide can no longer be deployed
+#' @param return.threshold = The return threshold for when a previously withdrawn insecticide can be made re-available
+#' @param available.vector = A vector containing the currently available insecticides
+#' @param withdrawn.vector = A vector containing the currently withdrawn insecticides
 
 wrapper_run_simulation_combinations_sd_scaled = function(insecticide.parameters.df,
                                                maximum.generations,
@@ -436,7 +446,7 @@ wrapper_run_simulation_combinations_sd_scaled = function(insecticide.parameters.
                                                                                   female.fitness.cost.tracked = insecticide.parameters.df$female.fitness.cost[insecticide],
                                                                                   heritability.tracked = insecticide.parameters.df$heritability[insecticide],
                                                                                   cross.selection.i.k = cross.selection.i.k,
-                                                                                  cross.selection.j.k = cross.selection.j.
+                                                                                  cross.selection.j.k = cross.selection.j.k
         )
 
 
