@@ -37,8 +37,8 @@ multiple_gonotrophic_cycles_combinations_dispersal_not_deployed_sd_scaled = func
                                                                            coverage.i,
                                                                            coverage.j,
                                                                            coverage.ij,
-                                                                           cross.selection.i.j,
-                                                                           cross.selection.j.i){
+                                                                           cross.selection.i.k,
+                                                                           cross.selection.j.k){
 
 
 
