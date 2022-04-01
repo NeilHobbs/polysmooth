@@ -36,8 +36,8 @@ multiple_gonotrophic_cycles_combinations_dispersal_not_deployed = function(inter
                                                                            coverage.i,
                                                                            coverage.j,
                                                                            coverage.ij,
-                                                                           cross.selection.i.j,
-                                                                           cross.selection.j.i){
+                                                                           cross.selection.i.k,
+                                                                           cross.selection.j.k){
 
 
   #Step 1: create the Normal Distributions:::
