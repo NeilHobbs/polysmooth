@@ -3,7 +3,7 @@ multiple_gonotrophic_cycles_singles_dispersal_not_deployed_sd_scaled = function(
                                                                       refugia.trait.mean.i,
                                                                       refugia.trait.mean.j,
                                                                       z.sd.intercept,
-                                                                      z.sd.coefficient,                                                                      vector.length,
+                                                                      z.sd.coefficient,
                                                                       female.exposure,
                                                                       exposure.scaling.factor,
                                                                       coverage,
@@ -23,7 +23,8 @@ multiple_gonotrophic_cycles_singles_dispersal_not_deployed_sd_scaled = function(
                                                                       regression.coefficient,
                                                                       regression.intercept,
                                                                       current.insecticide.efficacy.j,
-                                                                      cross.selection.j.i){
+                                                                      cross.selection.j.i,
+                                                                      vector.length){
 
 
 
