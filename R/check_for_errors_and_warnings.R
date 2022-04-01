@@ -22,14 +22,15 @@ check_for_errors_and_warnings = function(coverage,
                                          probability.both.i.j.female,
                                          vector.length,
                                          half.population.bioassay.survival.resistance){
-
 ##Error Messages:::
 if(coverage > 1|coverage < 0){stop("coverage must be above 0 and up to 1")}
 if(coverage == 0){stop("there is no coverage")}
 if(female.exposure > 1| female.exposure < 0){stop("female.exposure must be between 0 and 1")}
 if(male.exposure > 1| male.exposure < 0){stop("male.exposure must be between 0 and 1")}
 
-if(heritability > 1| heritability < 0){stop("heritability must be between 0 and 1")}
+ifelse(heritability > 1| heritability < 0,
+       yes = stop("heritability must be between 0 and 1"),
+                  no = "check.fine")
 if(dispersal.rate > 1| dispersal.rate < 0){stop("dispersal.rate must be between 0 and 1")}
 if(maximum.bioassay.survival.proportion != 1){stop("maximum.bioassay.survival.proportion must equal 1")}
 if(michaelis.menten.slope != 1){stop("michaelis.menten.slope must equal 1")}
