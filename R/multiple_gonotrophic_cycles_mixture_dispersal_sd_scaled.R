@@ -27,7 +27,8 @@ multiple_gonotrophic_cycles_mixture_dispersal_sd_scaled = function(intervention.
                                                          z.sd.intercept,
                                                          z.sd.coefficient,
                                                          cross.selection.i.j,
-                                                         cross.selection.j.i){
+                                                         cross.selection.j.i,
+                                                         between.gonotrophic.survival){
 
   #create the fitness cost selection differentials for females::
   calc.female.fitness.cost.refugia.i  = female.fitness.cost.i * (sd_changes_with_z(current.z = refugia.trait.mean.i,
@@ -276,22 +277,22 @@ multiple_gonotrophic_cycles_mixture_dispersal_sd_scaled = function(intervention.
 
 
 
-        ref.staying.ref.i[[gonotrophic]] = (ref.staying.ref.i[[gonotrophic-1]] *(1-dispersal.rate)) +
+        ref.staying.ref.i[[gonotrophic]] = ((ref.staying.ref.i[[gonotrophic-1]] *(1-dispersal.rate)) +
           (ref.joining.int.i[[gonotrophic-1]] * (1-female.exposure)*dispersal.rate) +
-          (ref.joining.int.i[[gonotrophic-1]] * female.exposure * dispersal.rate * mean.survival.ref.j * survival.probability.ref.i)
+          (ref.joining.int.i[[gonotrophic-1]] * female.exposure * dispersal.rate * mean.survival.ref.j * survival.probability.ref.i))*between.gonotrophic.survival
 
-        ref.joining.int.i[[gonotrophic]]  = (ref.joining.int.i[[gonotrophic-1]] * (1-female.exposure)*(1-dispersal.rate)) +
+        ref.joining.int.i[[gonotrophic]]  = ((ref.joining.int.i[[gonotrophic-1]] * (1-female.exposure)*(1-dispersal.rate)) +
           (ref.joining.int.i[[gonotrophic-1]] * female.exposure * (1-dispersal.rate) * mean.survival.ref.j * survival.probability.ref.i) +
-          (ref.staying.ref.i[[gonotrophic-1]] * dispersal.rate)
+          (ref.staying.ref.i[[gonotrophic-1]] * dispersal.rate))*between.gonotrophic.survival
 
 
-        int.staying.int.i[[gonotrophic]]  = (int.staying.int.i[[gonotrophic-1]] * (1-female.exposure) * (1-dispersal.rate)) +
+        int.staying.int.i[[gonotrophic]]  = ((int.staying.int.i[[gonotrophic-1]] * (1-female.exposure) * (1-dispersal.rate)) +
           (int.staying.int.i[[gonotrophic-1]] * female.exposure * (1-dispersal.rate) * mean.survival.int.j * survival.probability.int.i)+
-          (int.joining.ref.i[[gonotrophic-1]] * dispersal.rate)
+          (int.joining.ref.i[[gonotrophic-1]] * dispersal.rate))*between.gonotrophic.survival
 
-        int.joining.ref.i[[gonotrophic]]  = (int.joining.ref.i[[gonotrophic-1]] * (1-dispersal.rate))+
+        int.joining.ref.i[[gonotrophic]]  = ((int.joining.ref.i[[gonotrophic-1]] * (1-dispersal.rate))+
           (int.staying.int.i[[gonotrophic-1]] * female.exposure * dispersal.rate * mean.survival.int.j * survival.probability.int.i)+
-          (int.staying.int.i[[gonotrophic-1]] * (1-female.exposure) * dispersal.rate)
+          (int.staying.int.i[[gonotrophic-1]] * (1-female.exposure) * dispersal.rate))*between.gonotrophic.survival
 
 
 
@@ -333,22 +334,22 @@ multiple_gonotrophic_cycles_mixture_dispersal_sd_scaled = function(intervention.
 
 
 
-        ref.staying.ref.j[[gonotrophic]] = (ref.staying.ref.j[[gonotrophic-1]] *(1-dispersal.rate)) +
+        ref.staying.ref.j[[gonotrophic]] = ((ref.staying.ref.j[[gonotrophic-1]] *(1-dispersal.rate)) +
           (ref.joining.int.j[[gonotrophic-1]] * (1-female.exposure)*dispersal.rate) +
-          (ref.joining.int.j[[gonotrophic-1]] * female.exposure * dispersal.rate * mean.survival.ref.i * survival.probability.ref.j)
+          (ref.joining.int.j[[gonotrophic-1]] * female.exposure * dispersal.rate * mean.survival.ref.i * survival.probability.ref.j))*between.gonotrophic.survival
 
-        ref.joining.int.j[[gonotrophic]]  = (ref.joining.int.j[[gonotrophic-1]] * (1-female.exposure)*(1-dispersal.rate)) +
+        ref.joining.int.j[[gonotrophic]]  = ((ref.joining.int.j[[gonotrophic-1]] * (1-female.exposure)*(1-dispersal.rate)) +
           (ref.joining.int.j[[gonotrophic-1]] * female.exposure * (1-dispersal.rate) * mean.survival.ref.i * survival.probability.ref.j) +
-          (ref.staying.ref.j[[gonotrophic-1]] * dispersal.rate)
+          (ref.staying.ref.j[[gonotrophic-1]] * dispersal.rate))*between.gonotrophic.survival
 
 
-        int.staying.int.j[[gonotrophic]]  = (int.staying.int.j[[gonotrophic-1]] * (1-female.exposure) * (1-dispersal.rate))+
+        int.staying.int.j[[gonotrophic]]  = ((int.staying.int.j[[gonotrophic-1]] * (1-female.exposure) * (1-dispersal.rate))+
           (int.staying.int.j[[gonotrophic-1]] * female.exposure * (1-dispersal.rate) * mean.survival.int.i * survival.probability.int.j)+
-          (int.joining.ref.j[[gonotrophic-1]] * dispersal.rate)
+          (int.joining.ref.j[[gonotrophic-1]] * dispersal.rate))*between.gonotrophic.survival
 
-        int.joining.ref.j[[gonotrophic]]  = (int.joining.ref.j[[gonotrophic-1]] * (1-dispersal.rate))+
+        int.joining.ref.j[[gonotrophic]]  = ((int.joining.ref.j[[gonotrophic-1]] * (1-dispersal.rate))+
           (int.staying.int.j[[gonotrophic-1]] * female.exposure * dispersal.rate * mean.survival.int.i * survival.probability.int.j)+
-          (int.staying.int.j[[gonotrophic-1]] * (1-female.exposure) * dispersal.rate)
+          (int.staying.int.j[[gonotrophic-1]] * (1-female.exposure) * dispersal.rate))*between.gonotrophic.survival
 
 
 
@@ -514,8 +515,8 @@ multiple_gonotrophic_cycles_mixture_dispersal_sd_scaled = function(intervention.
 
 
 
-        int.staying.int.i[[gonotrophic]]  = (int.staying.int.i[[gonotrophic-1]] * (1-female.exposure)) +
-          (int.staying.int.i[[gonotrophic-1]] * female.exposure  * mean.survival.int.j * survival.probability.int.i)
+        int.staying.int.i[[gonotrophic]]  = ((int.staying.int.i[[gonotrophic-1]] * (1-female.exposure)) +
+          (int.staying.int.i[[gonotrophic-1]] * female.exposure  * mean.survival.int.j * survival.probability.int.i))*between.gonotrophic.survival
 
 
         int.number.in.int.i[[gonotrophic]]  = sum(int.staying.int.i[[gonotrophic]] )
@@ -534,8 +535,8 @@ multiple_gonotrophic_cycles_mixture_dispersal_sd_scaled = function(intervention.
 
 
 
-        int.staying.int.j[[gonotrophic]]  = (int.staying.int.j[[gonotrophic-1]] * (1-female.exposure))+
-          (int.staying.int.j[[gonotrophic-1]] * female.exposure  * mean.survival.int.i * survival.probability.int.j)
+        int.staying.int.j[[gonotrophic]]  = ((int.staying.int.j[[gonotrophic-1]] * (1-female.exposure))+
+          (int.staying.int.j[[gonotrophic-1]] * female.exposure  * mean.survival.int.i * survival.probability.int.j))*between.gonotrophic.survival
 
 
         int.number.in.int.j[[gonotrophic]]  = sum(int.staying.int.j[[gonotrophic]] )

@@ -16,7 +16,8 @@ multiple_gonotrophic_cycles_singles_dispersal = function(intervention.trait.mean
                                                              maximum.bioassay.survival.proportion ,
                                                              regression.coefficient,
                                                              regression.intercept,
-                                                             current.insecticide.efficacy.i){
+                                                             current.insecticide.efficacy.i,
+                                                         between.gonotrophic.survival){
 
   #Step 1: create the Normal Distributions:::
   #Insecticide i: emerge in intervention:
@@ -120,20 +121,20 @@ multiple_gonotrophic_cycles_singles_dispersal = function(intervention.trait.mean
 
         ref.staying.ref.i[[gonotrophic]] = (ref.staying.ref.i[[gonotrophic-1]] *(1-dispersal.rate)) +
           (ref.joining.int.i[[gonotrophic-1]] * (1-female.exposure)*dispersal.rate) +
-          (ref.joining.int.i[[gonotrophic-1]] * female.exposure * dispersal.rate *  survival.probability.ref.i)
+          (ref.joining.int.i[[gonotrophic-1]] * female.exposure * dispersal.rate *  survival.probability.ref.i) * between.gonotrophic.survival
 
         ref.joining.int.i[[gonotrophic]]  = (ref.joining.int.i[[gonotrophic-1]] * (1-female.exposure)*(1-dispersal.rate)) +
           (ref.joining.int.i[[gonotrophic-1]] * female.exposure * (1-dispersal.rate) *  survival.probability.ref.i) +
-          (ref.staying.ref.i[[gonotrophic-1]] * dispersal.rate)
+          (ref.staying.ref.i[[gonotrophic-1]] * dispersal.rate) * between.gonotrophic.survival
 
 
         int.staying.int.i[[gonotrophic]]  = (int.staying.int.i[[gonotrophic-1]] * (1-female.exposure) * (1-dispersal.rate)) +
           (int.staying.int.i[[gonotrophic-1]] * female.exposure * (1-dispersal.rate) *  survival.probability.int.i)+
-          (int.joining.ref.i[[gonotrophic-1]] * dispersal.rate)
+          (int.joining.ref.i[[gonotrophic-1]] * dispersal.rate) * between.gonotrophic.survival
 
         int.joining.ref.i[[gonotrophic]]  = (int.joining.ref.i[[gonotrophic-1]] * (1-dispersal.rate))+
           (int.staying.int.i[[gonotrophic-1]] * female.exposure * dispersal.rate *  survival.probability.int.i)+
-          (int.staying.int.i[[gonotrophic-1]] * (1-female.exposure) * dispersal.rate)
+          (int.staying.int.i[[gonotrophic-1]] * (1-female.exposure) * dispersal.rate) * between.gonotrophic.survival
 
 
 
@@ -229,7 +230,7 @@ multiple_gonotrophic_cycles_singles_dispersal = function(intervention.trait.mean
 
 
         int.staying.int.i[[gonotrophic]]  = (int.staying.int.i[[gonotrophic-1]] * (1-female.exposure)) +
-          (int.staying.int.i[[gonotrophic-1]] * female.exposure  *  survival.probability.int.i)
+          (int.staying.int.i[[gonotrophic-1]] * female.exposure  *  survival.probability.int.i) * between.gonotrophic.survival
 
 
         int.number.in.int.i[[gonotrophic]]  = sum(int.staying.int.i[[gonotrophic]] )
