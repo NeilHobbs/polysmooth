@@ -106,32 +106,34 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                    llin.insecticides,
                                    irs.insecticides,
                                    min.cross.selection,
-                                   max.cross.selection){
+                                   max.cross.selection,
+                                   gonotrophic.cycle.length = 3,
+                                   natural.daily.survival = 1){
 
 
-  check_for_errors_and_warnings(coverage = coverage,
-                                female.exposure = female.exposure,
-                                male.exposure = male.exposure,
-                                heritability = heritability,
-                                dispersal.rate = dispersal.rate,
-                                maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
-                                michaelis.menten.slope = michaelis.menten.slope,
-                                applied.insecticide.dose = applied.insecticide.dose,
-                                recommended.insecticide.dose = recommended.insecticide.dose,
-                                starting.refugia.resistance.score = starting.refugia.resistance.score,
-                                starting.intervention.resistance.score = starting.intervention.resistance.score,
-                                irm.deployment.strategy = irm.deployment.strategy,
-                                intervention.coverage.1 = intervention.coverage.1,
-                                intervention.coverage.2 = intervention.coverage.2,
-                                intervention.coverage.1.2 = intervention.coverage.1.2,
-                                probability.only.i.male = probability.only.i.male,
-                                probability.only.j.male = probability.only.j.male,
-                                probability.both.i.j.male = probability.both.i.j.male,
-                                probability.only.i.female = probability.only.i.female,
-                                probability.only.j.female = probability.only.j.female,
-                                probability.both.i.j.female = probability.both.i.j.female,
-                                vector.length = vector.length,
-                                half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance)
+  # check_for_errors_and_warnings(coverage = coverage,
+  #                               female.exposure = female.exposure,
+  #                               male.exposure = male.exposure,
+  #                               heritability = heritability,
+  #                               dispersal.rate = dispersal.rate,
+  #                               maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+  #                               michaelis.menten.slope = michaelis.menten.slope,
+  #                               applied.insecticide.dose = applied.insecticide.dose,
+  #                               recommended.insecticide.dose = recommended.insecticide.dose,
+  #                               starting.refugia.resistance.score = starting.refugia.resistance.score,
+  #                               starting.intervention.resistance.score = starting.intervention.resistance.score,
+  #                               irm.deployment.strategy = irm.deployment.strategy,
+  #                               intervention.coverage.1 = intervention.coverage.1,
+  #                               intervention.coverage.2 = intervention.coverage.2,
+  #                               intervention.coverage.1.2 = intervention.coverage.1.2,
+  #                               probability.only.i.male = probability.only.i.male,
+  #                               probability.only.j.male = probability.only.j.male,
+  #                               probability.both.i.j.male = probability.both.i.j.male,
+  #                               probability.only.i.female = probability.only.i.female,
+  #                               probability.only.j.female = probability.only.j.female,
+  #                               probability.both.i.j.female = probability.both.i.j.female,
+  #                               vector.length = vector.length,
+  #                               half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance)
 
 
 
@@ -174,7 +176,11 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                                         maximum.resistance.value = maximum.resistance.value)
 
   #Make a dataframe of the insecticide parameters:
-  insecticide.parameters.df = create_insecticide_parameters_dataframe_advanced(number.of.insecticides = number.of.insecticides,
+          #Note, solo deployment with number.of.insecticides = 1 behaves weird if dataframe is not with 2 insecticides. But has no impact on
+            #the simulation being run.
+  insecticide.parameters.df = create_insecticide_parameters_dataframe_advanced(number.of.insecticides = ifelse(number.of.insecticides == 1,
+                                                                                                               yes = 2,
+                                                                                                               no = number.of.insecticides),
                                                                                applied.insecticide.dose = applied.insecticide.dose,
                                                                                recommended.insecticide.dose = recommended.insecticide.dose,
                                                                                threshold.generation = threshold.generations,
@@ -183,7 +189,9 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                                                heritability = heritability,
                                                                                female.fitness.cost = female.fitness.cost,
                                                                                male.fitness.cost = male.fitness.cost)
-
+ #between gonotrophic cycle survival:::
+  between.gonotrophic.survival = between_gonotrophic_cycle_survival(gonotrophic.cycle.length = gonotrophic.cycle.length,
+                                                                    natural.daily.survival = natural.daily.survival)
 
 
   if(sd.scaled == FALSE){
@@ -214,7 +222,8 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                             available.vector = available.vector,
                                                             withdrawn.vector = withdrawn.vector,
                                                             min.cross.selection = min.cross.selection,
-                                                            max.cross.selection = max.cross.selection)
+                                                            max.cross.selection = max.cross.selection,
+                                                            between.gonotrophic.survival = between.gonotrophic.survival)
 
       #convert to dataframe::
 
@@ -255,7 +264,8 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                             withdrawn.vector = withdrawn.vector,
                                                             mixture.strategy = mixture.strategy,
                                                             min.cross.selection = min.cross.selection,
-                                                            max.cross.selection = max.cross.selection)
+                                                            max.cross.selection = max.cross.selection,
+                                                            between.gonotrophic.survival = between.gonotrophic.survival)
 
       #convert to dataframe::
 
@@ -296,7 +306,8 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                               available.vector = available.vector,
                                                               withdrawn.vector = withdrawn.vector,
                                                               min.cross.selection = min.cross.selection,
-                                                              max.cross.selection = max.cross.selection)
+                                                              max.cross.selection = max.cross.selection,
+                                                              between.gonotrophic.survival = between.gonotrophic.survival)
 
       #convert to dataframe::
 
@@ -347,7 +358,8 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                                 available.vector = available.vector,
                                                                 withdrawn.vector = withdrawn.vector,
                                                                 min.cross.selection = min.cross.selection,
-                                                                max.cross.selection = max.cross.selection)
+                                                                max.cross.selection = max.cross.selection,
+                                                                between.gonotrophic.survival = between.gonotrophic.survival)
 
       #convert to dataframe::
 
@@ -393,7 +405,8 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                                    z.sd.intercept = z.sd.intercept,
                                                                    z.sd.coefficient = z.sd.coefficient,
                                                                    min.cross.selection = min.cross.selection,
-                                                                   max.cross.selection = max.cross.selection)
+                                                                   max.cross.selection = max.cross.selection,
+                                                                   between.gonotrophic.survival = between.gonotrophic.survival)
 
       #convert to dataframe::
 
@@ -433,7 +446,8 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                                       withdrawn.vector = withdrawn.vector,
                                                                       mixture.strategy = mixture.strategy,
                                                                       min.cross.selection = min.cross.selection,
-                                                                      max.cross.selection = max.cross.selection)
+                                                                      max.cross.selection = max.cross.selection,
+                                                                      between.gonotrophic.survival = between.gonotrophic.survival)
 
       #convert to dataframe::
 
@@ -475,7 +489,8 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                                         withdrawal.threshold = calc.withdrawal.threshold,
                                                                         return.threshold = calc.return.threshold,
                                                                         min.cross.selection = min.cross.selection,
-                                                                        max.cross.selection = max.cross.selection)
+                                                                        max.cross.selection = max.cross.selection,
+                                                                        between.gonotrophic.survival = between.gonotrophic.survival)
 
 
       #convert to dataframe::
@@ -527,7 +542,8 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
                                                                           available.vector = available.vector,
                                                                           withdrawn.vector = withdrawn.vector,
                                                                           min.cross.selection = min.cross.selection,
-                                                                          max.cross.selection = max.cross.selection)
+                                                                          max.cross.selection = max.cross.selection,
+                                                                          between.gonotrophic.survival = between.gonotrophic.survival)
       #convert to dataframe::
 
       simulation.df = convert_output_to_dataframe_combinations(simulation.results = simulation.results,
