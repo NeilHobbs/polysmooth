@@ -25,7 +25,8 @@ wrapper_run_simulation_micromosaics_sd_scaled = function(insecticide.parameters.
                                                          intervention.coverage.2,
                                                          irm.switch.strategy,
                                                          min.cross.selection,
-                                                         max.cross.selection){
+                                                         max.cross.selection,
+                                                         between.gonotrophic.survival){
 
   cross.selection.matrix = make_cross_selection_matrix(number.of.insecticides = number.of.insecticides,
                                                        min.cross.selection = min.cross.selection,
@@ -103,8 +104,8 @@ wrapper_run_simulation_micromosaics_sd_scaled = function(insecticide.parameters.
                                                                                          intervention.trait.mean.j = sim.array['intervention', other.insecticide, generation-1],
                                                                                          refugia.trait.mean.i = sim.array['refugia', insecticide, generation-1],
                                                                                          refugia.trait.mean.j = sim.array['refugia', other.insecticide, generation-1],
-                                                                                         z.sd.intercept,
-                                                                                         z.sd.coefficient,
+                                                                                         z.sd.intercept = z.sd.intercept,
+                                                                                         z.sd.coefficient = z.sd.coefficient,
                                                                                          vector.length = vector.length,
                                                                                          female.exposure = female.exposure,
                                                                                          exposure.scaling.factor = exposure.scaling.factor,
@@ -143,7 +144,8 @@ wrapper_run_simulation_micromosaics_sd_scaled = function(insecticide.parameters.
                                                                                          coverage.i = tracked.coverage,
                                                                                          coverage.j = other.coverage,
                                                                                          cross.selection.i.j = cross.selection.i.j,
-                                                                                         cross.selection.j.i = cross.selection.j.i)
+                                                                                         cross.selection.j.i = cross.selection.j.i,
+                                                                                         between.gonotrophic.survival= between.gonotrophic.survival)
 
         sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]
         sim.array['refugia', insecticide, generation] = tracked.resistance[[2]]
@@ -231,7 +233,8 @@ wrapper_run_simulation_micromosaics_sd_scaled = function(insecticide.parameters.
                                                                                                      coverage.i = intervention.coverage.1,
                                                                                                      coverage.j = intervention.coverage.2,
                                                                                                      cross.selection.i.k = cross.selection.i.k,
-                                                                                                     cross.selection.j.k = cross.selection.j.k)
+                                                                                                     cross.selection.j.k = cross.selection.j.k,
+                                                                                                     between.gonotrophic.survival = between.gonotrophic.survival)
 
 
         sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]

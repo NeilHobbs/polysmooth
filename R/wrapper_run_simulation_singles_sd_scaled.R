@@ -23,7 +23,8 @@ wrapper_run_simulation_singles_sd_scaled = function(insecticide.parameters.df,
                                                     z.sd.intercept,
                                                     z.sd.coefficient,
                                                     min.cross.selection,
-                                                    max.cross.selection){
+                                                    max.cross.selection,
+                                                    between.gonotrophic.survival){
 
 
 
@@ -99,7 +100,8 @@ wrapper_run_simulation_singles_sd_scaled = function(insecticide.parameters.df,
                                                                                        regression.intercept = regression.intercept,
                                                                                        current.insecticide.efficacy.i = insecticide.efficacy.vector[generation],
                                                                                        z.sd.intercept = z.sd.intercept,
-                                                                                       z.sd.coefficient = z.sd.coefficient)
+                                                                                       z.sd.coefficient = z.sd.coefficient,
+                                                                                       between.gonotrophic.survival = between.gonotrophic.survival)
 
 
           sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]
@@ -157,7 +159,8 @@ wrapper_run_simulation_singles_sd_scaled = function(insecticide.parameters.df,
                                                                                                     current.insecticide.efficacy.j = insecticide.efficacy.vector[generation],
                                                                                                     z.sd.coefficient = z.sd.coefficient,
                                                                                                     z.sd.intercept = z.sd.intercept,
-                                                                                                    cross.selection.j.i = cross.selection.j.i)
+                                                                                                    cross.selection.j.i = cross.selection.j.i,
+                                                                                                    between.gonotrophic.survival = between.gonotrophic.survival)
           sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]
           sim.array['refugia', insecticide, generation] = tracked.resistance[[2]]
 

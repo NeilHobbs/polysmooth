@@ -67,7 +67,8 @@ wrapper_run_simulation_combinations = function(insecticide.parameters.df,
                                                available.vector,
                                                withdrawn.vector,
                                                min.cross.selection,
-                                               max.cross.selection){
+                                               max.cross.selection,
+                                               between.gonotrophic.survival){
 
   cross.selection.matrix = make_cross_selection_matrix(number.of.insecticides = number.of.insecticides,
                                                        min.cross.selection = min.cross.selection,
@@ -193,7 +194,8 @@ wrapper_run_simulation_combinations = function(insecticide.parameters.df,
                                                                 probability.only.j = probability.only.j.female,
                                                                 probability.both.i.j = probability.both.i.j.female,
                                                                 cross.selection.i.j = cross.selection.i.j,
-                                                                cross.selection.j.i = cross.selection.j.i)
+                                                                cross.selection.j.i = cross.selection.j.i,
+                                                                between.gonotrophic.survival = between.gonotrophic.survival)
 
 
     sim.array['intervention', insecticide, generation] = tracked[[1]]
@@ -293,7 +295,8 @@ wrapper_run_simulation_combinations = function(insecticide.parameters.df,
                                                                     probability.only.j = probability.only.j.female,
                                                                     probability.both.i.j = probability.both.i.j.female,
                                                                     cross.selection.i.j = cross.selection.i.j,
-                                                                    cross.selection.j.i = cross.selection.j.i)
+                                                                    cross.selection.j.i = cross.selection.j.i,
+                                                                    between.gonotrophic.survival = between.gonotrophic.survival)
 
 
         sim.array['intervention', insecticide, generation] = tracked[[3]]
@@ -406,7 +409,8 @@ wrapper_run_simulation_combinations = function(insecticide.parameters.df,
                                                                     female.fitness.cost.tracked = insecticide.parameters.df$female.fitness.cost[insecticide],
                                                                     heritability.tracked = insecticide.parameters.df$heritability[insecticide],
                                                                     cross.selection.i.k = cross.selection.i.k,
-                                                                    cross.selection.j.k = cross.selection.j.k
+                                                                    cross.selection.j.k = cross.selection.j.k,
+                                                                    between.gonotrophic.survival = between.gonotrophic.survival
         )
 
 

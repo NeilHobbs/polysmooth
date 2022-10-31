@@ -23,7 +23,8 @@ wrapper_run_simulation_mixtures = function(insecticide.parameters.df,
                                            withdrawn.vector,
                                            mixture.strategy,
                                            min.cross.selection,
-                                           max.cross.selection){
+                                           max.cross.selection,
+                                           between.gonotrophic.survival){
 
 
 
@@ -157,7 +158,8 @@ wrapper_run_simulation_mixtures = function(insecticide.parameters.df,
                                                                                current.insecticide.efficacy.i = tracked.insecticide.efficacy,
                                                                                current.insecticide.efficacy.j = other.insecticide.efficacy,
                                                                                cross.selection.j.i = cross.selection.j.i,
-                                                                               cross.selection.i.j = cross.selection.i.j)
+                                                                               cross.selection.i.j = cross.selection.i.j,
+                                                                               between.gonotrophic.survival = between.gonotrophic.survival)
 
           sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]
           sim.array['refugia', insecticide, generation] = tracked.resistance[[2]]
@@ -167,9 +169,9 @@ wrapper_run_simulation_mixtures = function(insecticide.parameters.df,
            insecticide != deployed.mixture$mixture.part.2[generation]){
 
 
-          cross.selection.i.k = cross.selection.matrix[deployed.mixture$mixture.part.1[generation], insecticide]
+          cross.selection.i.k = as.numeric(cross.selection.matrix[deployed.mixture$mixture.part.1[generation], insecticide])
 
-          cross.selection.j.k = cross.selection.matrix[deployed.mixture$mixture.part.2[generation], insecticide]
+          cross.selection.j.k = as.numeric(cross.selection.matrix[deployed.mixture$mixture.part.2[generation], insecticide])
 
 
 
@@ -249,7 +251,8 @@ wrapper_run_simulation_mixtures = function(insecticide.parameters.df,
                                                                                           current.insecticide.efficacy.i = deployed.mixture$insecticide.efficacy.vector.part.1[generation],
                                                                                           current.insecticide.efficacy.j = deployed.mixture$insecticide.efficacy.vector.part.2[generation],
                                                                                           cross.selection.i.k = cross.selection.i.k,
-                                                                                          cross.selection.j.k = cross.selection.j.k)
+                                                                                          cross.selection.j.k = cross.selection.j.k,
+                                                                                          between.gonotrophic.survival = between.gonotrophic.survival)
 
 
           sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]

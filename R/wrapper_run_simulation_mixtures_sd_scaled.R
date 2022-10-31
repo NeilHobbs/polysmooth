@@ -24,7 +24,8 @@ wrapper_run_simulation_mixtures_sd_scaled = function(insecticide.parameters.df,
                                            z.sd.intercept,
                                            mixture.strategy,
                                            min.cross.selection,
-                                           max.cross.selection){
+                                           max.cross.selection,
+                                           between.gonotrophic.survival){
 
 
   cross.selection.matrix = make_cross_selection_matrix(number.of.insecticides = number.of.insecticides,
@@ -160,7 +161,8 @@ wrapper_run_simulation_mixtures_sd_scaled = function(insecticide.parameters.df,
                                                                                          current.insecticide.efficacy.i = tracked.insecticide.efficacy,
                                                                                          current.insecticide.efficacy.j = other.insecticide.efficacy,
                                                                                          cross.selection.i.j = cross.selection.i.j,
-                                                                                         cross.selection.j.i = cross.selection.j.i)
+                                                                                         cross.selection.j.i = cross.selection.j.i,
+                                                                                         between.gonotrophic.survival = between.gonotrophic.survival)
 
           sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]
           sim.array['refugia', insecticide, generation] = tracked.resistance[[2]]
@@ -253,7 +255,8 @@ wrapper_run_simulation_mixtures_sd_scaled = function(insecticide.parameters.df,
                                                                                                     current.insecticide.efficacy.i = deployed.mixture$insecticide.efficacy.vector.part.1[generation],
                                                                                                     current.insecticide.efficacy.j = deployed.mixture$insecticide.efficacy.vector.part.2[generation],
                                                                                                     cross.selection.i.k = cross.selection.i.k,
-                                                                                                    cross.selection.j.k = cross.selection.j.k)
+                                                                                                    cross.selection.j.k = cross.selection.j.k,
+                                                                                                    between.gonotrophic.survival = between.gonotrophic.survival)
 
 
           sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]

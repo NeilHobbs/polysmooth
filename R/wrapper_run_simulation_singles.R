@@ -22,7 +22,8 @@ wrapper_run_simulation_singles = function(insecticide.parameters.df,
                                   available.vector,
                                   withdrawn.vector,
                                   min.cross.selection,
-                                  max.cross.selection){
+                                  max.cross.selection,
+                                  between.gonotrophic.survival){
 
   deployed.insecticide = rep(1, times = deployment.frequency)#Always start with insecticide 1.
   #This is fine as all insecticides have equivalent properties.
@@ -92,7 +93,8 @@ wrapper_run_simulation_singles = function(insecticide.parameters.df,
                                                                              maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
                                                                              regression.coefficient = regression.coefficient,
                                                                              regression.intercept = regression.intercept,
-                                                                             current.insecticide.efficacy.i = insecticide.efficacy.vector[generation])
+                                                                             current.insecticide.efficacy.i = insecticide.efficacy.vector[generation],
+                                                                             between.gonotrophic.survival = between.gonotrophic.survival)
 
           #Update to give the means of the next generation
 
@@ -145,7 +147,8 @@ wrapper_run_simulation_singles = function(insecticide.parameters.df,
                                                                                           regression.coefficient = regression.coefficient,
                                                                                           regression.intercept = regression.intercept,
                                                                                           current.insecticide.efficacy.j = insecticide.efficacy.vector[generation],
-                                                                                          cross.selection.j.i = cross.selection.j.i)
+                                                                                          cross.selection.j.i = cross.selection.j.i,
+                                                                                          between.gonotrophic.survival = between.gonotrophic.survival)
           sim.array['intervention', insecticide, generation] = tracked.resistance[[1]]
           sim.array['refugia', insecticide, generation] = tracked.resistance[[2]]
 
