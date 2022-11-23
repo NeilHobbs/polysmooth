@@ -51,7 +51,7 @@ irm_strategy_combinations_sequence_irs = function(number.of.insecticides,
   else{
 
     #if the previous insecticide is still available deploy
-    if(current.irs.insecticide %in% available.to.deploy){deployment.vector.updated = deploy_the_chosen_insecticide(insecticide.to.deploy = current.irs.insecticide,
+    if(current.irs.insecticide %in% available.to.deploy.irs){deployment.vector.updated = deploy_the_chosen_insecticide(insecticide.to.deploy = current.irs.insecticide,
                                                                                                                deployment.frequency = deployment.interval.irs,
                                                                                                                deployment.vector = deployment.vector)}
     #otherwise move on to the next insecticide
