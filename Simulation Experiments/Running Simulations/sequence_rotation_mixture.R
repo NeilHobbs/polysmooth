@@ -244,6 +244,9 @@ seq.rot.plot = ggplot(df.1, aes(x=sequence.duration - rotation.duration,
   xlab("Difference in Simulation Duration (Generations)")+
   ggtitle("Sequence vs Rotation")+
   facet_grid(cross.selection ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
+                                         breaks = NULL,
+                                         labels = NULL))+
   guides(fill=guide_legend(title="Outcome"))+
   theme_bw()+
   theme(legend.position = "bottom")
@@ -255,6 +258,9 @@ rot.mix.plot = ggplot(df.1, aes(x=mixture.duration - rotation.duration,
   geom_histogram(binwidth = 10)+
   xlim(-210, 380)+
   facet_grid(cross.selection ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
+                                         breaks = NULL,
+                                         labels = NULL))+
   xlab("Difference in Simulation Duration (Generations)")+
   ggtitle("Mixture vs Rotation")+
   guides(fill=guide_legend(title="Outcome"))+
@@ -271,11 +277,14 @@ seq.mix.plot = ggplot(df.1, aes(x=mixture.duration - sequence.duration,
   ggtitle("Mixture vs Sequence")+
   guides(fill=guide_legend(title="Outcome"))+
   facet_grid(cross.selection ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
+                                         breaks = NULL,
+                                         labels = NULL))+
   theme_bw()+
   theme(legend.position = "bottom")
 
 
-seq.rot.plot + rot.mix.plot + seq.mix.plot
+seq.rot.plot + rot.mix.plot + seq.mix.plot + plot_annotation(title = "polysmooth")
 
 
 
