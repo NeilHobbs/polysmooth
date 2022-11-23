@@ -102,7 +102,7 @@ perform_male_combination_insecticide_selection_differential_smooth = function(co
 
 
 
-  update.frequencies.i  = (initial.intervention.densities.i * female.exposure * survival.probability.int.i * coverage.i * coverage) +
+  update.frequencies.i  = (initial.intervention.densities.i * (female.exposure*male.exposure) * survival.probability.int.i * coverage.i * coverage) +
     (initial.intervention.densities.i * (female.exposure*male.exposure) * coverage.j * mean.survival.int.j * coverage) +
     (initial.intervention.densities.i * (female.exposure*male.exposure) * coverage.ij  * probability.only.i * survival.probability.int.i * coverage) + #i only
     (initial.intervention.densities.i * (female.exposure*male.exposure) * coverage.ij  * probability.only.j * mean.survival.int.j * coverage) + #j only
