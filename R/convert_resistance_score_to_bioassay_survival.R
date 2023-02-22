@@ -14,8 +14,8 @@ convert_resistance_score_to_bioassay_survival = function(maximum.bioassay.surviv
                                                          half.population.bioassay.survival.resistance = 900){
 
   #Error Messages
-  if(michaelis.menten.slope != 1){stop("michaelis.menten.slope must equal 1")}
-  if(maximum.bioassay.survival.proportion != 1){stop("maximum.bioassay.survival.proportion must equal 1.")}
+  # if(michaelis.menten.slope != 1){stop("michaelis.menten.slope must equal 1")}
+  # if(maximum.bioassay.survival.proportion != 1){stop("maximum.bioassay.survival.proportion must equal 1.")}
 
   #Generate a Normal distribution around the population mean of insecticide resistance values
   resistance.values = trait.mean
