@@ -87,7 +87,7 @@ convert_output_to_dataframe_combinations = function(simulation.results,
                                            llin.insecticide.deployed,
                                            llin.insecticide.efficacy,
                                            irs.insecticide.deployed,
-                                           irs.insecticide.efficac)
+                                           irs.insecticide.efficacy)
     }
   }
 
