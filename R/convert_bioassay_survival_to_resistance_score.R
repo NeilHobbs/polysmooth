@@ -25,8 +25,8 @@ convert_bioassay_survival_to_resistance_score = function(maximum.bioassay.surviv
                                                          maximum.resistance.value = 25000){
 
   #Error Messages
-  if(michaelis.menten.slope != 1){stop("michaelis.menten.slope must equal 1")}
-  if(maximum.bioassay.survival.proportion != 1){stop("maximum.bioassay.survival.proportion must equal 1.")}
+  # if(michaelis.menten.slope != 1){stop("michaelis.menten.slope must equal 1")}
+  # if(maximum.bioassay.survival.proportion != 1){stop("maximum.bioassay.survival.proportion must equal 1.")}
   if(bioassay.survival > 1 | bioassay.survival < 0){stop("Bioassay survival must be between 0 and 1.")}
 
   #Warning messages
