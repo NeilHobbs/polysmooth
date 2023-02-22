@@ -166,6 +166,14 @@ run_simulation_advanced_mixtures_simplified = function(irm.deployment.strategy =
 
 
 
-  return(simulation.results)
+      simulation.df = convert_output_to_dataframe_mixtures(simulation.results = simulation.results,
+                                                           half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                           michaelis.menten.slope = michaelis.menten.slope,
+                                                           maximum.generations = maximum.generations,
+                                                           maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion,
+                                                           number.of.insecticides = number.of.insecticides)
 
-}
+
+
+      return(simulation.df)
+      }
