@@ -556,8 +556,8 @@ multiple_gonotrophic_cycles_combinations_dispersal_not_deployed = function(inter
     #of which from "intervention" females:
     N.int.in.int.tracked  = sum(unlist(int.number.in.int.tracked ))
 
-    av.int.in.int.response.tracked  = sum(((unlist(int.response.in.int.tracked ) + (cross.selection.i.k * int.response.in.int.i) + (cross.selection.j.k * unlist(int.response.in.int.j))) * (unlist(int.number.in.int.tracked )/N.int.in.int.tracked )))
-    av.ref.in.int.response.tracked  = sum(((unlist(ref.response.in.int.tracked ) + (cross.selection.i.k * ref.response.in.int.i) + (cross.selection.j.k * unlist(ref.response.in.int.j))) * (unlist(ref.number.in.int.tracked )/N.ref.in.int.tracked )))
+    av.int.in.int.response.tracked  = sum(((unlist(int.response.in.int.tracked ) + (cross.selection.i.k * int.response.in.int.i) + (cross.selection.j.k * unlist(int.response.in.int.j))) * (unlist(int.number.in.int.tracked )/N.int.in.int.tracked )), na.rm = TRUE)
+    av.ref.in.int.response.tracked  = sum(((unlist(ref.response.in.int.tracked ) + (cross.selection.i.k * ref.response.in.int.i) + (cross.selection.j.k * unlist(ref.response.in.int.j))) * (unlist(ref.number.in.int.tracked )/N.ref.in.int.tracked )), na.rm =  TRUE)
 
     final.int.mean.tracked  = ((N.int.in.int.tracked  * (intervention.trait.mean.tracked  + av.int.in.int.response.tracked )) +
                                  (N.ref.in.int.tracked  * (refugia.trait.mean.tracked  + av.ref.in.int.response.tracked )))/(N.total.int.tracked )
