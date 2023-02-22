@@ -84,11 +84,10 @@ convert_output_to_dataframe_micromosaics = function(simulation.results,
                                            bioassay.survival,
                                            site,
                                            time.in.generations,
-                                           deployed.mixture.id,
-                                           deployed.mixture.part.1,
-                                           deployed.mixture.part.2,
-                                           insecticide.efficacy.part.1,
-                                           insecticide.efficacy.part.2)
+                                           insecticide.deployed.1,
+                                           insecticide.deployed.2,
+                                           insecticide.efficacy.1,
+                                           insecticide.efficacy.2)
     }
   }
 
