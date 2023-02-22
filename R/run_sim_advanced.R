@@ -178,9 +178,7 @@ run_simulation_advanced = function(irm.deployment.strategy = "combinations", #si
   #Make a dataframe of the insecticide parameters:
           #Note, solo deployment with number.of.insecticides = 1 behaves weird if dataframe is not with 2 insecticides. But has no impact on
             #the simulation being run.
-  insecticide.parameters.df = create_insecticide_parameters_dataframe_advanced(number.of.insecticides = ifelse(number.of.insecticides == 1,
-                                                                                                               yes = 2,
-                                                                                                               no = number.of.insecticides),
+  insecticide.parameters.df = create_insecticide_parameters_dataframe_advanced(number.of.insecticides = number.of.insecticides,
                                                                                applied.insecticide.dose = applied.insecticide.dose,
                                                                                recommended.insecticide.dose = recommended.insecticide.dose,
                                                                                threshold.generation = threshold.generations,
