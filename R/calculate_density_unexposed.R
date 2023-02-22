@@ -10,7 +10,7 @@ calculate_density_unexposed = function(vector.length,
                                         standard.deviation,
                                         insecticide.exposure){
 
-  if(insecticide.exposure > 1| insecticide.exposure<0){stop("insecticide.exposure must be between 0 and 1")}
+ # if(insecticide.exposure > 1| insecticide.exposure<0){stop("insecticide.exposure must be between 0 and 1")}
 
   #step 1:create the Normal Distribution of Polygenic Resistance Values
   normal.distribution = create_normal_distribution(vector.length = vector.length,
