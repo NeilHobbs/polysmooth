@@ -52,10 +52,6 @@ return(measured.bioassay.survival)
 
 
 
-sample_for_resistance(number.mosquitoes = 100,
-                      trait.mean = 100,
-                      standard.deviation = 50)
-
 
 
 
