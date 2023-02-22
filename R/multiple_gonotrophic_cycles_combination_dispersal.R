@@ -1,38 +1,50 @@
+
 multiple_gonotrophic_cycles_combination_dispersal = function(intervention.trait.mean.i,
-                                                             intervention.trait.mean.j,
-                                                             refugia.trait.mean.i,
-                                                             refugia.trait.mean.j,
-                                                             standard.deviation,
-                                                             vector.length,
-                                                             female.exposure,
-                                                             exposure.scaling.factor,
-                                                             coverage,
-                                                             dispersal.rate,
-                                                             male.differential.intervention.i,
-                                                             male.differential.intervention.j,
-                                                             male.differential.refugia.i,
-                                                             male.differential.refugia.j,
-                                                             female.fitness.cost.i,
-                                                             female.fitness.cost.j,
-                                                             heritability.i,
-                                                             heritability.j,
-                                                             n.cycles,
-                                                             half.population.bioassay.survival.resistance,
-                                                             michaelis.menten.slope ,
-                                                             maximum.bioassay.survival.proportion ,
-                                                             regression.coefficient,
-                                                             regression.intercept,
-                                                             current.insecticide.efficacy.i,
-                                                             current.insecticide.efficacy.j,
-                                                             coverage.i,
-                                                             coverage.j,
-                                                             coverage.ij,
-                                                             probability.only.i,
-                                                             probability.only.j,
-                                                             probability.both.i.j,
-                                                             cross.selection.i.j,
-                                                             cross.selection.j.i,
-                                                             between.gonotrophic.survival){
+                                                                  intervention.trait.mean.j,
+                                                                  refugia.trait.mean.i,
+                                                                  refugia.trait.mean.j,
+                                                                  standard.deviation,
+                                                                  vector.length,
+                                                                  female.exposure,
+                                                                  exposure.scaling.factor,
+                                                                  coverage,
+                                                                  dispersal.rate,
+                                                                  male.differential.intervention.i,
+                                                                  male.differential.intervention.j,
+                                                                  male.differential.refugia.i,
+                                                                  male.differential.refugia.j,
+                                                                  female.fitness.cost.i,
+                                                                  female.fitness.cost.j,
+                                                                  heritability.i,
+                                                                  heritability.j,
+                                                                  n.cycles,
+                                                                  half.population.bioassay.survival.resistance,
+                                                                  michaelis.menten.slope ,
+                                                                  maximum.bioassay.survival.proportion ,
+                                                                  regression.coefficient,
+                                                                  regression.intercept,
+                                                                  current.insecticide.efficacy.i,
+                                                                  current.insecticide.efficacy.j,
+                                                                  coverage.i,
+                                                                  coverage.j,
+                                                                  coverage.ij,
+                                                                  probability.only.i,
+                                                                  probability.only.j,
+                                                                  probability.both.i.j,
+                                                                  cross.selection.i.j,
+                                                                  cross.selection.j.i,
+                                                                  between.gonotrophic.survival){
+
+
+  #simplify encounters:
+  encounter.i.only = coverage.i + (coverage.ij * probability.only.i)
+
+  encounter.j.only = coverage.j + (coverage.ij * probability.only.j)
+
+  encounter.ij = coverage.ij * probability.both.i.j
+
+
+
 
   #Step 1: create the Normal Distributions:::
   #Insecticide i: emerge in intervention:
@@ -145,258 +157,387 @@ multiple_gonotrophic_cycles_combination_dispersal = function(intervention.trait.
   int.response.in.int.j = list()
   int.response.in.ref.j = list()
 
+  if(coverage == 1 | dispersal.rate == 0){
+    for(gonotrophic in 1:n.cycles){
+      if(gonotrophic == 1){
+
+        mean.survival.int.j = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean = intervention.trait.mean.j,
+                                                                                                                                            half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                                                                                            michaelis.menten.slope = michaelis.menten.slope,
+                                                                                                                                            maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
+                                                                          regression.coefficient = regression.coefficient,
+                                                                          regression.intercept = regression.intercept,
+                                                                          current.insecticide.efficacy = current.insecticide.efficacy.j)
+
+
+        int.staying.int.i[[gonotrophic]]  =
+          (initial.intervention.densities.i * female.exposure * encounter.j.only * mean.survival.int.j * coverage) + #j only
+          (initial.intervention.densities.i * female.exposure * encounter.i.only * survival.probability.int.i * coverage) + #i only
+          (initial.intervention.densities.i * female.exposure * encounter.ij * mean.survival.int.j * survival.probability.int.i * coverage) + #both ij
+          (initial.intervention.densities.i * (1-female.exposure) * coverage) #avoids
+
+        int.number.in.int.i[[gonotrophic]]  = sum(int.staying.int.i[[gonotrophic]] )
+
+        int.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.int.i[[gonotrophic]] ) - intervention.trait.mean.i) - female.fitness.cost.i
+
+        int.response.in.int.i[[gonotrophic]]  = heritability.i * ((int.in.int.differential.i[[gonotrophic]]  + male.differential.intervention.i) / 2)
+
+        mean.survival.int.i = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean = intervention.trait.mean.i,
+                                                                                                                                            half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                                                                                            michaelis.menten.slope = michaelis.menten.slope,
+                                                                                                                                            maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
+                                                                          regression.coefficient = regression.coefficient,
+                                                                          regression.intercept = regression.intercept,
+                                                                          current.insecticide.efficacy = current.insecticide.efficacy.i)
+
+
+        int.staying.int.j[[gonotrophic]]  =
+          (initial.intervention.densities.j * female.exposure * encounter.i.only * mean.survival.int.i * coverage) + #i only
+          (initial.intervention.densities.j * female.exposure * encounter.j.only * survival.probability.int.j * coverage) + #j only
+          (initial.intervention.densities.j * female.exposure * encounter.ij * mean.survival.int.i * survival.probability.int.j * coverage) + #both ij
+          (initial.intervention.densities.j * (1-female.exposure) * coverage)
+
+
+        int.number.in.int.j[[gonotrophic]]  = sum(int.staying.int.j[[gonotrophic]] )
+
+
+        int.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.int.j[[gonotrophic]] ) - intervention.trait.mean.j) - female.fitness.cost.j
+
+        int.response.in.int.j[[gonotrophic]]  = heritability.j * ((int.in.int.differential.j[[gonotrophic]]  + male.differential.intervention.j) / 2)
+
+      }
+
+      if(gonotrophic != 1){
+
+        mean.survival.int.j = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean =  (sum(int.staying.int.j[[gonotrophic-1]] * intervention.normal.distribution.j)/(sum(int.staying.int.j[[gonotrophic-1]]))),
+                                                                                                                                            half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                                                                                            michaelis.menten.slope = michaelis.menten.slope,
+                                                                                                                                            maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
+                                                                          regression.coefficient = regression.coefficient,
+                                                                          regression.intercept = regression.intercept,
+                                                                          current.insecticide.efficacy = current.insecticide.efficacy.j)
+
+
+
+
+
+        int.staying.int.i[[gonotrophic]]  = ((int.staying.int.i[[gonotrophic-1]] * (1-female.exposure) ) +
+                                               (int.staying.int.i[[gonotrophic-1]] * female.exposure * encounter.i.only * survival.probability.int.i * coverage) + #i only
+                                               (int.staying.int.i[[gonotrophic-1]] * female.exposure * encounter.ij * mean.survival.int.j * coverage) + #j only
+                                               (int.staying.int.i[[gonotrophic-1]] * female.exposure * encounter.ij * mean.survival.int.j * survival.probability.int.i * coverage))*between.gonotrophic.survival #both ij
+
+
+        int.number.in.int.i[[gonotrophic]]  = sum(int.staying.int.i[[gonotrophic]] )
+
+        int.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.int.i[[gonotrophic]] ) - intervention.trait.mean.i) - female.fitness.cost.i
+
+        int.response.in.int.i[[gonotrophic]]  = heritability.i * ((int.in.int.differential.i[[gonotrophic]]  + male.differential.intervention.i) / 2)
+
+
+
+        mean.survival.int.i = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean =  sum((int.staying.int.i[[gonotrophic-1]] * intervention.normal.distribution.i))/(sum(int.staying.int.i[[gonotrophic-1]])),
+                                                                                                                                            half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                                                                                            michaelis.menten.slope = michaelis.menten.slope,
+                                                                                                                                            maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
+                                                                          regression.coefficient = regression.coefficient,
+                                                                          regression.intercept = regression.intercept,
+                                                                          current.insecticide.efficacy = current.insecticide.efficacy.i)
+
+
+        int.staying.int.j[[gonotrophic]]  = ((int.staying.int.j[[gonotrophic-1]] * (1-female.exposure)) +
+                                               (int.staying.int.j[[gonotrophic-1]] * female.exposure * encounter.j.only * survival.probability.int.j * coverage) + #j only
+                                               (int.staying.int.j[[gonotrophic-1]] * female.exposure * encounter.i.only * mean.survival.int.i * coverage) + #i only
+                                               (int.staying.int.j[[gonotrophic-1]] * female.exposure * encounter.ij * mean.survival.int.i * survival.probability.int.j * coverage))*between.gonotrophic.survival #both ij
+
+        int.number.in.int.j[[gonotrophic]]  = sum(int.staying.int.j[[gonotrophic]] )
+
+        int.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.int.j[[gonotrophic]] ) - intervention.trait.mean.j) - female.fitness.cost.j
+
+        int.response.in.int.j[[gonotrophic]]  = heritability.j * ((int.in.int.differential.j[[gonotrophic]]  + male.differential.intervention.j) / 2)
+
+      }
+    }
+    final.ref.mean.i = 0
+
+    #total eggs laid for Trait i in intervention
+    N.total.int.i = sum(unlist(int.number.in.int.i))
+
+    #of which from "intervention" females:
+    N.int.in.int.i = sum(unlist(int.number.in.int.i))
+
+    av.int.in.int.response.i = sum(((unlist(int.response.in.int.i) + (cross.selection.j.i * unlist(int.response.in.int.j)))* (unlist(int.number.in.int.i)/N.int.in.int.i)))
+
+    final.int.mean.i = intervention.trait.mean.i + av.int.in.int.response.i
+
+
+    ###Repeat for Trait j:::
+
+    final.ref.mean.j = 0
+
+    #total eggs laid for Trait i in intervention
+    N.total.int.j = sum(unlist(int.number.in.int.j))
+
+    #of which from "intervention" females:
+    N.int.in.int.j = sum(unlist(int.number.in.int.j))
+
+    av.int.in.int.response.j = sum(((unlist(int.response.in.int.j) + (cross.selection.i.j * unlist(int.response.in.int.i)))* (unlist(int.number.in.int.j)/N.int.in.int.j)))
+
+    final.int.mean.j = intervention.trait.mean.j + av.int.in.int.response.j
+
+
+    #prevent mean PRS values falling below 0:::
+
+    final.ref.mean.i = ifelse(final.ref.mean.i < 0,
+                              yes = 0,
+                              no = final.ref.mean.i)
+
+    final.int.mean.i = ifelse(final.int.mean.i < 0,
+                              yes = 0,
+                              no = final.int.mean.i)
+
+    final.ref.mean.j = ifelse(final.ref.mean.j < 0,
+                              yes = 0,
+                              no = final.ref.mean.j)
+
+    final.int.mean.j = ifelse(final.int.mean.j < 0,
+                              yes = 0,
+                              no = final.int.mean.j)
+
+
+    return(list(final.int.mean.i, final.ref.mean.i, final.int.mean.j, final.ref.mean.j))
+  }
 
   if(coverage < 1){
-  for(gonotrophic in 1:n.cycles){
-    if(gonotrophic == 1){
+    for(gonotrophic in 1:n.cycles){
+      if(gonotrophic == 1){
 
-      mean.survival.int.j = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean = intervention.trait.mean.j,
-                                                                                                                                          half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
-                                                                                                                                          michaelis.menten.slope = michaelis.menten.slope,
-                                                                                                                                          maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
-                                                                        regression.coefficient = regression.coefficient,
-                                                                        regression.intercept = regression.intercept,
-                                                                        current.insecticide.efficacy = current.insecticide.efficacy.j)
-
-
-      ref.staying.ref.i[[gonotrophic]] = initial.refugia.densities.i * (1-coverage)*(1-dispersal.rate)
-      ref.joining.int.i[[gonotrophic]]  = initial.refugia.densities.i * (1-coverage) * dispersal.rate
-
-      int.staying.int.i[[gonotrophic]]  = (initial.intervention.densities.i * female.exposure * survival.probability.int.i * coverage.i * coverage * (1-dispersal.rate)) +
-        (initial.intervention.densities.i * female.exposure * coverage.j * mean.survival.int.j * coverage * (1-dispersal.rate)) +
-        (initial.intervention.densities.i * female.exposure * coverage.ij  * probability.only.i * survival.probability.int.i * coverage * (1-dispersal.rate)) + #i only
-        (initial.intervention.densities.i * female.exposure * coverage.ij  * probability.only.j * mean.survival.int.j * coverage * (1-dispersal.rate)) + #j only
-        (initial.intervention.densities.i * female.exposure * coverage.ij  * probability.both.i.j * mean.survival.int.j * survival.probability.int.i * coverage * (1-dispersal.rate)) + #both ij
-        (initial.intervention.densities.i * (1-female.exposure) * coverage * (1-dispersal.rate))
+        mean.survival.int.j = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean = intervention.trait.mean.j,
+                                                                                                                                            half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                                                                                            michaelis.menten.slope = michaelis.menten.slope,
+                                                                                                                                            maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
+                                                                          regression.coefficient = regression.coefficient,
+                                                                          regression.intercept = regression.intercept,
+                                                                          current.insecticide.efficacy = current.insecticide.efficacy.j)
 
 
-      int.joining.ref.i[[gonotrophic]]  = (initial.intervention.densities.i * female.exposure * survival.probability.int.i  * coverage * coverage.i * dispersal.rate) +
-        (initial.intervention.densities.i * female.exposure * mean.survival.int.j * coverage * coverage.j* dispersal.rate) +
-        (initial.intervention.densities.i * female.exposure * coverage.ij  * probability.only.i * survival.probability.int.i * coverage * dispersal.rate) + #i only
-        (initial.intervention.densities.i * female.exposure * coverage.ij  * probability.only.j * mean.survival.int.j * coverage * dispersal.rate) + #j only
-        (initial.intervention.densities.i * female.exposure * coverage.ij  * probability.both.i.j * mean.survival.int.j * survival.probability.int.i * coverage * dispersal.rate) + #both ij
-        (initial.intervention.densities.i * (1-female.exposure) * coverage * dispersal.rate)
+        ref.staying.ref.i[[gonotrophic]] = initial.refugia.densities.i * (1-coverage)*(1-dispersal.rate)
+        ref.joining.int.i[[gonotrophic]]  = initial.refugia.densities.i * (1-coverage) * dispersal.rate
+
+        int.staying.int.i[[gonotrophic]]  =
+          (initial.intervention.densities.i * female.exposure * encounter.i.only * survival.probability.int.i * coverage * (1-dispersal.rate)) + #i only
+          (initial.intervention.densities.i * female.exposure * encounter.j.only * mean.survival.int.j * coverage * (1-dispersal.rate)) + #j only
+          (initial.intervention.densities.i * female.exposure * encounter.ij * mean.survival.int.j * survival.probability.int.i * coverage * (1-dispersal.rate)) + #both ij
+          (initial.intervention.densities.i * (1-female.exposure) * coverage * (1-dispersal.rate))
+
+
+        int.joining.ref.i[[gonotrophic]]  =
+          (initial.intervention.densities.i * female.exposure * encounter.i.only * survival.probability.int.i * coverage * dispersal.rate) + #i only
+          (initial.intervention.densities.i * female.exposure * encounter.j.only * mean.survival.int.j * coverage * dispersal.rate) + #j only
+          (initial.intervention.densities.i * female.exposure * encounter.ij * mean.survival.int.j * survival.probability.int.i * coverage * dispersal.rate) + #both ij
+          (initial.intervention.densities.i * (1-female.exposure) * coverage * dispersal.rate)
 
 
 
-      ref.number.in.ref.i[[gonotrophic]]  = sum(ref.staying.ref.i[[gonotrophic]] )
-      int.number.in.ref.i[[gonotrophic]]  = sum(int.joining.ref.i[[gonotrophic]] )
+        ref.number.in.ref.i[[gonotrophic]]  = sum(ref.staying.ref.i[[gonotrophic]] )
+        int.number.in.ref.i[[gonotrophic]]  = sum(int.joining.ref.i[[gonotrophic]] )
 
-      int.number.in.int.i[[gonotrophic]]  = sum(int.staying.int.i[[gonotrophic]] )
-      ref.number.in.int.i[[gonotrophic]]  = sum(ref.joining.int.i[[gonotrophic]] )
+        int.number.in.int.i[[gonotrophic]]  = sum(int.staying.int.i[[gonotrophic]] )
+        ref.number.in.int.i[[gonotrophic]]  = sum(ref.joining.int.i[[gonotrophic]] )
 
-      int.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.int.i[[gonotrophic]] ) - intervention.trait.mean.i) - female.fitness.cost.i
-      int.in.ref.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.joining.ref.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.ref.i[[gonotrophic]] ) - intervention.trait.mean.i) - female.fitness.cost.i
+        int.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.int.i[[gonotrophic]] ) - intervention.trait.mean.i) - female.fitness.cost.i
+        int.in.ref.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.joining.ref.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.ref.i[[gonotrophic]] ) - intervention.trait.mean.i) - female.fitness.cost.i
 
-      ref.in.ref.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.staying.ref.i[[gonotrophic]] *refugia.normal.distribution.i) / ref.number.in.ref.i[[gonotrophic]] ) - refugia.trait.mean.i) - female.fitness.cost.i
-      ref.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.joining.int.i[[gonotrophic]] *refugia.normal.distribution.i) / ref.number.in.int.i[[gonotrophic]] ) - refugia.trait.mean.i) - female.fitness.cost.i
+        ref.in.ref.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.staying.ref.i[[gonotrophic]] *refugia.normal.distribution.i) / ref.number.in.ref.i[[gonotrophic]] ) - refugia.trait.mean.i) - female.fitness.cost.i
+        ref.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.joining.int.i[[gonotrophic]] *refugia.normal.distribution.i) / ref.number.in.int.i[[gonotrophic]] ) - refugia.trait.mean.i) - female.fitness.cost.i
 
-      ref.response.in.ref.i[[gonotrophic]]  = heritability.i * ((ref.in.ref.differential.i[[gonotrophic]]  + male.differential.refugia.i) / 2)
-      ref.response.in.int.i[[gonotrophic]]  = heritability.i * ((ref.in.int.differential.i[[gonotrophic]]  + male.differential.refugia.i) / 2)
-      int.response.in.int.i[[gonotrophic]]  = heritability.i * ((int.in.int.differential.i[[gonotrophic]]  + male.differential.intervention.i) / 2)
-      int.response.in.ref.i[[gonotrophic]]  = heritability.i * ((int.in.ref.differential.i[[gonotrophic]]  + male.differential.intervention.i) / 2)
-
-
-      mean.survival.int.i = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean = intervention.trait.mean.i,
-                                                                                                                                          half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
-                                                                                                                                          michaelis.menten.slope = michaelis.menten.slope,
-                                                                                                                                          maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
-                                                                        regression.coefficient = regression.coefficient,
-                                                                        regression.intercept = regression.intercept,
-                                                                        current.insecticide.efficacy = current.insecticide.efficacy.i)
+        ref.response.in.ref.i[[gonotrophic]]  = heritability.i * ((ref.in.ref.differential.i[[gonotrophic]]  + male.differential.refugia.i) / 2)
+        ref.response.in.int.i[[gonotrophic]]  = heritability.i * ((ref.in.int.differential.i[[gonotrophic]]  + male.differential.refugia.i) / 2)
+        int.response.in.int.i[[gonotrophic]]  = heritability.i * ((int.in.int.differential.i[[gonotrophic]]  + male.differential.intervention.i) / 2)
+        int.response.in.ref.i[[gonotrophic]]  = heritability.i * ((int.in.ref.differential.i[[gonotrophic]]  + male.differential.intervention.i) / 2)
 
 
-      ref.staying.ref.j[[gonotrophic]] = initial.refugia.densities.j * (1-coverage)*(1-dispersal.rate)
-      ref.joining.int.j[[gonotrophic]]  = initial.refugia.densities.j * (1-coverage) * dispersal.rate
-
-      int.staying.int.j[[gonotrophic]]  = (initial.intervention.densities.j * female.exposure * survival.probability.int.j * coverage.j * coverage * (1-dispersal.rate)) +
-        (initial.intervention.densities.j * female.exposure * coverage.i * mean.survival.int.i * coverage * (1-dispersal.rate)) +
-        (initial.intervention.densities.j * female.exposure * coverage.ij  * probability.only.i * mean.survival.int.i * coverage * (1-dispersal.rate)) + #i only
-        (initial.intervention.densities.j * female.exposure * coverage.ij  * probability.only.j * survival.probability.int.j * coverage * (1-dispersal.rate)) + #j only
-        (initial.intervention.densities.j * female.exposure * coverage.ij  * probability.both.i.j * mean.survival.int.i * survival.probability.int.j * coverage * (1-dispersal.rate)) + #both ij
-        (initial.intervention.densities.j * (1-female.exposure) * coverage * (1-dispersal.rate))
+        mean.survival.int.i = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean = intervention.trait.mean.i,
+                                                                                                                                            half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                                                                                            michaelis.menten.slope = michaelis.menten.slope,
+                                                                                                                                            maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
+                                                                          regression.coefficient = regression.coefficient,
+                                                                          regression.intercept = regression.intercept,
+                                                                          current.insecticide.efficacy = current.insecticide.efficacy.i)
 
 
-      int.joining.ref.j[[gonotrophic]]  = (initial.intervention.densities.j * female.exposure * mean.survival.int.i * coverage *coverage.i* dispersal.rate) +
-        (initial.intervention.densities.j * female.exposure * survival.probability.int.j * coverage.j * coverage * dispersal.rate) +
-        (initial.intervention.densities.j * female.exposure * coverage.ij  * probability.only.i * mean.survival.int.i * coverage * dispersal.rate) + #i only
-        (initial.intervention.densities.j * female.exposure * coverage.ij  * probability.only.j * survival.probability.int.j * coverage * dispersal.rate) + #j only
-        (initial.intervention.densities.j * female.exposure * coverage.ij  * probability.both.i.j * mean.survival.int.i * survival.probability.int.j * coverage * dispersal.rate) + #both ij
-        (initial.intervention.densities.j * (1-female.exposure) * coverage * dispersal.rate)
+        ref.staying.ref.j[[gonotrophic]] = initial.refugia.densities.j * (1-coverage)*(1-dispersal.rate)
+        ref.joining.int.j[[gonotrophic]]  = initial.refugia.densities.j * (1-coverage) * dispersal.rate
+
+        int.staying.int.j[[gonotrophic]]  =
+          (initial.intervention.densities.j * female.exposure * encounter.i.only * mean.survival.int.i * coverage * (1-dispersal.rate)) + #i only
+          (initial.intervention.densities.j * female.exposure * encounter.j.only * survival.probability.int.j * coverage * (1-dispersal.rate)) + #j only
+          (initial.intervention.densities.j * female.exposure * encounter.ij * mean.survival.int.i * survival.probability.int.j * coverage * (1-dispersal.rate)) + #both ij
+          (initial.intervention.densities.j * (1-female.exposure) * coverage * (1-dispersal.rate))
+
+
+        int.joining.ref.j[[gonotrophic]]  =
+          (initial.intervention.densities.j * female.exposure * encounter.i.only * mean.survival.int.i * coverage * dispersal.rate) + #i only
+          (initial.intervention.densities.j * female.exposure * encounter.j.only * survival.probability.int.j * coverage * dispersal.rate) + #j only
+          (initial.intervention.densities.j * female.exposure * encounter.ij * mean.survival.int.i * survival.probability.int.j * coverage * dispersal.rate) + #both ij
+          (initial.intervention.densities.j * (1-female.exposure) * coverage * dispersal.rate)
 
 
 
-      ref.number.in.ref.j[[gonotrophic]]  = sum(ref.staying.ref.j[[gonotrophic]] )
-      int.number.in.ref.j[[gonotrophic]]  = sum(int.joining.ref.j[[gonotrophic]] )
+        ref.number.in.ref.j[[gonotrophic]]  = sum(ref.staying.ref.j[[gonotrophic]] )
+        int.number.in.ref.j[[gonotrophic]]  = sum(int.joining.ref.j[[gonotrophic]] )
 
-      int.number.in.int.j[[gonotrophic]]  = sum(int.staying.int.j[[gonotrophic]] )
-      ref.number.in.int.j[[gonotrophic]]  = sum(ref.joining.int.j[[gonotrophic]] )
+        int.number.in.int.j[[gonotrophic]]  = sum(int.staying.int.j[[gonotrophic]] )
+        ref.number.in.int.j[[gonotrophic]]  = sum(ref.joining.int.j[[gonotrophic]] )
 
-      int.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.int.j[[gonotrophic]] ) - intervention.trait.mean.j) - female.fitness.cost.j
-      int.in.ref.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.joining.ref.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.ref.j[[gonotrophic]] ) - intervention.trait.mean.j) - female.fitness.cost.j
+        int.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.int.j[[gonotrophic]] ) - intervention.trait.mean.j) - female.fitness.cost.j
+        int.in.ref.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.joining.ref.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.ref.j[[gonotrophic]] ) - intervention.trait.mean.j) - female.fitness.cost.j
 
-      ref.in.ref.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.staying.ref.j[[gonotrophic]] *refugia.normal.distribution.j) / ref.number.in.ref.j[[gonotrophic]] ) - refugia.trait.mean.j) - female.fitness.cost.j
-      ref.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.joining.int.j[[gonotrophic]] *refugia.normal.distribution.j) / ref.number.in.int.j[[gonotrophic]] ) - refugia.trait.mean.j) - female.fitness.cost.j
+        ref.in.ref.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.staying.ref.j[[gonotrophic]] *refugia.normal.distribution.j) / ref.number.in.ref.j[[gonotrophic]] ) - refugia.trait.mean.j) - female.fitness.cost.j
+        ref.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.joining.int.j[[gonotrophic]] *refugia.normal.distribution.j) / ref.number.in.int.j[[gonotrophic]] ) - refugia.trait.mean.j) - female.fitness.cost.j
 
-      ref.response.in.ref.j[[gonotrophic]]  = heritability.j * ((ref.in.ref.differential.j[[gonotrophic]]  + male.differential.refugia.j) / 2)
-      ref.response.in.int.j[[gonotrophic]]  = heritability.j * ((ref.in.int.differential.j[[gonotrophic]]  + male.differential.refugia.j) / 2)
-      int.response.in.int.j[[gonotrophic]]  = heritability.j * ((int.in.int.differential.j[[gonotrophic]]  + male.differential.intervention.j) / 2)
-      int.response.in.ref.j[[gonotrophic]]  = heritability.j * ((int.in.ref.differential.j[[gonotrophic]]  + male.differential.intervention.j) / 2)
+        ref.response.in.ref.j[[gonotrophic]]  = heritability.j * ((ref.in.ref.differential.j[[gonotrophic]]  + male.differential.refugia.j) / 2)
+        ref.response.in.int.j[[gonotrophic]]  = heritability.j * ((ref.in.int.differential.j[[gonotrophic]]  + male.differential.refugia.j) / 2)
+        int.response.in.int.j[[gonotrophic]]  = heritability.j * ((int.in.int.differential.j[[gonotrophic]]  + male.differential.intervention.j) / 2)
+        int.response.in.ref.j[[gonotrophic]]  = heritability.j * ((int.in.ref.differential.j[[gonotrophic]]  + male.differential.intervention.j) / 2)
 
+      }
+
+      if(gonotrophic != 1){
+
+        mean.survival.int.j = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean =  (sum(int.staying.int.j[[gonotrophic-1]] * intervention.normal.distribution.j)/(sum(int.staying.int.j[[gonotrophic-1]]))),
+                                                                                                                                            half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                                                                                            michaelis.menten.slope = michaelis.menten.slope,
+                                                                                                                                            maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
+                                                                          regression.coefficient = regression.coefficient,
+                                                                          regression.intercept = regression.intercept,
+                                                                          current.insecticide.efficacy = current.insecticide.efficacy.j)
+
+        mean.survival.ref.j = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean =  sum((ref.joining.int.j[[gonotrophic-1]] * refugia.normal.distribution.j))/(sum(int.staying.int.j[[gonotrophic-1]])),
+                                                                                                                                            half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                                                                                            michaelis.menten.slope = michaelis.menten.slope,
+                                                                                                                                            maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
+                                                                          regression.coefficient = regression.coefficient,
+                                                                          regression.intercept = regression.intercept,
+                                                                          current.insecticide.efficacy = current.insecticide.efficacy.j)
+
+
+
+
+        ref.staying.ref.i[[gonotrophic]] = ((ref.staying.ref.i[[gonotrophic-1]] * (1-dispersal.rate)) +
+                                              (ref.joining.int.i[[gonotrophic-1]] * (1-female.exposure)*dispersal.rate) +
+                                              (ref.joining.int.i[[gonotrophic-1]] * female.exposure * encounter.i.only * survival.probability.int.i * coverage * dispersal.rate) + #i only
+                                              (ref.joining.int.i[[gonotrophic-1]] * female.exposure * encounter.j.only * mean.survival.int.j * coverage * dispersal.rate) + #j only
+                                              (ref.joining.int.i[[gonotrophic-1]] * female.exposure * encounter.ij * mean.survival.int.j * survival.probability.int.i * coverage * dispersal.rate))*between.gonotrophic.survival #both ij
+
+
+
+        ref.joining.int.i[[gonotrophic]]  = ((ref.joining.int.i[[gonotrophic-1]] * (1-female.exposure)*(1-dispersal.rate)) +
+                                               (ref.joining.int.i[[gonotrophic-1]] * female.exposure * encounter.i.only * survival.probability.int.i * coverage * (1-dispersal.rate)) + #i only
+                                               (ref.joining.int.i[[gonotrophic-1]] * female.exposure * encounter.j.only * mean.survival.int.j * coverage * (1-dispersal.rate)) + #j only
+                                               (ref.joining.int.i[[gonotrophic-1]] * female.exposure * encounter.ij * mean.survival.int.j * survival.probability.int.i * coverage * (1-dispersal.rate)) + #both ij
+                                               (ref.staying.ref.i[[gonotrophic-1]] * dispersal.rate))*between.gonotrophic.survival
+
+
+        int.staying.int.i[[gonotrophic]]  = ((int.staying.int.i[[gonotrophic-1]] * (1-female.exposure) * (1-dispersal.rate)) +
+                                               (int.staying.int.i[[gonotrophic-1]] * female.exposure * encounter.i.only * survival.probability.int.i * coverage * (1-dispersal.rate)) + #i only
+                                               (int.staying.int.i[[gonotrophic-1]] * female.exposure * encounter.j.only * mean.survival.int.j * coverage * (1-dispersal.rate)) + #j only
+                                               (int.staying.int.i[[gonotrophic-1]] * female.exposure * encounter.ij * mean.survival.int.j * survival.probability.int.i * coverage * (1-dispersal.rate)) + #both ij
+                                               (int.joining.ref.i[[gonotrophic-1]] * dispersal.rate))*between.gonotrophic.survival
+
+        int.joining.ref.i[[gonotrophic]]  = ((int.joining.ref.i[[gonotrophic-1]] * (1-dispersal.rate))+
+                                               (int.staying.int.i[[gonotrophic-1]] * female.exposure * encounter.i.only * survival.probability.int.i * coverage * dispersal.rate) + #i only
+                                               (int.staying.int.i[[gonotrophic-1]] * female.exposure * encounter.j.only * mean.survival.int.j * coverage * dispersal.rate) + #j only
+                                               (int.staying.int.i[[gonotrophic-1]] * female.exposure * encounter.ij * mean.survival.int.j * survival.probability.int.i * coverage * dispersal.rate) +
+                                               (int.staying.int.i[[gonotrophic-1]] * (1-female.exposure) * dispersal.rate))*between.gonotrophic.survival
+
+
+
+        ref.number.in.ref.i[[gonotrophic]]  = sum(ref.staying.ref.i[[gonotrophic]] )
+        int.number.in.ref.i[[gonotrophic]]  = sum(int.joining.ref.i[[gonotrophic]] )
+
+        int.number.in.int.i[[gonotrophic]]  = sum(int.staying.int.i[[gonotrophic]] )
+        ref.number.in.int.i[[gonotrophic]]  = sum(ref.joining.int.i[[gonotrophic]] )
+
+        int.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.int.i[[gonotrophic]] ) - intervention.trait.mean.i) - female.fitness.cost.i
+        int.in.ref.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.joining.ref.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.ref.i[[gonotrophic]] ) - intervention.trait.mean.i) - female.fitness.cost.i
+
+        ref.in.ref.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.staying.ref.i[[gonotrophic]] *refugia.normal.distribution.i) / ref.number.in.ref.i[[gonotrophic]] ) - refugia.trait.mean.i) - female.fitness.cost.i
+        ref.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.joining.int.i[[gonotrophic]] *refugia.normal.distribution.i) / ref.number.in.int.i[[gonotrophic]] ) - refugia.trait.mean.i) - female.fitness.cost.i
+
+        ref.response.in.ref.i[[gonotrophic]]  = heritability.i * ((ref.in.ref.differential.i[[gonotrophic]]  + male.differential.refugia.i) / 2)
+        ref.response.in.int.i[[gonotrophic]]  = heritability.i * ((ref.in.int.differential.i[[gonotrophic]]  + male.differential.refugia.i) / 2)
+        int.response.in.int.i[[gonotrophic]]  = heritability.i * ((int.in.int.differential.i[[gonotrophic]]  + male.differential.intervention.i) / 2)
+        int.response.in.ref.i[[gonotrophic]]  = heritability.i * ((int.in.ref.differential.i[[gonotrophic]]  + male.differential.intervention.i) / 2)
+
+
+
+        mean.survival.int.i = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean =  sum((int.staying.int.i[[gonotrophic-1]] * intervention.normal.distribution.i))/(sum(int.staying.int.i[[gonotrophic-1]])),
+                                                                                                                                            half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                                                                                            michaelis.menten.slope = michaelis.menten.slope,
+                                                                                                                                            maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
+                                                                          regression.coefficient = regression.coefficient,
+                                                                          regression.intercept = regression.intercept,
+                                                                          current.insecticide.efficacy = current.insecticide.efficacy.i)
+
+        mean.survival.ref.i = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean =  (ref.joining.int.i[[gonotrophic-1]] * refugia.normal.distribution.i)/(sum(int.staying.int.i[[gonotrophic-1]])),
+                                                                                                                                            half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
+                                                                                                                                            michaelis.menten.slope = michaelis.menten.slope,
+                                                                                                                                            maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
+                                                                          regression.coefficient = regression.coefficient,
+                                                                          regression.intercept = regression.intercept,
+                                                                          current.insecticide.efficacy = current.insecticide.efficacy.i)
+
+
+
+
+        ref.staying.ref.j[[gonotrophic]] = ((ref.staying.ref.j[[gonotrophic-1]] *(1-dispersal.rate)) +
+                                              (ref.joining.int.j[[gonotrophic-1]] * (1-female.exposure)*dispersal.rate) +
+                                              (ref.joining.int.j[[gonotrophic-1]] * female.exposure * encounter.j.only * survival.probability.int.j * coverage * dispersal.rate) + #j only
+                                              (ref.joining.int.j[[gonotrophic-1]] * female.exposure * encounter.i.only * mean.survival.int.i * coverage * dispersal.rate) + #ionly
+                                              (ref.joining.int.j[[gonotrophic-1]] * female.exposure * encounter.ij * mean.survival.int.i * survival.probability.int.j * coverage * dispersal.rate))*between.gonotrophic.survival  #both ij
+
+
+
+        ref.joining.int.j[[gonotrophic]]  = ((ref.joining.int.j[[gonotrophic-1]] * (1-female.exposure)*(1-dispersal.rate)) +
+                                               (ref.joining.int.j[[gonotrophic-1]] * female.exposure * encounter.j.only * survival.probability.int.j * coverage * (1-dispersal.rate)) + #j only
+                                               (ref.joining.int.j[[gonotrophic-1]] * female.exposure * encounter.i.only * mean.survival.int.i * coverage * (1-dispersal.rate)) + #i only
+                                               (ref.joining.int.j[[gonotrophic-1]] * female.exposure * encounter.ij * mean.survival.int.i * survival.probability.int.j * coverage * (1-dispersal.rate)) + #both ij
+                                               (ref.staying.ref.j[[gonotrophic-1]] * dispersal.rate))*between.gonotrophic.survival
+
+
+        int.staying.int.j[[gonotrophic]]  = ((int.staying.int.j[[gonotrophic-1]] * (1-female.exposure) * (1-dispersal.rate)) +
+                                               (int.staying.int.j[[gonotrophic-1]] * female.exposure * encounter.j.only * survival.probability.int.j * coverage * (1-dispersal.rate)) + #j only
+                                               (int.staying.int.j[[gonotrophic-1]] * female.exposure * encounter.i.only * mean.survival.int.i * coverage * (1-dispersal.rate)) + #i only
+                                               (int.staying.int.j[[gonotrophic-1]] * female.exposure * encounter.ij * mean.survival.int.i * survival.probability.int.j * coverage * (1-dispersal.rate)) + #both ij
+                                               (int.joining.ref.j[[gonotrophic-1]] * dispersal.rate))*between.gonotrophic.survival
+
+        int.joining.ref.j[[gonotrophic]]  = ((int.joining.ref.j[[gonotrophic-1]] * (1-dispersal.rate))+
+                                               (int.staying.int.j[[gonotrophic-1]] * female.exposure * encounter.j.only * survival.probability.int.j * coverage * dispersal.rate) + #j only
+                                               (int.staying.int.j[[gonotrophic-1]] * female.exposure * encounter.i.only * mean.survival.int.i * coverage * dispersal.rate) + #i only
+                                               (int.staying.int.j[[gonotrophic-1]] * female.exposure * encounter.ij * mean.survival.int.i * survival.probability.int.j * coverage * dispersal.rate) +
+                                               (int.staying.int.j[[gonotrophic-1]] * (1-female.exposure) * dispersal.rate))*between.gonotrophic.survival
+
+
+
+        ref.number.in.ref.j[[gonotrophic]]  = sum(ref.staying.ref.j[[gonotrophic]] )
+        int.number.in.ref.j[[gonotrophic]]  = sum(int.joining.ref.j[[gonotrophic]] )
+
+        int.number.in.int.j[[gonotrophic]]  = sum(int.staying.int.j[[gonotrophic]] )
+        ref.number.in.int.j[[gonotrophic]]  = sum(ref.joining.int.j[[gonotrophic]] )
+
+        int.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.int.j[[gonotrophic]] ) - intervention.trait.mean.j) - female.fitness.cost.j
+        int.in.ref.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.joining.ref.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.ref.j[[gonotrophic]] ) - intervention.trait.mean.j) - female.fitness.cost.j
+
+        ref.in.ref.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.staying.ref.j[[gonotrophic]] *refugia.normal.distribution.j) / ref.number.in.ref.j[[gonotrophic]] ) - refugia.trait.mean.j) - female.fitness.cost.j
+        ref.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.joining.int.j[[gonotrophic]] *refugia.normal.distribution.j) / ref.number.in.int.j[[gonotrophic]] ) - refugia.trait.mean.j) - female.fitness.cost.j
+
+        ref.response.in.ref.j[[gonotrophic]]  = heritability.j * ((ref.in.ref.differential.j[[gonotrophic]]  + male.differential.refugia.j) / 2)
+        ref.response.in.int.j[[gonotrophic]]  = heritability.j * ((ref.in.int.differential.j[[gonotrophic]]  + male.differential.refugia.j) / 2)
+        int.response.in.int.j[[gonotrophic]]  = heritability.j * ((int.in.int.differential.j[[gonotrophic]]  + male.differential.intervention.j) / 2)
+        int.response.in.ref.j[[gonotrophic]]  = heritability.j * ((int.in.ref.differential.j[[gonotrophic]]  + male.differential.intervention.j) / 2)
+
+      }
     }
-
-    if(gonotrophic != 1){
-
-      mean.survival.int.j = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean =  (sum(int.staying.int.j[[gonotrophic-1]] * intervention.normal.distribution.j)/(sum(int.staying.int.j[[gonotrophic-1]]))),
-                                                                                                                                          half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
-                                                                                                                                          michaelis.menten.slope = michaelis.menten.slope,
-                                                                                                                                          maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
-                                                                        regression.coefficient = regression.coefficient,
-                                                                        regression.intercept = regression.intercept,
-                                                                        current.insecticide.efficacy = current.insecticide.efficacy.j)
-
-      mean.survival.ref.j = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean =  sum((ref.joining.int.j[[gonotrophic-1]] * refugia.normal.distribution.j))/(sum(int.staying.int.j[[gonotrophic-1]])),
-                                                                                                                                          half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
-                                                                                                                                          michaelis.menten.slope = michaelis.menten.slope,
-                                                                                                                                          maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
-                                                                        regression.coefficient = regression.coefficient,
-                                                                        regression.intercept = regression.intercept,
-                                                                        current.insecticide.efficacy = current.insecticide.efficacy.j)
-
-
-
-
-      ref.staying.ref.i[[gonotrophic]] = ((ref.staying.ref.i[[gonotrophic-1]] * (1-dispersal.rate)) +
-        (ref.joining.int.i[[gonotrophic-1]] * (1-female.exposure)*dispersal.rate) +
-        (ref.joining.int.i[[gonotrophic-1]] * female.exposure * dispersal.rate * coverage.i * survival.probability.ref.i)+
-        (ref.joining.int.i[[gonotrophic-1]] * female.exposure * dispersal.rate * mean.survival.ref.j * coverage.j)+
-        (ref.joining.int.i[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.i * survival.probability.int.i * coverage * dispersal.rate) + #i only
-        (ref.joining.int.i[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.j * mean.survival.int.j * coverage * dispersal.rate) + #j only
-        (ref.joining.int.i[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.both.i.j * mean.survival.int.j * survival.probability.int.i * coverage * dispersal.rate))*between.gonotrophic.survival #both ij
-
-
-
-      ref.joining.int.i[[gonotrophic]]  = ((ref.joining.int.i[[gonotrophic-1]] * (1-female.exposure)*(1-dispersal.rate)) +
-        (ref.joining.int.i[[gonotrophic-1]] * female.exposure * (1-dispersal.rate) * coverage.i * survival.probability.ref.i) +
-        (ref.joining.int.i[[gonotrophic-1]] * female.exposure * (1-dispersal.rate) * mean.survival.ref.j * coverage.j) +
-        (ref.joining.int.i[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.i * survival.probability.int.i * coverage * (1-dispersal.rate)) + #i only
-        (ref.joining.int.i[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.j * mean.survival.int.j * coverage * (1-dispersal.rate)) + #j only
-        (ref.joining.int.i[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.both.i.j * mean.survival.int.j * survival.probability.int.i * coverage * (1-dispersal.rate)) + #both ij
-        (ref.staying.ref.i[[gonotrophic-1]] * dispersal.rate))*between.gonotrophic.survival
-
-
-      int.staying.int.i[[gonotrophic]]  = ((int.staying.int.i[[gonotrophic-1]] * (1-female.exposure) * (1-dispersal.rate)) +
-        (int.staying.int.i[[gonotrophic-1]] * female.exposure * (1-dispersal.rate) * coverage.i * survival.probability.int.i)+
-        (int.staying.int.i[[gonotrophic-1]] * female.exposure * (1-dispersal.rate) * mean.survival.int.j * coverage.j)+
-        (int.staying.int.i[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.i * survival.probability.int.i * coverage * (1-dispersal.rate)) + #i only
-        (int.staying.int.i[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.j * mean.survival.int.j * coverage * (1-dispersal.rate)) + #j only
-        (int.staying.int.i[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.both.i.j * mean.survival.int.j * survival.probability.int.i * coverage * (1-dispersal.rate)) + #both ij
-        (int.joining.ref.i[[gonotrophic-1]] * dispersal.rate))*between.gonotrophic.survival
-
-      int.joining.ref.i[[gonotrophic]]  = ((int.joining.ref.i[[gonotrophic-1]] * (1-dispersal.rate))+
-        (int.staying.int.i[[gonotrophic-1]] * female.exposure * dispersal.rate * coverage.i * survival.probability.int.i)+
-        (int.staying.int.i[[gonotrophic-1]] * female.exposure * dispersal.rate * mean.survival.int.j * coverage.j)+
-        (int.staying.int.i[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.i * survival.probability.int.i * coverage * dispersal.rate) + #i only
-        (int.staying.int.i[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.j * mean.survival.int.j * coverage * dispersal.rate) + #j only
-        (int.staying.int.i[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.both.i.j * mean.survival.int.j * survival.probability.int.i * coverage * dispersal.rate) +
-        (int.staying.int.i[[gonotrophic-1]] * (1-female.exposure) * dispersal.rate))*between.gonotrophic.survival
-
-
-
-      ref.number.in.ref.i[[gonotrophic]]  = sum(ref.staying.ref.i[[gonotrophic]] )
-      int.number.in.ref.i[[gonotrophic]]  = sum(int.joining.ref.i[[gonotrophic]] )
-
-      int.number.in.int.i[[gonotrophic]]  = sum(int.staying.int.i[[gonotrophic]] )
-      ref.number.in.int.i[[gonotrophic]]  = sum(ref.joining.int.i[[gonotrophic]] )
-
-      int.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.int.i[[gonotrophic]] ) - intervention.trait.mean.i) - female.fitness.cost.i
-      int.in.ref.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.joining.ref.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.ref.i[[gonotrophic]] ) - intervention.trait.mean.i) - female.fitness.cost.i
-
-      ref.in.ref.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.staying.ref.i[[gonotrophic]] *refugia.normal.distribution.i) / ref.number.in.ref.i[[gonotrophic]] ) - refugia.trait.mean.i) - female.fitness.cost.i
-      ref.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.joining.int.i[[gonotrophic]] *refugia.normal.distribution.i) / ref.number.in.int.i[[gonotrophic]] ) - refugia.trait.mean.i) - female.fitness.cost.i
-
-      ref.response.in.ref.i[[gonotrophic]]  = heritability.i * ((ref.in.ref.differential.i[[gonotrophic]]  + male.differential.refugia.i) / 2)
-      ref.response.in.int.i[[gonotrophic]]  = heritability.i * ((ref.in.int.differential.i[[gonotrophic]]  + male.differential.refugia.i) / 2)
-      int.response.in.int.i[[gonotrophic]]  = heritability.i * ((int.in.int.differential.i[[gonotrophic]]  + male.differential.intervention.i) / 2)
-      int.response.in.ref.i[[gonotrophic]]  = heritability.i * ((int.in.ref.differential.i[[gonotrophic]]  + male.differential.intervention.i) / 2)
-
-
-
-      mean.survival.int.i = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean =  sum((int.staying.int.i[[gonotrophic-1]] * intervention.normal.distribution.i))/(sum(int.staying.int.i[[gonotrophic-1]])),
-                                                                                                                                          half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
-                                                                                                                                          michaelis.menten.slope = michaelis.menten.slope,
-                                                                                                                                          maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
-                                                                        regression.coefficient = regression.coefficient,
-                                                                        regression.intercept = regression.intercept,
-                                                                        current.insecticide.efficacy = current.insecticide.efficacy.i)
-
-      mean.survival.ref.i = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean =  (ref.joining.int.i[[gonotrophic-1]] * refugia.normal.distribution.i)/(sum(int.staying.int.i[[gonotrophic-1]])),
-                                                                                                                                          half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
-                                                                                                                                          michaelis.menten.slope = michaelis.menten.slope,
-                                                                                                                                          maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
-                                                                        regression.coefficient = regression.coefficient,
-                                                                        regression.intercept = regression.intercept,
-                                                                        current.insecticide.efficacy = current.insecticide.efficacy.i)
-
-
-
-
-      ref.staying.ref.j[[gonotrophic]] = ((ref.staying.ref.j[[gonotrophic-1]] *(1-dispersal.rate)) +
-        (ref.joining.int.j[[gonotrophic-1]] * (1-female.exposure)*dispersal.rate) +
-        (ref.joining.int.j[[gonotrophic-1]] * female.exposure * dispersal.rate * coverage.j * survival.probability.ref.j)+
-        (ref.joining.int.j[[gonotrophic-1]] * female.exposure * dispersal.rate * mean.survival.ref.i * coverage.i)+
-        (ref.joining.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.j * survival.probability.int.j * coverage * dispersal.rate) + #j only
-        (ref.joining.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.i * mean.survival.int.i * coverage * dispersal.rate) + #ionly
-        (ref.joining.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.both.i.j * mean.survival.int.i * survival.probability.int.j * coverage * dispersal.rate))*between.gonotrophic.survival  #both ij
-
-
-
-      ref.joining.int.j[[gonotrophic]]  = ((ref.joining.int.j[[gonotrophic-1]] * (1-female.exposure)*(1-dispersal.rate)) +
-        (ref.joining.int.j[[gonotrophic-1]] * female.exposure * (1-dispersal.rate) * coverage.j * survival.probability.ref.j) +
-        (ref.joining.int.j[[gonotrophic-1]] * female.exposure * (1-dispersal.rate) * mean.survival.ref.i * coverage.i) +
-        (ref.joining.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.j * survival.probability.int.j * coverage * (1-dispersal.rate)) + #j only
-        (ref.joining.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.i * mean.survival.int.i * coverage * (1-dispersal.rate)) + #i only
-        (ref.joining.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.both.i.j * mean.survival.int.i * survival.probability.int.j * coverage * (1-dispersal.rate)) + #both ij
-        (ref.staying.ref.j[[gonotrophic-1]] * dispersal.rate))*between.gonotrophic.survival
-
-
-      int.staying.int.j[[gonotrophic]]  = ((int.staying.int.j[[gonotrophic-1]] * (1-female.exposure) * (1-dispersal.rate)) +
-        (int.staying.int.j[[gonotrophic-1]] * female.exposure * (1-dispersal.rate) * coverage.j * survival.probability.int.j)+
-        (int.staying.int.j[[gonotrophic-1]] * female.exposure * (1-dispersal.rate) * mean.survival.int.i * coverage.i)+
-        (int.staying.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.j * survival.probability.int.j * coverage * (1-dispersal.rate)) + #j only
-        (int.staying.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.i * mean.survival.int.i * coverage * (1-dispersal.rate)) + #i only
-        (int.staying.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.both.i.j * mean.survival.int.i * survival.probability.int.j * coverage * (1-dispersal.rate)) + #both ij
-        (int.joining.ref.j[[gonotrophic-1]] * dispersal.rate))*between.gonotrophic.survival
-
-      int.joining.ref.j[[gonotrophic]]  = ((int.joining.ref.j[[gonotrophic-1]] * (1-dispersal.rate))+
-        (int.staying.int.j[[gonotrophic-1]] * female.exposure * dispersal.rate * coverage.j * survival.probability.int.j)+
-        (int.staying.int.j[[gonotrophic-1]] * female.exposure * dispersal.rate * mean.survival.int.i * coverage.i)+
-        (int.staying.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.j * survival.probability.int.j * coverage * dispersal.rate) + #j only
-        (int.staying.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.i * mean.survival.int.i * coverage * dispersal.rate) + #i only
-        (int.staying.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.both.i.j * mean.survival.int.i * survival.probability.int.j * coverage * dispersal.rate) +
-        (int.staying.int.j[[gonotrophic-1]] * (1-female.exposure) * dispersal.rate))*between.gonotrophic.survival
-
-
-
-      ref.number.in.ref.j[[gonotrophic]]  = sum(ref.staying.ref.j[[gonotrophic]] )
-      int.number.in.ref.j[[gonotrophic]]  = sum(int.joining.ref.j[[gonotrophic]] )
-
-      int.number.in.int.j[[gonotrophic]]  = sum(int.staying.int.j[[gonotrophic]] )
-      ref.number.in.int.j[[gonotrophic]]  = sum(ref.joining.int.j[[gonotrophic]] )
-
-      int.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.int.j[[gonotrophic]] ) - intervention.trait.mean.j) - female.fitness.cost.j
-      int.in.ref.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.joining.ref.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.ref.j[[gonotrophic]] ) - intervention.trait.mean.j) - female.fitness.cost.j
-
-      ref.in.ref.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.staying.ref.j[[gonotrophic]] *refugia.normal.distribution.j) / ref.number.in.ref.j[[gonotrophic]] ) - refugia.trait.mean.j) - female.fitness.cost.j
-      ref.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.joining.int.j[[gonotrophic]] *refugia.normal.distribution.j) / ref.number.in.int.j[[gonotrophic]] ) - refugia.trait.mean.j) - female.fitness.cost.j
-
-      ref.response.in.ref.j[[gonotrophic]]  = heritability.j * ((ref.in.ref.differential.j[[gonotrophic]]  + male.differential.refugia.j) / 2)
-      ref.response.in.int.j[[gonotrophic]]  = heritability.j * ((ref.in.int.differential.j[[gonotrophic]]  + male.differential.refugia.j) / 2)
-      int.response.in.int.j[[gonotrophic]]  = heritability.j * ((int.in.int.differential.j[[gonotrophic]]  + male.differential.intervention.j) / 2)
-      int.response.in.ref.j[[gonotrophic]]  = heritability.j * ((int.in.ref.differential.j[[gonotrophic]]  + male.differential.intervention.j) / 2)
-
-    }
-  }
     #total eggs laid for Trait i in refugia
     N.total.ref.i = sum(unlist(ref.number.in.ref.i), unlist(int.number.in.ref.i))
 
@@ -464,162 +605,8 @@ multiple_gonotrophic_cycles_combination_dispersal = function(intervention.trait.
                           (N.ref.in.int.j * (refugia.trait.mean.j + av.ref.in.int.response.j)))/(N.total.int.j)
 
 
-  return(list(final.int.mean.i, final.ref.mean.i, final.int.mean.j, final.ref.mean.j))
-  }
-
-  if(coverage == 1 | dispersal.rate == 0){
-    for(gonotrophic in 1:n.cycles){
-      if(gonotrophic == 1){
-
-        mean.survival.int.j = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean = intervention.trait.mean.j,
-                                                                                                                                            half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
-                                                                                                                                            michaelis.menten.slope = michaelis.menten.slope,
-                                                                                                                                            maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
-                                                                          regression.coefficient = regression.coefficient,
-                                                                          regression.intercept = regression.intercept,
-                                                                          current.insecticide.efficacy = current.insecticide.efficacy.j)
-
-
-        int.staying.int.i[[gonotrophic]]  = (initial.intervention.densities.i * female.exposure * survival.probability.int.i * coverage.i * coverage) +
-          (initial.intervention.densities.i * female.exposure * coverage.j * mean.survival.int.j * coverage) +
-          (initial.intervention.densities.i * female.exposure * coverage.ij  * probability.only.i * survival.probability.int.i * coverage) + #i only
-          (initial.intervention.densities.i * female.exposure * coverage.ij  * probability.only.j * mean.survival.int.j * coverage ) + #j only
-          (initial.intervention.densities.i * female.exposure * coverage.ij  * probability.both.i.j * mean.survival.int.j * survival.probability.int.i * coverage) + #both ij
-          (initial.intervention.densities.i * (1-female.exposure) * coverage)
-
-        int.number.in.int.i[[gonotrophic]]  = sum(int.staying.int.i[[gonotrophic]] )
-
-        int.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.int.i[[gonotrophic]] ) - intervention.trait.mean.i) - female.fitness.cost.i
-
-        int.response.in.int.i[[gonotrophic]]  = heritability.i * ((int.in.int.differential.i[[gonotrophic]]  + male.differential.intervention.i) / 2)
-
-        mean.survival.int.i = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean = intervention.trait.mean.i,
-                                                                                                                                            half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
-                                                                                                                                            michaelis.menten.slope = michaelis.menten.slope,
-                                                                                                                                            maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
-                                                                          regression.coefficient = regression.coefficient,
-                                                                          regression.intercept = regression.intercept,
-                                                                          current.insecticide.efficacy = current.insecticide.efficacy.i)
-
-
-        int.staying.int.j[[gonotrophic]]  = (initial.intervention.densities.j * female.exposure * survival.probability.int.j * coverage.j * coverage) +
-          (initial.intervention.densities.j * female.exposure * coverage.i * mean.survival.int.i * coverage) +
-          (initial.intervention.densities.j * female.exposure * coverage.ij  * probability.only.i * mean.survival.int.i * coverage) + #i only
-          (initial.intervention.densities.j * female.exposure * coverage.ij  * probability.only.j * survival.probability.int.j * coverage) + #j only
-          (initial.intervention.densities.j * female.exposure * coverage.ij  * probability.both.i.j * mean.survival.int.i * survival.probability.int.j * coverage) + #both ij
-          (initial.intervention.densities.j * (1-female.exposure) * coverage)
-
-
-        int.number.in.int.j[[gonotrophic]]  = sum(int.staying.int.j[[gonotrophic]] )
-
-
-        int.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.int.j[[gonotrophic]] ) - intervention.trait.mean.j) - female.fitness.cost.j
-
-        int.response.in.int.j[[gonotrophic]]  = heritability.j * ((int.in.int.differential.j[[gonotrophic]]  + male.differential.intervention.j) / 2)
-
-      }
-
-      if(gonotrophic != 1){
-
-        mean.survival.int.j = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean =  (sum(int.staying.int.j[[gonotrophic-1]] * intervention.normal.distribution.j)/(sum(int.staying.int.j[[gonotrophic-1]]))),
-                                                                                                                                            half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
-                                                                                                                                            michaelis.menten.slope = michaelis.menten.slope,
-                                                                                                                                            maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
-                                                                          regression.coefficient = regression.coefficient,
-                                                                          regression.intercept = regression.intercept,
-                                                                          current.insecticide.efficacy = current.insecticide.efficacy.j)
-
-
-
-
-
-        int.staying.int.i[[gonotrophic]]  = ((int.staying.int.i[[gonotrophic-1]] * (1-female.exposure) ) +
-          (int.staying.int.i[[gonotrophic-1]] * female.exposure * coverage.i * survival.probability.int.i)+
-          (int.staying.int.i[[gonotrophic-1]] * female.exposure * mean.survival.int.j * coverage.j)+
-          (int.staying.int.i[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.i * survival.probability.int.i * coverage) + #i only
-          (int.staying.int.i[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.j * mean.survival.int.j * coverage) + #j only
-          (int.staying.int.i[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.both.i.j * mean.survival.int.j * survival.probability.int.i * coverage))*between.gonotrophic.survival #both ij
-
-
-        int.number.in.int.i[[gonotrophic]]  = sum(int.staying.int.i[[gonotrophic]] )
-
-        int.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.int.i[[gonotrophic]] ) - intervention.trait.mean.i) - female.fitness.cost.i
-
-        int.response.in.int.i[[gonotrophic]]  = heritability.i * ((int.in.int.differential.i[[gonotrophic]]  + male.differential.intervention.i) / 2)
-
-
-
-        mean.survival.int.i = convert_bioassay_survival_to_field_survival(bioassay.survival = convert_resistance_score_to_bioassay_survival(trait.mean =  sum((int.staying.int.i[[gonotrophic-1]] * intervention.normal.distribution.i))/(sum(int.staying.int.i[[gonotrophic-1]])),
-                                                                                                                                            half.population.bioassay.survival.resistance = half.population.bioassay.survival.resistance,
-                                                                                                                                            michaelis.menten.slope = michaelis.menten.slope,
-                                                                                                                                            maximum.bioassay.survival.proportion = maximum.bioassay.survival.proportion),
-                                                                          regression.coefficient = regression.coefficient,
-                                                                          regression.intercept = regression.intercept,
-                                                                          current.insecticide.efficacy = current.insecticide.efficacy.i)
-
-
-        int.staying.int.j[[gonotrophic]]  = ((int.staying.int.j[[gonotrophic-1]] * (1-female.exposure)) +
-          (int.staying.int.j[[gonotrophic-1]] * female.exposure * coverage.j * survival.probability.int.j)+
-          (int.staying.int.j[[gonotrophic-1]] * female.exposure * mean.survival.int.i * coverage.i)+
-          (int.staying.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.j * survival.probability.int.j * coverage) + #j only
-          (int.staying.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.i * mean.survival.int.i * coverage) + #i only
-          (int.staying.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.both.i.j * mean.survival.int.i * survival.probability.int.j * coverage))*between.gonotrophic.survival #both ij
-
-        int.number.in.int.j[[gonotrophic]]  = sum(int.staying.int.j[[gonotrophic]] )
-
-        int.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.int.j[[gonotrophic]] ) - intervention.trait.mean.j) - female.fitness.cost.j
-
-        int.response.in.int.j[[gonotrophic]]  = heritability.j * ((int.in.int.differential.j[[gonotrophic]]  + male.differential.intervention.j) / 2)
-
-      }
-    }
-    final.ref.mean.i = 0
-
-    #total eggs laid for Trait i in intervention
-    N.total.int.i = sum(unlist(int.number.in.int.i))
-
-    #of which from "intervention" females:
-    N.int.in.int.i = sum(unlist(int.number.in.int.i))
-
-    av.int.in.int.response.i = sum(((unlist(int.response.in.int.i) + (cross.selection.j.i * unlist(int.response.in.int.j)))* (unlist(int.number.in.int.i)/N.int.in.int.i)))
-
-    final.int.mean.i = intervention.trait.mean.i + av.int.in.int.response.i
-
-
-    ###Repeat for Trait j:::
-
-    final.ref.mean.j = 0
-
-    #total eggs laid for Trait i in intervention
-    N.total.int.j = sum(unlist(int.number.in.int.j))
-
-    #of which from "intervention" females:
-    N.int.in.int.j = sum(unlist(int.number.in.int.j))
-
-    av.int.in.int.response.j = sum(((unlist(int.response.in.int.j) + (cross.selection.i.j * unlist(int.response.in.int.i)))* (unlist(int.number.in.int.j)/N.int.in.int.j)))
-
-    final.int.mean.j = intervention.trait.mean.j + av.int.in.int.response.j
-
-
-    #prevent mean PRS values falling below 0:::
-
-    final.ref.mean.i = ifelse(final.ref.mean.i < 0,
-                              yes = 0,
-                              no = final.ref.mean.i)
-
-    final.int.mean.i = ifelse(final.int.mean.i < 0,
-                              yes = 0,
-                              no = final.int.mean.i)
-
-    final.ref.mean.j = ifelse(final.ref.mean.j < 0,
-                              yes = 0,
-                              no = final.ref.mean.j)
-
-    final.int.mean.j = ifelse(final.int.mean.j < 0,
-                              yes = 0,
-                              no = final.int.mean.j)
-
-
     return(list(final.int.mean.i, final.ref.mean.i, final.int.mean.j, final.ref.mean.j))
   }
+
+
 }
