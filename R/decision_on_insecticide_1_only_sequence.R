@@ -60,7 +60,10 @@ decision_on_insecticide_1_only_sequence = function(number.of.insecticides,
                                                                                        mixture.df = mixture.df,
                                                                                        deployment.df = deployment.df,
                                                                                        deployment.frequency = 1,
-                                                                                       insecticide.parameters.df = insecticide.parameters.df)}
+                                                                                       insecticide.parameters.df = insecticide.parameters.df)
+
+  return(list(available.mixtures.df, available.vector, withdrawn.vector, deployment.df.updated))
+}
   else{
 
     #if the previous insecticide is still available deploy

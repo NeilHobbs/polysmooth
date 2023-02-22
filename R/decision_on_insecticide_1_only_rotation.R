@@ -60,7 +60,10 @@ decision_on_insecticide_1_only_rotation = function(number.of.insecticides,
                                                                                        mixture.df = mixture.df,
                                                                                        deployment.df = deployment.df,
                                                                                        deployment.frequency = 1,
-                                                                                       insecticide.parameters.df = insecticide.parameters.df)}
+                                                                                       insecticide.parameters.df = insecticide.parameters.df)
+  return(list(available.mixtures.df, available.vector, withdrawn.vector, deployment.df.updated))
+
+  }
   else{
     candidate.mixture = choose_next_mixture(previous.mixture = current.mixture,
                                             total.mixtures = nrow(mixture.df),
