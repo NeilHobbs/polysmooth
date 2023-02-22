@@ -7,7 +7,7 @@
 calculate_population_size_unexposed = function(total.population.size,
                                                insecticide.exposure){
 
-  if(insecticide.exposure > 1 |insecticide.exposure < 0){stop("insecticide.exposure must be between 0 and 1")}
+  #if(insecticide.exposure > 1 |insecticide.exposure < 0){stop("insecticide.exposure must be between 0 and 1")}
 
     population.size.unexposed = total.population.size * (1 - insecticide.exposure)
 
