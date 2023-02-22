@@ -63,8 +63,6 @@ wrapper_run_simulation_mixtures = function(insecticide.parameters.df,
 
 
   for(generation in 2:maximum.generations){
-    #Stop the simulation if there is no insecticide being deployed anymore.
-    if(is.na(deployed.mixture$mixture.id[generation])){break}else{
 
       for(insecticide in 1:number.of.insecticides){
 
@@ -259,15 +257,15 @@ wrapper_run_simulation_mixtures = function(insecticide.parameters.df,
           sim.array['refugia', insecticide, generation] = tracked.resistance[[2]]
 
         }
-      }}
+      }#end of insecticide for loop
+
     #Which irm.strategy is being used: sequence or rotation
 
     #May be worth making the following chunk of code into its own function as it is a bit chunky
     #at the moment.
     #Update insecticide each time the deployment.frequency is reached:
-    if(generation < maximum.generations){
       if(generation %% deployment.frequency == 0){
-        if(irm.switch.strategy == "rotation"){
+        update.mixture.info =  if(irm.switch.strategy == "rotation"){
           update.mixture.info = irm_strategy_rotation_mixture_decay(number.of.insecticides = number.of.insecticides,
                                                                     current.generation = generation,
                                                                     withdrawal.threshold = calc.withdrawal.threshold,
@@ -279,62 +277,58 @@ wrapper_run_simulation_mixtures = function(insecticide.parameters.df,
                                                                     current.mixture = deployed.mixture$mixture.id[generation],
                                                                     deployment.frequency = deployment.frequency,
                                                                     deployment.df = deployed.mixture,
-                                                                    insecticide.parameters.df = insecticide.parameters.df)} else{
-                                                                      if(irm.switch.strategy == "sequence"){
-                                                                        update.mixture.info = irm_strategy_sequence_mixture_decay(number.of.insecticides = number.of.insecticides,
-                                                                                                                                  current.generation = generation,
-                                                                                                                                  withdrawal.threshold = calc.withdrawal.threshold,
-                                                                                                                                  return.threshold = calc.return.threshold,
-                                                                                                                                  simulation.array = sim.array,
-                                                                                                                                  available.vector = available.vector,
-                                                                                                                                  withdrawn.vector = withdrawn.vector,
-                                                                                                                                  mixture.df = mixture.df,
-                                                                                                                                  current.mixture = deployed.mixture$mixture.id[generation],
-                                                                                                                                  deployment.frequency = deployment.frequency,
-                                                                                                                                  deployment.df = deployed.mixture,
-                                                                                                                                  insecticide.parameters.df = insecticide.parameters.df)
-                                                                      }else{
-                                                                        if(irm.switch.strategy == "novel.rotation"){
-                                                                          update.mixture.info = decision_on_insecticide_1_only_rotation(number.of.insecticides = number.of.insecticides,
-                                                                                                                                        current.generation = generation,
-                                                                                                                                        withdrawal.threshold = calc.withdrawal.threshold,
-                                                                                                                                        return.threshold = calc.return.threshold,
-                                                                                                                                        simulation.array = sim.array,
-                                                                                                                                        available.vector = available.vector,
-                                                                                                                                        withdrawn.vector = withdrawn.vector,
-                                                                                                                                        mixture.df = mixture.df,
-                                                                                                                                        current.mixture = deployed.mixture$mixture.id[generation],
-                                                                                                                                        deployment.frequency = deployment.frequency,
-                                                                                                                                        deployment.df = deployed.mixture,
-                                                                                                                                        insecticide.parameters.df = insecticide.parameters.df)
-                                                                        }else{
-                                                                          if(irm.switch.strategy == "novel.sequence"){
-                                                                            update.mixture.info = decision_on_insecticide_1_only_sequence(number.of.insecticides = number.of.insecticides,
-                                                                                                                                          current.generation = generation,
-                                                                                                                                          withdrawal.threshold = calc.withdrawal.threshold,
-                                                                                                                                          return.threshold = calc.return.threshold,
-                                                                                                                                          simulation.array = sim.array,
-                                                                                                                                          available.vector = available.vector,
-                                                                                                                                          withdrawn.vector = withdrawn.vector,
-                                                                                                                                          mixture.df = mixture.df,
-                                                                                                                                          current.mixture = deployed.mixture$mixture.id[generation],
-                                                                                                                                          deployment.frequency = deployment.frequency,
-                                                                                                                                          deployment.df = deployed.mixture,
-                                                                                                                                          insecticide.parameters.df = insecticide.parameters.df)
-                                                                          }}
-                                                                      }
-                                                                    }
+                                                                    insecticide.parameters.df = insecticide.parameters.df)}
+        if(irm.switch.strategy == "sequence"){
+          update.mixture.info =  irm_strategy_sequence_mixture_decay(number.of.insecticides = number.of.insecticides,
+                                                                     current.generation = generation,
+                                                                     withdrawal.threshold = calc.withdrawal.threshold,
+                                                                     return.threshold = calc.return.threshold,
+                                                                     simulation.array = sim.array,
+                                                                     available.vector = available.vector,
+                                                                     withdrawn.vector = withdrawn.vector,
+                                                                     mixture.df = mixture.df,
+                                                                     current.mixture = deployed.mixture$mixture.id[generation],
+                                                                     deployment.frequency = deployment.frequency,
+                                                                     deployment.df = deployed.mixture,
+                                                                     insecticide.parameters.df = insecticide.parameters.df)}
+        if(irm.switch.strategy == "novel.rotation"){
+          update.mixture.info =  decision_on_insecticide_1_only_rotation(number.of.insecticides = number.of.insecticides,
+                                                                         current.generation = generation,
+                                                                         withdrawal.threshold = calc.withdrawal.threshold,
+                                                                         return.threshold = calc.return.threshold,
+                                                                         simulation.array = sim.array,
+                                                                         available.vector = available.vector,
+                                                                         withdrawn.vector = withdrawn.vector,
+                                                                         mixture.df = mixture.df,
+                                                                         current.mixture = deployed.mixture$mixture.id[generation],
+                                                                         deployment.frequency = deployment.frequency,
+                                                                         deployment.df = deployed.mixture,
+                                                                         insecticide.parameters.df = insecticide.parameters.df)}
+          if(irm.switch.strategy == "novel.sequence"){
+            update.mixture.info = decision_on_insecticide_1_only_sequence(number.of.insecticides = number.of.insecticides,
+                                                                          current.generation = generation,
+                                                                          withdrawal.threshold = calc.withdrawal.threshold,
+                                                                          return.threshold = calc.return.threshold,
+                                                                          simulation.array = sim.array,
+                                                                          available.vector = available.vector,
+                                                                          withdrawn.vector = withdrawn.vector,
+                                                                          mixture.df = mixture.df,
+                                                                          current.mixture = deployed.mixture$mixture.id[generation],
+                                                                          deployment.frequency = deployment.frequency,
+                                                                          deployment.df = deployed.mixture,
+                                                                          insecticide.parameters.df = insecticide.parameters.df)}
+
 
         # mixture.info = list(available.mixtures, available.vector, withdrawn.vector, deployed.mixture)
-      }
-      if(generation %% deployment.frequency == 0){available.mixtures = update.mixture.info[[1]]}
-      if(generation %% deployment.frequency == 0){available.vector = update.mixture.info[[2]]}
-      if(generation %% deployment.frequency == 0){withdrawn.vector = update.mixture.info[[3]]}
-      if(generation %% deployment.frequency == 0){deployed.mixture = update.mixture.info[[4]]
+      available.mixtures = update.mixture.info[[1]]
+      available.vector = update.mixture.info[[2]]
+      withdrawn.vector = update.mixture.info[[3]]
+      deployed.mixture = update.mixture.info[[4]]
+  #Stop the simulation if there is no insecticide being deployed anymore.
+  if(is.na(deployed.mixture$mixture.id[generation+1])){break}
 
-      }
-    }
-  }
+  }#end of IRM strategy if else statements
+  }#end of generation for loop
 
 
 
