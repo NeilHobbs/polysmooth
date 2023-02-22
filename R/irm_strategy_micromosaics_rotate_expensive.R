@@ -39,7 +39,9 @@ irm_strategy_micromosaics_rotate_expensive = function(number.of.insecticides,
     deployment.vector.updated.j = deploy_the_chosen_insecticide(insecticide.to.deploy = NA,
                                                                 deployment.frequency = 1,
                                                                 deployment.vector = deployment.vector.j)
-  }
+
+    #return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j))
+    }
 
   #If there is 1 or less insecticide left micro-mosaics no longer possible --> set conditions to terminate simulation
   if(length(available.to.deploy < 1)){#set deployments to NA to stop the simulation
@@ -49,7 +51,9 @@ irm_strategy_micromosaics_rotate_expensive = function(number.of.insecticides,
     deployment.vector.updated.j = deploy_the_chosen_insecticide(insecticide.to.deploy = NA,
                                                                 deployment.frequency = 1,
                                                                 deployment.vector = deployment.vector.j)
-  }
+
+    return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j))
+     }
 
 
   #Temporarily make the deployed.insecticide.j insecticide unavailable; this means it cannot be a new candidate (and
