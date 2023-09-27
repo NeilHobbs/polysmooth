@@ -236,81 +236,77 @@ df.1$mixseq = ifelse(df.1$mixture.duration > df.1$sequence.duration,
 library(ggplot2)
 library(patchwork)
 #Sequences vs Rotations
-seq.rot.plot = ggplot(df.1, aes(x=sequence.duration - rotation.duration,
+
+seq.rot.plot = ggplot(subset(df.1, seqrot != "Draw"), aes(x=sequence.duration - rotation.duration,
                  fill = seqrot))+
-  geom_histogram(binwidth = 10)+
-  scale_fill_manual(values = c("grey", "red", "blue"))+
-  xlim(-210, 380)+
+  geom_histogram(binwidth = 20)+
+  scale_fill_manual(values = c("red", "blue", "grey"))+
+  ggtitle("Sequences vs Rotations")+
+  ylab("Frequency")+
   xlab("Difference in Simulation Duration (Generations)")+
-  ggtitle("Sequence vs Rotation")+
+  guides(fill=guide_legend(title="Outcome"))+
   facet_grid(cross.selection ~ .)+
   scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
                                          breaks = NULL,
                                          labels = NULL))+
-  guides(fill=guide_legend(title="Outcome"))+
   theme_bw()+
-  theme(legend.position = "bottom")
+  theme(legend.position = "none",
+        axis.title.y.right = element_text(size = 14),
+        axis.title.y.left = element_text(size = 14),
+        strip.text = element_text(size = 12),
+        axis.text = element_text(size =10,
+                                 colour = "black"),
+        axis.title.x = element_text(size = 12))
 
 #Mixtures vs Rotations
-rot.mix.plot = ggplot(df.1, aes(x=mixture.duration - rotation.duration,
+rot.mix.plot = ggplot(subset(df.1, mixrot != "Draw"), aes(x=mixture.duration - rotation.duration,
                  fill = mixrot))+
-  scale_fill_manual(values = c("grey", "purple", "red"))+
-  geom_histogram(binwidth = 10)+
-  xlim(-210, 380)+
+  scale_fill_manual(values = c("purple", "red", "grey"))+
+  geom_histogram(binwidth = 20)+
+
+  ggtitle("Mixtures vs Rotations")+
+  ylab("Frequency")+
+  xlab("Difference in Simulation Duration (Generations)")+
+  guides(fill=guide_legend(title="Outcome"))+
   facet_grid(cross.selection ~ .)+
   scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
                                          breaks = NULL,
                                          labels = NULL))+
-  xlab("Difference in Simulation Duration (Generations)")+
-  ggtitle("Mixture vs Rotation")+
-  guides(fill=guide_legend(title="Outcome"))+
   theme_bw()+
-  theme(legend.position = "bottom")
+  theme(legend.position = "none",
+        axis.title.y.right = element_text(size = 14),
+        axis.title.y.left = element_text(size = 14),
+        strip.text = element_text(size = 12),
+        axis.text = element_text(size =10,
+                                 colour = "black"),
+        axis.title.x = element_text(size = 12))
 
 #Mixtures vs Sequences
-seq.mix.plot = ggplot(df.1, aes(x=mixture.duration - sequence.duration,
+seq.mix.plot = ggplot(subset(df.1, mixseq != "Draw"), aes(x=mixture.duration - sequence.duration,
                  fill = mixseq))+
-  geom_histogram(binwidth = 10)+
-  xlim(-210, 380)+
-  scale_fill_manual(values = c("grey", "purple", "blue"))+
-  xlab("Difference in Simulation Duration (Generations")+
-  ggtitle("Mixture vs Sequence")+
+  geom_histogram(binwidth = 20)+
+  scale_fill_manual(values = c("purple", "blue", "grey"))+
+ggtitle("Mixtures vs Sequences")+
+  ylab("Frequency")+
+  xlab("Difference in Simulation Duration (Generations)")+
   guides(fill=guide_legend(title="Outcome"))+
   facet_grid(cross.selection ~ .)+
   scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
                                          breaks = NULL,
                                          labels = NULL))+
   theme_bw()+
-  theme(legend.position = "bottom")
+  theme(legend.position = "none",
+        axis.title.y.right = element_text(size = 14),
+        axis.title.y.left = element_text(size = 14),
+        strip.text = element_text(size = 12),
+        axis.text = element_text(size =10,
+                                 colour = "black"),
+        axis.title.x = element_text(size = 12))
+
+seq.rot.plot + rot.mix.plot + seq.mix.plot + plot_annotation(title = "Smooth Selection - polysmooth",
+                                                             theme = theme(plot.title = element_text(size = 16)))
 
 
-seq.rot.plot + rot.mix.plot + seq.mix.plot + plot_annotation(title = "polysmooth")
-
-
-
-
-colnames(df.1)
-
-ggplot(df.1, aes(x=Intervention.Coverage))+
-  geom_histogram()
-
-ggplot(df.1, aes(x=Female.Insecticide.Exposure))+
-  geom_histogram()
-
-ggplot(df.1, aes(x=Male.Insecticide.Exposure))+
-  geom_histogram()
-
-ggplot(df.1, aes(x=Dispersal))+
-  geom_histogram()
-
-ggplot(df.1, aes(x=Female.Fitness.Cost))+
-  geom_histogram()
-
-ggplot(df.1, aes(x=Male.Fitness.Cost))+
-  geom_histogram()
-
-ggplot(df.1, aes(x=Heritability))+
-  geom_histogram()
 
 
 
