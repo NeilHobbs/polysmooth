@@ -287,6 +287,4 @@ laying.g2.intervention+
 laying.g2.refugia + plot_layout(design = the.layout)
 
 
-sum(int.in.ref.2b)
-sum(int.in.int.2b)
 
