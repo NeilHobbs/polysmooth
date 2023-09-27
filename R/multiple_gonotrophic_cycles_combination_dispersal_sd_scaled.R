@@ -388,7 +388,7 @@ multiple_gonotrophic_cycles_combination_dispersal_sd_scaled = function(intervent
         ref.staying.ref.j[[gonotrophic]] = ((ref.staying.ref.j[[gonotrophic-1]] *(1-dispersal.rate)) +
           (ref.joining.int.j[[gonotrophic-1]] * (1-female.exposure)*dispersal.rate) +
           (ref.joining.int.j[[gonotrophic-1]] * female.exposure * dispersal.rate * coverage.j * survival.probability.ref.j)+
-          (ref.joining.int.j[[gonotrophic-1]] * female.exposure * dispersal.rate * mean.survival.ref.i * coverage.j)+
+          (ref.joining.int.j[[gonotrophic-1]] * female.exposure * dispersal.rate * mean.survival.ref.i * coverage.i)+
           (ref.joining.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.j * survival.probability.int.j * coverage * dispersal.rate) + #j only
           (ref.joining.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.only.i * mean.survival.int.i * coverage * dispersal.rate) + #ionly
           (ref.joining.int.j[[gonotrophic-1]] * female.exposure * coverage.ij  * probability.both.i.j * mean.survival.int.i * survival.probability.int.j * coverage * dispersal.rate))*between.gonotrophic.survival  #both ij

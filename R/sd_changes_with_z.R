@@ -16,4 +16,6 @@ sd_changes_with_z = function(current.z,
 
   current.sd = (current.z*z.sd.coefficient) + z.sd.intercept
 
+  return(current.sd)
+
 }

@@ -186,11 +186,11 @@ multiple_gonotrophic_cycles_singles_dispersal_not_deployed_sd_scaled = function(
         int.number.in.int.i[[1]]  = sum(int.staying.int.i[[1]] )
         ref.number.in.int.i[[1]]  = sum(ref.joining.int.i[[1]] )
 
-        int.in.int.differential.i[[1]]  = exposure.scaling.factor * ((sum(int.staying.int.i[[1]] *intervention.normal.distribution.i) / int.number.in.int.i[[1]] ) - intervention.trait.mean.i) - female.fitness.cost.i
-        int.in.ref.differential.i[[1]]  = exposure.scaling.factor * ((sum(int.joining.ref.i[[1]] *intervention.normal.distribution.i) / int.number.in.ref.i[[1]] ) - intervention.trait.mean.i) - female.fitness.cost.i
+        int.in.int.differential.i[[1]]  = exposure.scaling.factor * ((sum(int.staying.int.i[[1]] *intervention.normal.distribution.i) / int.number.in.int.i[[1]] ) - intervention.trait.mean.i) - calc.fitness.cost.intervention.i
+        int.in.ref.differential.i[[1]]  = exposure.scaling.factor * ((sum(int.joining.ref.i[[1]] *intervention.normal.distribution.i) / int.number.in.ref.i[[1]] ) - intervention.trait.mean.i) - calc.fitness.cost.intervention.i
 
-        ref.in.ref.differential.i[[1]]  = exposure.scaling.factor * ((sum(ref.staying.ref.i[[1]] *refugia.normal.distribution.i) / ref.number.in.ref.i[[1]] ) - refugia.trait.mean.i) - female.fitness.cost.i
-        ref.in.int.differential.i[[1]]  = exposure.scaling.factor * ((sum(ref.joining.int.i[[1]] *refugia.normal.distribution.i) / ref.number.in.int.i[[1]] ) - refugia.trait.mean.i) - female.fitness.cost.i
+        ref.in.ref.differential.i[[1]]  = exposure.scaling.factor * ((sum(ref.staying.ref.i[[1]] *refugia.normal.distribution.i) / ref.number.in.ref.i[[1]] ) - refugia.trait.mean.i) - calc.fitness.cost.refugia.i
+        ref.in.int.differential.i[[1]]  = exposure.scaling.factor * ((sum(ref.joining.int.i[[1]] *refugia.normal.distribution.i) / ref.number.in.int.i[[1]] ) - refugia.trait.mean.i) - calc.fitness.cost.refugia.i
 
         ref.response.in.ref.i[[1]]  = heritability.i * ((ref.in.ref.differential.i[[1]]  + male.differential.refugia.i) / 2)
         ref.response.in.int.i[[1]]  = heritability.i * ((ref.in.int.differential.i[[1]]  + male.differential.refugia.i) / 2)
@@ -217,11 +217,11 @@ multiple_gonotrophic_cycles_singles_dispersal_not_deployed_sd_scaled = function(
         int.number.in.int.j[[1]]  = sum(int.staying.int.j[[1]] )
         ref.number.in.int.j[[1]]  = sum(ref.joining.int.j[[1]] )
 
-        int.in.int.differential.j[[1]]  = exposure.scaling.factor * ((sum(int.staying.int.j[[1]] *intervention.normal.distribution.j) / int.number.in.int.j[[1]] ) - intervention.trait.mean.j) - female.fitness.cost.j
-        int.in.ref.differential.j[[1]]  = exposure.scaling.factor * ((sum(int.joining.ref.j[[1]] *intervention.normal.distribution.j) / int.number.in.ref.j[[1]] ) - intervention.trait.mean.j) - female.fitness.cost.j
+        int.in.int.differential.j[[1]]  = exposure.scaling.factor * ((sum(int.staying.int.j[[1]] *intervention.normal.distribution.j) / int.number.in.int.j[[1]] ) - intervention.trait.mean.j) - calc.fitness.cost.intervention.j
+        int.in.ref.differential.j[[1]]  = exposure.scaling.factor * ((sum(int.joining.ref.j[[1]] *intervention.normal.distribution.j) / int.number.in.ref.j[[1]] ) - intervention.trait.mean.j) - calc.fitness.cost.intervention.j
 
-        ref.in.ref.differential.j[[1]]  = exposure.scaling.factor * ((sum(ref.staying.ref.j[[1]] *refugia.normal.distribution.j) / ref.number.in.ref.j[[1]] ) - refugia.trait.mean.j) - female.fitness.cost.j
-        ref.in.int.differential.j[[1]]  = exposure.scaling.factor * ((sum(ref.joining.int.j[[1]] *refugia.normal.distribution.j) / ref.number.in.int.j[[1]] ) - refugia.trait.mean.j) - female.fitness.cost.j
+        ref.in.ref.differential.j[[1]]  = exposure.scaling.factor * ((sum(ref.staying.ref.j[[1]] *refugia.normal.distribution.j) / ref.number.in.ref.j[[1]] ) - refugia.trait.mean.j) - calc.fitness.cost.refugia.j
+        ref.in.int.differential.j[[1]]  = exposure.scaling.factor * ((sum(ref.joining.int.j[[1]] *refugia.normal.distribution.j) / ref.number.in.int.j[[1]] ) - refugia.trait.mean.j) - calc.fitness.cost.refugia.j
 
         ref.response.in.ref.j[[1]]  = heritability.j * ((ref.in.ref.differential.j[[1]]  + male.differential.refugia.j) / 2)
         ref.response.in.int.j[[1]]  = heritability.j * ((ref.in.int.differential.j[[1]]  + male.differential.refugia.j) / 2)
@@ -276,11 +276,11 @@ multiple_gonotrophic_cycles_singles_dispersal_not_deployed_sd_scaled = function(
         int.number.in.int.i[[gonotrophic]]  = sum(int.staying.int.i[[gonotrophic]] )
         ref.number.in.int.i[[gonotrophic]]  = sum(ref.joining.int.i[[gonotrophic]] )
 
-        int.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.int.i[[gonotrophic]] ) - intervention.trait.mean.i) - female.fitness.cost.i
-        int.in.ref.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.joining.ref.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.ref.i[[gonotrophic]] ) - intervention.trait.mean.i) - female.fitness.cost.i
+        int.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.int.i[[gonotrophic]] ) - intervention.trait.mean.i) - calc.fitness.cost.intervention.i
+        int.in.ref.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.joining.ref.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.ref.i[[gonotrophic]] ) - intervention.trait.mean.i) - calc.fitness.cost.intervention.i
 
-        ref.in.ref.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.staying.ref.i[[gonotrophic]] *refugia.normal.distribution.i) / ref.number.in.ref.i[[gonotrophic]] ) - refugia.trait.mean.i) - female.fitness.cost.i
-        ref.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.joining.int.i[[gonotrophic]] *refugia.normal.distribution.i) / ref.number.in.int.i[[gonotrophic]] ) - refugia.trait.mean.i) - female.fitness.cost.i
+        ref.in.ref.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.staying.ref.i[[gonotrophic]] *refugia.normal.distribution.i) / ref.number.in.ref.i[[gonotrophic]] ) - refugia.trait.mean.i) - calc.fitness.cost.refugia.i
+        ref.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.joining.int.i[[gonotrophic]] *refugia.normal.distribution.i) / ref.number.in.int.i[[gonotrophic]] ) - refugia.trait.mean.i) - calc.fitness.cost.refugia.i
 
         ref.response.in.ref.i[[gonotrophic]]  = heritability.i * ((ref.in.ref.differential.i[[gonotrophic]]  + male.differential.refugia.i) / 2)
         ref.response.in.int.i[[gonotrophic]]  = heritability.i * ((ref.in.int.differential.i[[gonotrophic]]  + male.differential.refugia.i) / 2)
@@ -316,11 +316,11 @@ multiple_gonotrophic_cycles_singles_dispersal_not_deployed_sd_scaled = function(
         int.number.in.int.j[[gonotrophic]]  = sum(int.staying.int.j[[gonotrophic]] )
         ref.number.in.int.j[[gonotrophic]]  = sum(ref.joining.int.j[[gonotrophic]] )
 
-        int.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.int.j[[gonotrophic]] ) - intervention.trait.mean.j) - female.fitness.cost.j
-        int.in.ref.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.joining.ref.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.ref.j[[gonotrophic]] ) - intervention.trait.mean.j) - female.fitness.cost.j
+        int.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.int.j[[gonotrophic]] ) - intervention.trait.mean.j) - calc.fitness.cost.intervention.j
+        int.in.ref.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.joining.ref.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.ref.j[[gonotrophic]] ) - intervention.trait.mean.j) - calc.fitness.cost.intervention.j
 
-        ref.in.ref.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.staying.ref.j[[gonotrophic]] *refugia.normal.distribution.j) / ref.number.in.ref.j[[gonotrophic]] ) - refugia.trait.mean.j) - female.fitness.cost.j
-        ref.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.joining.int.j[[gonotrophic]] *refugia.normal.distribution.j) / ref.number.in.int.j[[gonotrophic]] ) - refugia.trait.mean.j) - female.fitness.cost.j
+        ref.in.ref.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.staying.ref.j[[gonotrophic]] *refugia.normal.distribution.j) / ref.number.in.ref.j[[gonotrophic]] ) - refugia.trait.mean.j) - calc.fitness.cost.refugia.j
+        ref.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(ref.joining.int.j[[gonotrophic]] *refugia.normal.distribution.j) / ref.number.in.int.j[[gonotrophic]] ) - refugia.trait.mean.j) - calc.fitness.cost.refugia.j
 
         ref.response.in.ref.j[[gonotrophic]]  = heritability.j * ((ref.in.ref.differential.j[[gonotrophic]]  + male.differential.refugia.j) / 2)
         ref.response.in.int.j[[gonotrophic]]  = heritability.j * ((ref.in.int.differential.j[[gonotrophic]]  + male.differential.refugia.j) / 2)
@@ -427,7 +427,7 @@ multiple_gonotrophic_cycles_singles_dispersal_not_deployed_sd_scaled = function(
 
         int.number.in.int.i[[1]]  = sum(int.staying.int.i[[1]] )
 
-        int.in.int.differential.i[[1]]  = exposure.scaling.factor * ((sum(int.staying.int.i[[1]] *intervention.normal.distribution.i) / int.number.in.int.i[[1]] ) - intervention.trait.mean.i) - female.fitness.cost.i
+        int.in.int.differential.i[[1]]  = exposure.scaling.factor * ((sum(int.staying.int.i[[1]] *intervention.normal.distribution.i) / int.number.in.int.i[[1]] ) - intervention.trait.mean.i) - calc.fitness.cost.intervention.i
 
         int.response.in.int.i[[1]]  = heritability.i * ((int.in.int.differential.i[[1]]  + male.differential.intervention.i) / 2)
 
@@ -441,7 +441,7 @@ multiple_gonotrophic_cycles_singles_dispersal_not_deployed_sd_scaled = function(
 
         int.number.in.int.j[[1]]  = sum(int.staying.int.j[[1]] )
 
-        int.in.int.differential.j[[1]]  = exposure.scaling.factor * ((sum(int.staying.int.j[[1]] *intervention.normal.distribution.j) / int.number.in.int.j[[1]] ) - intervention.trait.mean.j) - female.fitness.cost.j
+        int.in.int.differential.j[[1]]  = exposure.scaling.factor * ((sum(int.staying.int.j[[1]] *intervention.normal.distribution.j) / int.number.in.int.j[[1]] ) - intervention.trait.mean.j) - calc.fitness.cost.intervention.j
 
         int.response.in.int.j[[1]]  = heritability.j * ((int.in.int.differential.j[[1]]  + male.differential.intervention.j) / 2)
 
@@ -465,7 +465,7 @@ multiple_gonotrophic_cycles_singles_dispersal_not_deployed_sd_scaled = function(
 
         int.number.in.int.i[[gonotrophic]]  = sum(int.staying.int.i[[gonotrophic]] )
 
-        int.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.int.i[[gonotrophic]] ) - intervention.trait.mean.i) - female.fitness.cost.i
+        int.in.int.differential.i[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.i[[gonotrophic]] *intervention.normal.distribution.i) / int.number.in.int.i[[gonotrophic]] ) - intervention.trait.mean.i) - calc.fitness.cost.intervention.i
 
 
         int.response.in.int.i[[gonotrophic]]  = heritability.i * ((int.in.int.differential.i[[gonotrophic]]  + male.differential.intervention.i) / 2)
@@ -476,7 +476,7 @@ multiple_gonotrophic_cycles_singles_dispersal_not_deployed_sd_scaled = function(
 
         int.number.in.int.j[[gonotrophic]]  = sum(int.staying.int.j[[gonotrophic]] )
 
-        int.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.int.j[[gonotrophic]] ) - intervention.trait.mean.j) - female.fitness.cost.j
+        int.in.int.differential.j[[gonotrophic]]  = exposure.scaling.factor * ((sum(int.staying.int.j[[gonotrophic]] *intervention.normal.distribution.j) / int.number.in.int.j[[gonotrophic]] ) - intervention.trait.mean.j) - calc.fitness.cost.intervention.j
 
         int.response.in.int.j[[gonotrophic]]  = heritability.j * ((int.in.int.differential.j[[gonotrophic]]  + male.differential.intervention.j) / 2)
 

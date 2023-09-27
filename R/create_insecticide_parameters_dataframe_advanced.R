@@ -69,7 +69,7 @@ create_insecticide_parameters_dataframe_advanced = function(number.of.insecticid
       }}
 
   if(length(male.fitness.cost) == number.of.insecticides){
-    heritability = male.fitness.cost}else{if(length(male.fitness.cost) == 1){
+    male.fitness.cost = male.fitness.cost}else{if(length(male.fitness.cost) == 1){
       male.fitness.cost = rep(male.fitness.cost, times=number.of.insecticides)}else{
         stop("male.fitness.cost must either be a vector with length equal to the number.of.insecticides or a single value")
       }}
