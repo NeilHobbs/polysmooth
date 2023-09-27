@@ -5,7 +5,8 @@ load_all()
 
 bioassay_sampling = function(mean.resistance,
                              standard.deviation,
-                             number.of.bioassays){
+                             number.of.bioassays,
+                             sampling){
 
   prs.values = create_normal_distribution(vector.length = 1000,
                                           trait.mean = mean.resistance,
@@ -24,12 +25,25 @@ bioassay_sampling = function(mean.resistance,
   #collect 100 mosquitoes assuming perfect random collections: and divide into 4 bioassays
   bioassay.list = list()
   for(bioassay in 1:number.of.bioassays){
+
+    if(sampling == "clustered"){
+
+      clustered = rep(sample(survival.probabilities, 1, prob = freq.individuals), 25)
+
+      bioassay.list[[bioassay]] = mean(ifelse(runif(25, 0, 1) <= clustered,
+                                              yes = 1,
+                                              no = 0))
+    }
+
+    if(sampling == "random"){
     bioassay.list[[bioassay]] = mean(ifelse(runif(25, 0, 1) <= sample(survival.probabilities, 25, prob = freq.individuals, replace = TRUE) ,
                                        yes = 1,
-                                       no = 0))}
-
+                                       no = 0))
+    }
+}
 
   sample.mean = mean(unlist(bioassay.list))
+
 
   return(sample.mean)
 
@@ -43,17 +57,18 @@ n.bioassays = c(1, 4, 8, 20, 50)
 for(j in 1:length(n.bioassays)){
 measured.values = c()
 actual.values = c()
-generation = seq(1, 30, 1)
-for(i in 1:30){
+generation = seq(1, 100, 1)
+for(i in 1:100){
 
-  actual.values[i] = convert_resistance_score_to_bioassay_survival(trait.mean = 0 + (i*3))
+  actual.values[i] = convert_resistance_score_to_bioassay_survival(trait.mean = 0 + (i*5))
 
-  measured.values[i] = bioassay_sampling(mean.resistance = 0 + (i*3),
+  measured.values[i] = bioassay_sampling(mean.resistance = 0 + (i*5),
                                          standard.deviation = 20,
-                                         number.of.bioassays = n.bioassays[j])
+                                         number.of.bioassays = n.bioassays[j],
+                                         sampling = "clustered")
 
-}
-number.of.bioassays = rep(n.bioassays[j], 30)
+  }
+number.of.bioassays = rep(n.bioassays[j], 100)
 temp.df = data.frame(measured.values, generation,
               actual.values, number.of.bioassays)
 
@@ -62,12 +77,14 @@ temp.list[[j]] = temp.df
 
 temp.df = do.call(rbind, temp.list)
 
+
+
 ggplot(temp.df, aes(x=generation, y = measured.values,
                     group = as.factor(number.of.bioassays)))+
-  geom_line(colour = "blue")+
+  geom_point(colour = "blue")+
   geom_smooth(method = "gam")+
-  geom_line(aes(x=generation, y = actual.values),
-            colour = "grey")+
+    geom_line(aes(x=generation, y = actual.values),
+            colour = "black")+
   geom_hline(yintercept = 0.02, linetype = "dashed",
              colour = "orange")+
   geom_hline(yintercept = 0.1, linetype = "dashed",
