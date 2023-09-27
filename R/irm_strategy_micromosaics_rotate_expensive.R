@@ -40,11 +40,11 @@ irm_strategy_micromosaics_rotate_expensive = function(number.of.insecticides,
                                                                 deployment.frequency = 1,
                                                                 deployment.vector = deployment.vector.j)
 
-    #return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j))
+    return(list(available.to.deploy, unavailable.to.deploy, deployment.vector.updated.i, deployment.vector.updated.j))
     }
 
   #If there is 1 or less insecticide left micro-mosaics no longer possible --> set conditions to terminate simulation
-  if(length(available.to.deploy < 1)){#set deployments to NA to stop the simulation
+  if(length(available.to.deploy) <= 1){#set deployments to NA to stop the simulation
     deployment.vector.updated.i = deploy_the_chosen_insecticide(insecticide.to.deploy = NA,
                                                                 deployment.frequency = 1,
                                                                 deployment.vector = deployment.vector.i)
@@ -65,7 +65,7 @@ irm_strategy_micromosaics_rotate_expensive = function(number.of.insecticides,
     available.to.deploy.temp = available.to.deploy.temp[!available.to.deploy.temp %in% 1]}
 
   #If there is 1 or less insecticide left micro-mosaics no longer possible --> set conditions to terminate simulation
-  if(length(available.to.deploy.temp < 1)){#set deployments to NA to stop the simulation
+  if(length(available.to.deploy.temp) <= 1){#set deployments to NA to stop the simulation
     deployment.vector.updated.i = deploy_the_chosen_insecticide(insecticide.to.deploy = NA,
                                                                 deployment.frequency = 1,
                                                                 deployment.vector = deployment.vector.i)

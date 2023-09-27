@@ -103,7 +103,7 @@ irm_strategy_micromosaics_sequence = function(number.of.insecticides,
 
         available.to.deploy.temp = available.to.deploy[!available.to.deploy %in% candidate.insecticide.i]
 
-      candidate.insecticide.j = choose_the_next_insecticide(previous.insecticide = deployed.insecticide.i,
+      candidate.insecticide.j = choose_the_next_insecticide(previous.insecticide = deployed.insecticide.j,
                                                             available.insecticides = available.to.deploy.temp,
                                                             number.of.insecticides = number.of.insecticides)
 
