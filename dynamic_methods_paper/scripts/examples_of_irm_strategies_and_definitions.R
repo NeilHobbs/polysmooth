@@ -2,6 +2,7 @@
 
 library(devtools)
 load_all()
+library(patchwork)
 
 monotherapy.sequence.simulation.df = run_simulation_advanced(irm.deployment.strategy = "singles",
                                                              irm.switch.strategy = "sequence",
@@ -58,7 +59,7 @@ monotherapy.sequence.simulation.df = run_simulation_advanced(irm.deployment.stra
 
 
 
-ggplot(subset(monotherapy.sequence.simulation.df, site == "intervention"),
+p.1 = ggplot(subset(monotherapy.sequence.simulation.df, site == "intervention"),
        aes(x=time.in.generations,
            y = bioassay.survival*100,
            group = insecticide.tracked,
@@ -140,6 +141,8 @@ ggplot(subset(monotherapy.sequence.simulation.df, site == "intervention"),
   theme(axis.title.x = element_text(size = 12),
         axis.title.y = element_text(size = 12))
 
+
+
 ######
 monotherapy.rotation.simulation.df = run_simulation_advanced(irm.deployment.strategy = "singles",
                                                              irm.switch.strategy = "rotation",
@@ -195,7 +198,7 @@ monotherapy.rotation.simulation.df = run_simulation_advanced(irm.deployment.stra
                                                              natural.daily.survival = 1)
 
 
-ggplot(subset(monotherapy.rotation.simulation.df, site == "intervention"),
+p.2 = ggplot(subset(monotherapy.rotation.simulation.df, site == "intervention"),
        aes(x=time.in.generations,
            y = bioassay.survival*100,
            group = insecticide.tracked,
@@ -269,11 +272,11 @@ monotherapy.adaptive.rotation.simulation.df = run_simulation_advanced(irm.deploy
                                                              number.of.insecticides = 3,
                                                              sd.scaled = FALSE,
                                                              exposure.scaling.factor = 10,
-                                                             female.fitness.cost = c(0.05, 0.1, 0.4),
-                                                             male.fitness.cost = c(0.05, 0.1, 0.4),
-                                                             female.exposure = 0.7,
+                                                             female.fitness.cost = c(0.1, 0.4, 0.6),
+                                                             male.fitness.cost = c(0.1, 0.4, 0.6),
+                                                             female.exposure = 0.6,
                                                              male.exposure = 0.7,
-                                                             heritability = c(0.3, 0.3, 0.25),
+                                                             heritability = c(0.1, 0.2, 0.25),
                                                              dispersal.rate = 0.3,
                                                              coverage = 0.8,
                                                              standard.deviation = 50,
@@ -318,12 +321,12 @@ monotherapy.adaptive.rotation.simulation.df = run_simulation_advanced(irm.deploy
                                                              natural.daily.survival = 1)
 
 
-ggplot(subset(monotherapy.adaptive.rotation.simulation.df, site == "intervention"),
-       aes(x=time.in.generations,
-           y = bioassay.survival*100,
-           group = insecticide.tracked,
-           colour = insecticide.tracked,
-           fill = insecticide.deployed))+
+p.3 = ggplot(subset(monotherapy.adaptive.rotation.simulation.df, site == "intervention"),
+             aes(x=time.in.generations,
+                 y = bioassay.survival*100,
+                 group = insecticide.tracked,
+                 colour = insecticide.tracked,
+                 fill = insecticide.deployed))+
   geom_line(aes(x=time.in.generations,
                 y = 11,
                 colour = insecticide.deployed,
@@ -335,29 +338,24 @@ ggplot(subset(monotherapy.adaptive.rotation.simulation.df, site == "intervention
   geom_hline(yintercept = 8,
              linetype = "dashed",
              colour = "grey")+
-  geom_text(aes(x=120,
+  geom_text(aes(x=330,
                 y=5, label = paste0("Insecticide 3 Reaches Withdrawal Threshold")),
             colour = "#7570b3",
             angle = 270,
             size = 3.7)+
-  geom_text(aes(x=300,
-                y=5, label = paste0("Insecticide 3 Reaches Return Threshold")),
-            colour = "#7570b3",
-            angle = 270,
-            size = 3.7)+
-  geom_text(aes(x=350,
-                y=5, label = paste0("Insecticide 3 Reaches Withdrawal Threshold")),
-            colour = "#7570b3",
-            angle = 270,
-            size = 3.7)+
-  geom_text(aes(x=406,
+  geom_text(aes(x=415,
                 y=5, label = paste0("Only Insecticide 1 Available: Deployed in Sequence")),
             colour = "#1b9e77",
             angle = 270,
             size = 3.7)+
-  geom_text(aes(x=398,
+  geom_text(aes(x=405,
                 y=5, label = paste0("Insecticide 2 Reaches Withdrawal Threshold")),
             colour = "#d95f02",
+            angle = 270,
+            size = 3.7)+
+  geom_text(aes(x=490,
+                y=5, label = paste0("Insecticide 3 Reaches Return Threshold")),
+            colour = "#7570b3",
             angle = 270,
             size = 3.7)+
   geom_text(aes(x=500,
@@ -366,7 +364,7 @@ ggplot(subset(monotherapy.adaptive.rotation.simulation.df, site == "intervention
             angle = 270,
             size = 3.7)+
   geom_text(aes(x=50,
-                                                           y=10.2, label = paste0("Withdrawal Threshold")),
+                y=10.2, label = paste0("Withdrawal Threshold")),
             colour = "black",
             size = 3.7)+
   geom_text(aes(x=50,
@@ -389,6 +387,21 @@ ggplot(subset(monotherapy.adaptive.rotation.simulation.df, site == "intervention
   theme(legend.position = "none")+
   theme(axis.title.x = element_text(size = 12),
         axis.title.y = element_text(size = 12))
+
+
+
+
+p.1 / p.2 / p.3
+
+ggsave(
+  filename = "chapter3_figureS1.1.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 400,
+  height = 600,
+  units = "px",
+  dpi = 200)
+
 
 #####
 mixtures.novel.sequence.simulation.df = run_simulation_advanced(irm.deployment.strategy = "mixtures",
@@ -446,7 +459,7 @@ mixtures.novel.sequence.simulation.df = run_simulation_advanced(irm.deployment.s
 
 
 
-ggplot(subset(mixtures.novel.sequence.simulation.df, site == "intervention"),
+p.1 = ggplot(subset(mixtures.novel.sequence.simulation.df, site == "intervention"),
        aes(x=time.in.generations,
            y = bioassay.survival*100,
            group = insecticide.tracked,
@@ -568,7 +581,7 @@ mixtures.novel.rotation.simulation.df = run_simulation_advanced(irm.deployment.s
 
 
 
-ggplot(subset(mixtures.novel.rotation.simulation.df, site == "intervention"),
+p.2 = ggplot(subset(mixtures.novel.rotation.simulation.df, site == "intervention"),
        aes(x=time.in.generations,
            y = bioassay.survival*100,
            group = insecticide.tracked,
@@ -622,6 +635,17 @@ ggplot(subset(mixtures.novel.rotation.simulation.df, site == "intervention"),
   theme(axis.title.x = element_text(size = 12),
         axis.title.y = element_text(size = 12))
 
+
+p.1 / p.2
+
+ggsave(
+  filename = "chapter3_figureS1.2.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 400,
+  height = 400,
+  units = "px",
+  dpi = 200)
 
 #####
 mixtures.standard.sequence.simulation.df = run_simulation_advanced(irm.deployment.strategy = "mixtures",
@@ -679,7 +703,7 @@ mixtures.standard.sequence.simulation.df = run_simulation_advanced(irm.deploymen
 
 
 
-ggplot(subset(mixtures.standard.sequence.simulation.df, site == "intervention"),
+p.1 = ggplot(subset(mixtures.standard.sequence.simulation.df, site == "intervention"),
        aes(x=time.in.generations,
            y = bioassay.survival*100,
            group = insecticide.tracked,
@@ -791,7 +815,7 @@ mixtures.standard.rotation.simulation.df = run_simulation_advanced(irm.deploymen
 
 
 
-ggplot(subset(mixtures.standard.rotation.simulation.df, site == "intervention"),
+p.2 = ggplot(subset(mixtures.standard.rotation.simulation.df, site == "intervention"),
        aes(x=time.in.generations,
            y = bioassay.survival*100,
            group = insecticide.tracked,
@@ -839,6 +863,17 @@ ggplot(subset(mixtures.standard.rotation.simulation.df, site == "intervention"),
   theme(axis.title.x = element_text(size = 12),
         axis.title.y = element_text(size = 12))
 
+
+p.1 / p.2
+
+ggsave(
+  filename = "chapter3_figureS1.3.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 400,
+  height = 400,
+  units = "px",
+  dpi = 200)
 
 #####
 #####
@@ -896,7 +931,7 @@ micromosaics.sequence.simulation.df = run_simulation_advanced(irm.deployment.str
                                                                    natural.daily.survival = 0.8)
 
 
-ggplot(subset(micromosaics.sequence.simulation.df, site == "intervention"),
+p.1 = ggplot(subset(micromosaics.sequence.simulation.df, site == "intervention"),
        aes(x=time.in.generations,
            y = bioassay.survival*100,
            group = insecticide.tracked,
@@ -1028,7 +1063,7 @@ micromosaics.full.rot.simulation.df = run_simulation_advanced(irm.deployment.str
                                                               natural.daily.survival = 0.8)
 
 
-ggplot(subset(micromosaics.full.rot.simulation.df, site == "intervention"),
+p.2 = ggplot(subset(micromosaics.full.rot.simulation.df, site == "intervention"),
        aes(x=time.in.generations,
            y = bioassay.survival*100,
            group = insecticide.tracked,
@@ -1088,6 +1123,9 @@ ggplot(subset(micromosaics.full.rot.simulation.df, site == "intervention"),
 
 
 
+
+
+
 #####
 micromosaics.rot.exp.simulation.df = run_simulation_advanced(irm.deployment.strategy = "micromosaics",
                                                               irm.switch.strategy = "rotate.expensive",
@@ -1143,7 +1181,7 @@ micromosaics.rot.exp.simulation.df = run_simulation_advanced(irm.deployment.stra
                                                               natural.daily.survival = 0.8)
 
 
-ggplot(subset(micromosaics.rot.exp.simulation.df, site == "intervention"),
+p.3 = ggplot(subset(micromosaics.rot.exp.simulation.df, site == "intervention"),
        aes(x=time.in.generations,
            y = bioassay.survival*100,
            group = insecticide.tracked,
@@ -1203,6 +1241,19 @@ xlab("Time in Mosquito Generations")+
 
 
 
+
+p.1/p.2/p.3
+
+ggsave(
+  filename = "chapter3_figureS1.4.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 400,
+  height = 600,
+  units = "px",
+  dpi = 200)
+
+
 #####
 combinations.sequence.irs.simulation.df = run_simulation_advanced(irm.deployment.strategy = "combinations",
                                                               irm.switch.strategy = "sequence.irs",
@@ -1259,7 +1310,7 @@ combinations.sequence.irs.simulation.df = run_simulation_advanced(irm.deployment
 
 
 
-ggplot(subset(combinations.sequence.irs.simulation.df, site == "intervention"),
+p.1 = ggplot(subset(combinations.sequence.irs.simulation.df, site == "intervention"),
        aes(x=time.in.generations,
            y = bioassay.survival*100,
            group = insecticide.tracked,
@@ -1375,7 +1426,7 @@ combinations.rotate.irs.simulation.df = run_simulation_advanced(irm.deployment.s
 
 
 
-ggplot(subset(combinations.rotate.irs.simulation.df, site == "intervention"),
+p.2 = ggplot(subset(combinations.rotate.irs.simulation.df, site == "intervention"),
        aes(x=time.in.generations,
            y = bioassay.survival*100,
            group = insecticide.tracked,
@@ -1434,3 +1485,14 @@ ggplot(subset(combinations.rotate.irs.simulation.df, site == "intervention"),
   theme(axis.title.x = element_text(size = 12),
         axis.title.y = element_text(size = 12))
 
+
+p.1/p.2
+
+ggsave(
+  filename = "chapter3_figureS1.5.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 400,
+  height = 400,
+  units = "px",
+  dpi = 200)

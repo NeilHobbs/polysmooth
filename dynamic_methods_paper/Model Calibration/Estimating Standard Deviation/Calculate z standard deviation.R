@@ -6,13 +6,13 @@ library(devtools)
 load_all()
 
 #Data from published WHO Cylinder Assays
-dataset1 = read_excel("Model Calibration/Estimating Standard Deviation/WHO Bioassay with SD SE or CI.xlsx",
+dataset1 = read_excel("dynamic_methods_paper/Model Calibration/Estimating Standard Deviation/WHO Bioassay with SD SE or CI.xlsx",
                       sheet = "Underpinning Sustainable Vector")
 
-dataset2 = read_excel("Model Calibration/Estimating Standard Deviation/WHO Bioassay with SD SE or CI.xlsx",
+dataset2 = read_excel("dynamic_methods_paper/Model Calibration/Estimating Standard Deviation/WHO Bioassay with SD SE or CI.xlsx",
                       sheet = "Watsenga et al. Malar J  2018")
 
-dataset3 = read_excel("Model Calibration/Estimating Standard Deviation/WHO Bioassay with SD SE or CI.xlsx",
+dataset3 = read_excel("dynamic_methods_paper/Model Calibration/Estimating Standard Deviation/WHO Bioassay with SD SE or CI.xlsx",
                       sheet = "Alemayehuet al. Parasites Vec")
 
 
@@ -137,6 +137,17 @@ plot.a + plot.b + plot.c +
   plot_layout(design = layout)
 
 
+ggsave(
+  filename = "chapter3_figureS5.1.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 800,
+  height = 600,
+  units = "px",
+  dpi = 300)
+
+
+
 summary(lm(z.stdev ~ z.value,
            data = dataset.0.100))
 
@@ -175,6 +186,14 @@ plot.e = ggplot(dataset.bioassays.3600, aes(x=z.value, y=z.stdev))+
 
 plot.d + plot.e
 
+ggsave(
+  filename = "chapter3_figureS5.2.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 600,
+  height = 300,
+  units = "px",
+  dpi = 300)
 
 
 

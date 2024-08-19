@@ -44,7 +44,7 @@ fig.8.b = ggplot(df.6, aes(x=norm.dist, y=rel.freq*0.3))+
   geom_label(x= 100, y = 0.006,
              label = paste0("a proportion of individuals\nescape insecticide exposure"),
              colour = "black",
-             size = 3.4)+
+             size = 6)+
   theme_bw()+
   ggtitle("Panel 2)")+
   theme( axis.text.x = element_blank(),
@@ -66,7 +66,7 @@ fig.8.c = ggplot(df.6, aes(x=norm.dist, y=rel.freq*0.7))+
   geom_label(x= 100, y = 0.007,
              label = paste0("a proportion of\nindividuals encounter\nthe insecticide"),
              colour = "black",
-             size = 3.4)+
+             size = 6)+
   theme_bw()+
   ggtitle("Panel 3)")+
   theme( axis.text.x = element_blank(),
@@ -102,7 +102,7 @@ fig.8.d =ggplot(df.6, aes(x=norm.dist,
   geom_text(aes(x=70,
                 y=0.0019, label = paste0("Survival Probability")),
             colour = "darkgrey",
-            size = 3.5,
+            size = 5,
             angle = 25)+
   ggtitle("Panel 4)")+
   ylim(0, 0.008)+
@@ -167,3 +167,13 @@ A#B#F
 
 
 fig.8.a + fig.8.b + fig.8.c + fig.8.d + fig.8.e + fig.8.f + plot_layout(design = plot.layout)
+
+
+ggsave(
+  filename = "chapter3_figure5.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 700,
+  height = 400,
+  units = "px",
+  dpi = 200)

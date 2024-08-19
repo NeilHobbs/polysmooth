@@ -45,8 +45,8 @@ smooth.selection.plot = ggplot(df.smooth, aes(x=z.values,
         axis.ticks.x=element_blank(),
         axis.text.y=element_blank(),
         axis.ticks.y=element_blank(),
-        axis.title = element_text(size = 20),
-        plot.title = element_text(size = 20))
+        axis.title = element_text(size = 30),
+        plot.title = element_text(size = 30))
 
 
 truncation.selection.plot = ggplot(df.truncation, aes(x=z.values,
@@ -73,8 +73,8 @@ truncation.selection.plot = ggplot(df.truncation, aes(x=z.values,
         axis.ticks.x=element_blank(),
         axis.text.y=element_blank(),
         axis.ticks.y=element_blank(),
-        axis.title = element_text(size = 20),
-        plot.title = element_text(size = 20))
+        axis.title = element_text(size = 30),
+        plot.title = element_text(size = 30))
 
 the.plot = smooth.selection.plot + truncation.selection.plot
 
@@ -86,3 +86,12 @@ return(the.plot)
 plot_smooth_truncation_selection_examples()
 
 
+
+ggsave(
+  filename = "chapter3_figure1.jpeg",
+  plot = plot_smooth_truncation_selection_examples(),
+  scale = 5,
+  width = 850,
+  height = 400,
+  units = "px",
+  dpi = 300)

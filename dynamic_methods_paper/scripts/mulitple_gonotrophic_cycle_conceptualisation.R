@@ -29,7 +29,7 @@ mulitple_g_cycle_overview = function(){
           axis.title.y = element_blank(),
           axis.text.x = element_blank(),
           axis.ticks.x = element_blank(),
-          title = element_text(size  = 14),
+          title = element_text(size  = 30),
           legend.position = "none")
 
 
@@ -37,7 +37,7 @@ mulitple_g_cycle_overview = function(){
     geom_col(colour = "#016c59",
              fill = "#3690c0",
              size = 1, width = 0.5)+
-    ggtitle(paste0("2) Mean resistance of surviving female mosquitoes increases in each subsequent gonotrophic cycle"))+
+    ggtitle(paste0("2) Mean resistance of surviving female mosquitoes\n increases in each subsequent gonotrophic cycle"))+
     theme_classic()+
     theme(axis.text.y = element_blank(),
           axis.ticks = element_blank(),
@@ -45,7 +45,7 @@ mulitple_g_cycle_overview = function(){
           axis.title.y = element_blank(),
           axis.text.x = element_blank(),
           axis.ticks.x = element_blank(),
-          title = element_text(size = 14),
+          title = element_text(size = 30),
           legend.position = "none")
 
 
@@ -58,7 +58,7 @@ mulitple_g_cycle_overview = function(){
              colour = "#800026",
              fill= "#fc4e2a",
              size = 1)+
-    ggtitle(paste0("3) Female selection differential increases in each gonotrophic cycle & male selection differential remains constant"))+
+    ggtitle(paste0("3) Female selection differential increases in each gonotrophic cycle\n & male selection differential remains constant"))+
     theme_classic()+
     theme(axis.text.y = element_blank(),
           axis.ticks = element_blank(),
@@ -66,7 +66,7 @@ mulitple_g_cycle_overview = function(){
           axis.title.y = element_blank(),
           axis.text.x = element_blank(),
           axis.ticks.x = element_blank(),
-          title = element_text(size = 14),
+          title = element_text(size = 30),
           legend.position = "none")
 
 
@@ -82,9 +82,9 @@ mulitple_g_cycle_overview = function(){
     theme(axis.text.y = element_blank(),
           axis.title.y = element_blank(),
           axis.ticks.y = element_blank(),
-          axis.title.x = element_text(size = 15),
-          axis.text.x = element_text(size = 12, colour = "black"),
-          title = element_text(size = 14),
+          axis.title.x = element_text(size = 25),
+          axis.text.x = element_text(size = 25, colour = "black"),
+          title = element_text(size = 30),
           legend.position = "none")
 
 
@@ -101,5 +101,15 @@ mulitple_g_cycle_overview = function(){
 }
 
 mulitple_g_cycle_overview()
+
+
+ggsave(
+  filename = "chapter3_figure6.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 700,
+  height = 400,
+  units = "px",
+  dpi = 200)
 
 

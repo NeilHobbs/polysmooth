@@ -20,21 +20,32 @@ ggplot(df.2, aes(x=gens.vector, y=eff.vector))+
              size =2,
              linetype="dashed")+
   geom_text(label = paste0("The longevity threshold of\nthe insecticide is reached"),
-            size = 6,
+            size = 10,
             x = 20.2, y=0.3, angle = 270,
             colour = "black")+
   geom_text(label = paste0("On initial deployment\nthe insecticide\ndecays slowly"),
-            size = 6,
+            size = 10,
             x = 10, y=0.7,
             colour = "blue")+
   geom_text(label = paste0("After longevity threshold\nexceeded insecticide\ndecays rapidly"),
-            size = 6,
+            size = 10,
             x = 26, y=0.7,
             colour = "red")+
   xlab("Mosquito Generations Since Deployment")+
   ylab("Insecticide Efficacy")+
   theme_bw()+
-  theme(axis.title.y =  element_text(size = 18),
-        axis.title.x =  element_text(size = 18),
-        axis.text.x = element_text(size= 15, colour = "black"),
-        axis.text.y = element_text(size = 15, colour = "black"))
+  theme(axis.title.y =  element_text(size = 30),
+        axis.title.x =  element_text(size = 30),
+        axis.text.x = element_text(size= 30, colour = "black"),
+        axis.text.y = element_text(size = 30, colour = "black"))
+
+
+
+ggsave(
+  filename = "chapter3_figure2.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 850,
+  height = 400,
+  units = "px",
+  dpi = 200)

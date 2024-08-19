@@ -40,7 +40,7 @@ fig.7.b = ggplot(df.5, aes(x=norm.dist, y=rel.freq*0.3))+
   geom_label(x= 100, y = 0.006,
             label = paste0("a proportion of individuals\nescape insecticide exposure"),
                            colour = "black",
-                           size = 3.4)+
+                           size = 6)+
   theme_bw()+
   ggtitle("Panel 2)")+
   theme( axis.text.x = element_blank(),
@@ -62,7 +62,7 @@ fig.7.c = ggplot(df.5, aes(x=norm.dist, y=rel.freq*0.7))+
   geom_label(x= 100, y = 0.007,
              label = paste0("a proportion of\nindividuals encounter\nthe insecticide"),
              colour = "black",
-             size = 3.4)+
+             size = 6)+
   theme_bw()+
   ggtitle("Panel 3)")+
   theme( axis.text.x = element_blank(),
@@ -159,3 +159,11 @@ A#B#F
 
 fig.7.a + fig.7.b + fig.7.c + fig.7.d + fig.7.e + fig.7.f + plot_layout(design = plot.layout)
 
+ggsave(
+  filename = "chapter3_figure4.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 700,
+  height = 400,
+  units = "px",
+  dpi = 200)

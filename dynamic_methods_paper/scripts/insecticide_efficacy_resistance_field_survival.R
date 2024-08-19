@@ -1,4 +1,4 @@
-##Figure 4:: Insecticide Efficacy, PRS and Field Survival
+##Figure 3:: Insecticide Efficacy, PRS and Field Survival
 eff.values = seq(0, 1.25, 0.01)
 
 survival.0 = convert_bioassay_survival_to_field_survival(bioassay.survival = 0,
@@ -57,11 +57,21 @@ ggplot(df.3, aes(x=eff.values, y=survival.0*100))+
              colour = "black",
              size = 1.5)+
   geom_text(label = paste0("Insecticide is above\nrecommended dose\nfor example\noversprayed"),
-            x= 1.15, y = 80, size = 5)+
+            x= 1.15, y = 80, size = 10)+
     xlab("Insecticide Efficacy")+
   ylab("Field Survival (%)")+
   theme_bw()+
-  theme(axis.title.y =  element_text(size = 20),
-        axis.title.x =  element_text(size = 20),
-        axis.text.x = element_text(size = 15, colour = "black"),
-        axis.text.y = element_text(size = 15, colour = "black"))
+  theme(axis.title.y =  element_text(size = 35),
+        axis.title.x =  element_text(size = 35),
+        axis.text.x = element_text(size = 35, colour = "black"),
+        axis.text.y = element_text(size = 35, colour = "black"))
+
+
+ggsave(
+  filename = "chapter3_figure3.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 700,
+  height = 400,
+  units = "px",
+  dpi = 200)

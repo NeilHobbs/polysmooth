@@ -288,3 +288,11 @@ laying.g2.refugia + plot_layout(design = the.layout)
 
 
 
+ggsave(
+  filename = "chapter3_figureS8.1.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 1200,
+  height = 600,
+  units = "px",
+  dpi = 300)
