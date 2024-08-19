@@ -1,9 +1,10 @@
 library(devtools)
 load_all()
 library(patchwork)
+library(ggplot2)
 
 polysmooth.df =  read.csv("sequence.rotation.mixture.smooth.fixedsd.csv")
-polytruncate.df = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/polytruncate.sequence.rotation.mixture.csv")
+polytruncate.df = read.csv("~/LSTM_IR_Modelling/polytruncate/polytruncate.sequence.rotation.mixture.csv")
 
 
 #First set outcomes for each model
@@ -88,12 +89,16 @@ plot.compare.seq.rot = ggplot(rot.seq.df, aes(x=cross.resistance,
   theme_bw()+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 100),
                      breaks = seq(0, 100, 10))+
-  theme(legend.position = "none",
-        axis.title.y = element_text(size = 12),
-        axis.text.y = element_text(size = 12, colour = "black"),
-        axis.title.x = element_text(size = 12),
-        axis.text.x = element_text(size = 12, colour = "black"),plot.margin = margin(0, 0, 0, 0, "pt"))
-
+  theme(axis.title.y = element_text(size = 20),
+        axis.text.y = element_text(size = 20, colour = "black"),
+        axis.title.x = element_text(size = 20),
+        axis.text.x = element_text(size = 20, colour = "black"),
+        legend.position = "none",
+        plot.margin = margin(0, 0, 0, 0, "pt"),
+        legend.margin = margin(c(0, 0, 0, 0), unit = "cm"),
+        legend.title=element_text(size=30),
+        legend.text=element_text(size=30),
+        title = element_text(size = 25))
 
 
 #seq mix
@@ -137,12 +142,16 @@ plot.compare.seq.mix = ggplot(seq.mix.df, aes(x=cross.resistance,
   theme_bw()+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 100),
                      breaks = seq(0, 100, 10))+
-  theme(legend.position = "none",
-        axis.title.y = element_text(size = 12),
-        axis.text.y = element_text(size = 12, colour = "black"),
-        axis.title.x = element_text(size = 12),
-        axis.text.x = element_text(size = 12, colour = "black"),
-        plot.margin = margin(0, 0, 0, 0, "pt"))
+  theme(axis.title.y = element_text(size = 20),
+        axis.text.y = element_text(size = 20, colour = "black"),
+        axis.title.x = element_text(size = 20),
+        axis.text.x = element_text(size = 20, colour = "black"),
+        plot.margin = margin(0, 0, 0, 0, "pt"),
+        legend.position = "none",
+        legend.margin = margin(c(0, 0, 0, 0), unit = "cm"),
+        legend.title=element_text(size=30),
+        legend.text=element_text(size=30),
+        title = element_text(size = 25))
 
 #colours:::
 #Red - strategies diverge
@@ -198,12 +207,16 @@ plot.compare.rot.mix = ggplot(rot.mix.df, aes(x=cross.resistance,
   theme_bw()+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 100),
                      breaks = seq(0, 100, 10))+
-  theme(legend.position = "none",
-        axis.title.y = element_text(size = 12),
-        axis.text.y = element_text(size = 12, colour = "black"),
-        axis.title.x = element_text(size = 12),
-        axis.text.x = element_text(size = 12, colour = "black"),
-        plot.margin = margin(0, 0, 0, 0, "pt"))
+  theme(axis.title.y = element_text(size = 20),
+        axis.text.y = element_text(size = 20, colour = "black"),
+        axis.title.x = element_text(size = 20),
+        axis.text.x = element_text(size = 20, colour = "black"),
+        plot.margin = margin(0, 0, 0, 0, "pt"),
+        legend.position = "none",
+        legend.margin = margin(c(0, 0, 0, 0), unit = "cm"),
+        legend.title=element_text(size=30),
+        legend.text=element_text(size=30),
+        title = element_text(size = 25))
 
 #colours:::
 #Red - strategies diverge
@@ -230,14 +243,14 @@ figure.legend = cowplot::get_legend(ggplot(rot.seq.df, aes(x=cross.resistance,
   theme_bw()+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 100),
                      breaks = seq(0, 100, 10))+
-  theme(axis.title.y = element_text(size = 12),
-        axis.text.y = element_text(size = 12, colour = "black"),
-        axis.title.x = element_text(size = 12),
-        axis.text.x = element_text(size = 12, colour = "black"),
+  theme(axis.title.y = element_text(size = 20),
+        axis.text.y = element_text(size = 20, colour = "black"),
+        axis.title.x = element_text(size = 20),
+        axis.text.x = element_text(size = 20, colour = "black"),
         plot.margin = margin(0, 0, 0, 0, "pt"),
        legend.margin = margin(c(0, 0, 0, 0), unit = "cm"),
-       legend.title=element_text(size=15),
-       legend.text=element_text(size=15)))
+       legend.title=element_text(size=30),
+       legend.text=element_text(size=30)))
 
 the.layout= "
 AAAABBBBCCCC
@@ -249,6 +262,15 @@ AAAABBBBCCCC
 
 plot.compare.seq.rot + plot.compare.seq.mix + plot.compare.rot.mix + figure.legend+ plot_layout(design = the.layout)
 
+
+ggsave(
+  filename = "chapter3_figure10.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 660,
+  height = 300,
+  units = "px",
+  dpi = 200)
 
 
 

@@ -11,8 +11,8 @@ mixture.smooth.df$rotation.insecticide.j = rotation.smooth.df$insecticide.j
 
 
 #Read in polytruncate results:
-mixture.truncate.df = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/part.3.mixture.cross.resistance.csv")
-rotation.truncate.df = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/part.3.rotation.cross.resistance.csv")
+mixture.truncate.df = read.csv("~/LSTM_IR_Modelling/polytruncate/part.3.mixture.cross.resistance.csv")
+rotation.truncate.df = read.csv("~/LSTM_IR_Modelling/polytruncate/part.3.rotation.cross.resistance.csv")
 
 rotation.truncate.df = rbind(rotation.truncate.df, rotation.truncate.df, rotation.truncate.df)
 

@@ -50,7 +50,7 @@ ij.df = data.frame(table(irs_llin$outcome.total,
                          irs_llin$initial.pyrethroid))|>
   dplyr::rename(initial.pyrethroid = "Var2")
 
-ggplot(subset(irs_llin,
+fig3a = ggplot(subset(irs_llin,
               outcome.i != "Draw"), aes(x=difference.i * 100,
                                         fill = outcome.i))+
   scale_fill_manual(values = c("coral", "skyblue"))+
@@ -67,7 +67,7 @@ ggplot(subset(irs_llin,
   theme_bw()+
   theme(legend.position = "none")
 
-ggplot(subset(irs_llin,
+fig3b = ggplot(subset(irs_llin,
               outcome.j != "Draw"), aes(x=difference.j * 100,
                      fill = outcome.j))+
   scale_fill_manual(values = c("coral", "skyblue"))+
@@ -84,7 +84,7 @@ ggplot(subset(irs_llin,
   theme_bw()+
   theme(legend.position = "none")
 
-ggplot(subset(irs_llin,
+fig3c = ggplot(subset(irs_llin,
               outcome.total != "Draw"), aes(x=difference.total * 100,
                      fill = outcome.total))+
   scale_fill_manual(values = c("coral", "skyblue"))+
@@ -102,6 +102,122 @@ ggplot(subset(irs_llin,
   theme(legend.position = "none")
 
 
+fig3a/fig3b/fig3c
+
+ggsave(
+  filename = "chapter7_figure3.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 600,
+  height = 800,
+  units = "px",
+  dpi = 300)
+
+
+range(irs_llin$difference.i)
+
+irs_llin$difference.i.update = ifelse(irs_llin$difference.i > 0.25,
+                                      yes = 0.25,
+                                      no = ifelse(irs_llin$difference.i < -0.25,
+                                                  yes = -0.25,
+                                                  no = irs_llin$difference.i))
+
+
+irs_llin$difference.j.update = ifelse(irs_llin$difference.j > 0.25,
+                                      yes = 0.25,
+                                      no = ifelse(irs_llin$difference.j < -0.25,
+                                                  yes = -0.25,
+                                                  no = irs_llin$difference.j))
+
+
+irs_llin$difference.total.update = ifelse(irs_llin$difference.total > 0.25,
+                                          yes = 0.25,
+                                          no = ifelse(irs_llin$difference.total < -0.25,
+                                                      yes = -0.25,
+                                                      no = irs_llin$difference.total))
+
+
+
+
+A = ggplot(subset(irs_llin,
+                  outcome.i != "Draw"), aes(x=difference.i.update * 100,
+                                            fill = outcome.i))+
+  scale_fill_manual(values = c("coral", "skyblue"))+
+  geom_histogram(binwidth = 1, colour = "black")+
+  geom_label(data = i.df,
+             mapping = aes(x= rep(c(7, -15, 18), 5), y = 1000, label = Freq),
+             inherit.aes = FALSE, fill = rep(c("grey", "coral", "skyblue"), 5))+
+  scale_x_continuous(limits = c(-26, 26),
+                     breaks = seq(-25, 25, 5))+
+  scale_y_continuous(expand = c(0,0))+
+  xlab(paste0("ITN Difference Bioassay Survival (%)"))+
+  facet_grid(. ~ paste0("Initial Pyrethroid\nBioassay Survival:", initial.pyrethroid, "%"))+
+  ylab("count")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 10, colour = "black"),
+        axis.text.y = element_text(size = 14, colour = "black"),
+        axis.title = element_text(size = 14, colour = "black"),
+        strip.background = element_rect(colour = "black", fill = "white"),
+        strip.text = element_text(size = 14, colour = "black"))
+
+
+B = ggplot(subset(irs_llin,
+                  outcome.j != "Draw"), aes(x=difference.j.update * 100,
+                                            fill = outcome.j))+
+  scale_fill_manual(values = c("coral", "skyblue"))+
+  geom_histogram(binwidth = 1, colour = "black")+
+  scale_x_continuous(limits = c(-26, 26),
+                     breaks = seq(-25, 25, 5))+
+  scale_y_continuous(expand = c(0,0))+
+  geom_label(data = j.df,
+             mapping = aes(x= rep(c(6, -15), 5), y = 600, label = Freq),
+             inherit.aes = FALSE, fill = rep(c("grey", "coral"), 5))+
+  xlab(paste0("IRS Difference Bioassay Survival (%)"))+
+  facet_grid(. ~ paste0("Initial Pyrethroid\nBioassay Survival:", initial.pyrethroid, "%"))+
+  ylab("count")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 10, colour = "black"),
+        axis.text.y = element_text(size = 14, colour = "black"),
+        axis.title = element_text(size = 14, colour = "black"),
+        strip.background = element_rect(colour = "black", fill = "white"),
+        strip.text = element_text(size = 14, colour = "black"))
+
+
+C = ggplot(subset(irs_llin,
+                  outcome.total != "Draw"), aes(x=difference.total.update * 100,
+                                                fill = outcome.total))+
+  scale_fill_manual(values = c("coral", "skyblue"))+
+  scale_x_continuous(limits = c(-26, 26),
+                     breaks = seq(-25, 25, 5))+
+  scale_y_continuous(expand = c(0,0))+
+  geom_histogram(binwidth = 1, colour = "black")+
+  geom_label(data = ij.df,
+             mapping = aes(x= rep(c(6, -15, 18), 5), y = 1000, label = Freq),
+             inherit.aes = FALSE, fill = rep(c("grey", "coral", "skyblue"), 5))+
+  facet_grid(. ~ paste0("Initial Pyrethroid\nBioassay Survival:", initial.pyrethroid, "%"))+
+  ylab("count")+
+  xlab(paste0("ITN + IRS Difference Bioassay Survival (%)"))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 10, colour = "black"),
+        axis.text.y = element_text(size = 14, colour = "black"),
+        axis.title = element_text(size = 14, colour = "black"),
+        strip.background = element_rect(colour = "black", fill = "white"),
+        strip.text = element_text(size = 14, colour = "black"))
+
+
+A/B/C
+
+ggsave(
+  filename = "Adding_IRS_to_ITNs.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 1600,
+  height = 1200,
+  units = "px",
+  dpi = 600)
 
 
 colnames(irs_llin)
@@ -328,6 +444,15 @@ plot.list[[1]]+
   plot.list[[17]]+
   the.legend+ plot_layout(design = the.layout)
 
+
+ggsave(
+  filename = "chapter7_figure4.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 1000,
+  height = 800,
+  units = "px",
+  dpi = 300)
 
 
 

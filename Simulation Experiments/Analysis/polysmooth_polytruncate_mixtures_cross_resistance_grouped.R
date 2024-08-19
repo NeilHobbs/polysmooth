@@ -17,9 +17,9 @@ smooth.rotation.df$model = "polysmooth"
 
 #read in the datasets: polytruncate
 
-truncation.mixtures.df = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/part.3.mixture.cross.resistance.csv")
-truncation.solo.df = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/part.3.solo.cross.resistance.csv")
-truncation.rotation.df = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/part.3.rotation.cross.resistance.csv")
+truncation.mixtures.df = read.csv("~/LSTM_IR_Modelling/polytruncate/part.3.mixture.cross.resistance.csv")
+truncation.solo.df = read.csv("~/LSTM_IR_Modelling/polytruncate/part.3.solo.cross.resistance.csv")
+truncation.rotation.df = read.csv("~/LSTM_IR_Modelling/polytruncate/part.3.rotation.cross.resistance.csv")
 
 #Add in model name:
 truncation.mixtures.df$model = "polytruncate"
@@ -204,7 +204,8 @@ temp.df = data.frame(i.difference,
                      dispersal= solo.df$Dispersal,
                      female.exposure = solo.df$Female.Insecticide.Exposure,
                      male.exposure = solo.df$Male.Insecticide.Exposure,
-                     coverage = solo.df$Intervention.Coverage)
+                     coverage = solo.df$Intervention.Coverage,
+                     model = solo.df$model)
 
 
 A = ggplot(temp.df, aes(x=i.difference*100,
@@ -280,6 +281,203 @@ C = ggplot(temp.df, aes(x=total.difference*100,
 
 A + B + C
 
+temp.df = data.frame(i.difference,
+                     j.difference,
+                     total.difference,
+                     strat,
+                     cross.resistance,
+                     heritability = solo.df$Heritability,
+                     dispersal= solo.df$Dispersal,
+                     female.exposure = solo.df$Female.Insecticide.Exposure,
+                     male.exposure = solo.df$Male.Insecticide.Exposure,
+                     coverage = solo.df$Intervention.Coverage,
+                     model = solo.df$model)
+
+
+A = ggplot(subset(temp.df, model == "polytruncate"), aes(x=i.difference*100,
+                                                         fill=strat))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#984ea3", #purple = HD_HD 50%
+                               "#ff7f00"#orange = HD_HD 75%
+  ))+
+  geom_vline(xintercept = 0,
+             linetype = "dashed")+
+  xlab(paste0("Difference in End Bioassay Survival\nAfter 200 Generations"))+
+  ggtitle("Insecticide i")+
+  facet_grid(cross.resistance ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+
+B = ggplot(subset(temp.df, model == "polytruncate"), aes(x=j.difference*100,
+                                                         fill=strat))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#984ea3", #purple = HD_HD 50%
+                               "#ff7f00"#orange = HD_HD 75%
+  ))+
+  geom_vline(xintercept = 0,
+             linetype = "dashed")+
+  xlab(paste0("Difference in End Bioassay Survival\nAfter 200 Generations"))+
+  ggtitle("Insecticide j")+
+  facet_grid(cross.resistance ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+
+C = ggplot(subset(temp.df, model == "polytruncate"), aes(x=total.difference*100,
+                                                         fill=strat))+
+  geom_vline(xintercept = 0,
+             linetype = "dashed")+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#984ea3", #purple = HD_HD 50%
+                               "#ff7f00"#orange = HD_HD 75%
+  ))+
+  geom_vline(xintercept = 0,
+             linetype = "dashed")+
+  ggtitle("Total (Insecticide i and Insecticide j)")+
+  xlab(paste0("Difference in End Bioassay Survival\nAfter 200 Generations"))+
+  facet_grid(cross.resistance ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+
+A + B + C
+
+
+
+ggsave(
+  filename = "chapter5_figureS1.7a.jpeg",
+  plot = last_plot(),
+  scale = 10,
+  width = 400,
+  height = 200,
+  units = "px",
+  dpi = 200)
+
+temp.df = data.frame(i.difference,
+                     j.difference,
+                     total.difference,
+                     strat,
+                     cross.resistance,
+                     heritability = solo.df$Heritability,
+                     dispersal= solo.df$Dispersal,
+                     female.exposure = solo.df$Female.Insecticide.Exposure,
+                     male.exposure = solo.df$Male.Insecticide.Exposure,
+                     coverage = solo.df$Intervention.Coverage,
+                     model = solo.df$model)
+
+
+A = ggplot(subset(temp.df, model == "polysmooth"), aes(x=i.difference*100,
+                                                       fill=strat))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#984ea3", #purple = HD_HD 50%
+                               "#ff7f00"#orange = HD_HD 75%
+  ))+
+  geom_vline(xintercept = 0,
+             linetype = "dashed")+
+  xlab(paste0("Difference in End Bioassay Survival\nAfter 200 Generations"))+
+  ggtitle("Insecticide i")+
+  facet_grid(cross.resistance ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+
+B = ggplot(subset(temp.df, model == "polysmooth"), aes(x=j.difference*100,
+                                                       fill=strat))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#984ea3", #purple = HD_HD 50%
+                               "#ff7f00"#orange = HD_HD 75%
+  ))+
+  geom_vline(xintercept = 0,
+             linetype = "dashed")+
+  xlab(paste0("Difference in End Bioassay Survival\nAfter 200 Generations"))+
+  ggtitle("Insecticide j")+
+  facet_grid(cross.resistance ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+
+C = ggplot(subset(temp.df, model == "polysmooth"), aes(x=total.difference*100,
+                                                       fill=strat))+
+  geom_vline(xintercept = 0,
+             linetype = "dashed")+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#984ea3", #purple = HD_HD 50%
+                               "#ff7f00"#orange = HD_HD 75%
+  ))+
+  geom_vline(xintercept = 0,
+             linetype = "dashed")+
+  ggtitle("Total (Insecticide i and Insecticide j)")+
+  xlab(paste0("Difference in End Bioassay Survival\nAfter 200 Generations"))+
+  facet_grid(cross.resistance ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+
+A + B + C
+
+
+
+ggsave(
+  filename = "chapter5_figureS1.7b.jpeg",
+  plot = last_plot(),
+  scale = 10,
+  width = 400,
+  height = 200,
+  units = "px",
+  dpi = 200)
+
+
+
+
 solo.diff.mix.df = data.frame(difference.deployed.fd,
                               difference.not.deployed.fd,
                               difference.deployed.50.hd,
@@ -351,6 +549,11 @@ plot.ij = ggplot(temp.df, aes(x=female.exposure,
 
 
 plot.i + plot.j + plot.ij
+
+
+
+
+
 
 
 
@@ -473,7 +676,8 @@ temp.df = data.frame(i.difference,
                      j.difference,
                      total.difference,
                      strat,
-                     cross.resistance)
+                     cross.resistance,
+                     model = solo.df$model)
 
 
 A = ggplot(temp.df, aes(x=i.difference*100,
@@ -547,6 +751,195 @@ C = ggplot(temp.df, aes(x=total.difference*100,
         strip.text = element_text(size = 18))
 
 A+B+C
+
+
+
+
+
+temp.df = data.frame(i.difference,
+                     j.difference,
+                     total.difference,
+                     strat,
+                     cross.resistance,
+                     model = solo.df$model)
+
+
+A = ggplot(subset(temp.df, model == "polytruncate"), aes(x=i.difference*100,
+                                                         fill=strat))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#984ea3", #purple = HD_HD 50%
+                               "#ff7f00"#orange = HD_HD 75%
+  ))+
+  geom_vline(xintercept = 0,
+             linetype = "dashed")+
+  xlab(paste0("Difference in End Bioassay Survival\nAfter 200 Generations"))+
+  ggtitle("Insecticide i")+
+  facet_grid(cross.resistance ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        title = element_text(size = 20),
+        strip.text = element_text(size = 12))
+
+
+B = ggplot(subset(temp.df, model == "polytruncate"), aes(x=j.difference*100,
+                                                         fill=strat))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#984ea3", #purple = HD_HD 50%
+                               "#ff7f00"#orange = HD_HD 75%
+  ))+
+  geom_vline(xintercept = 0,
+             linetype = "dashed")+
+  xlab(paste0("Difference in End Bioassay Survival\nAfter 200 Generations"))+
+  ggtitle("Insecticide j")+
+  facet_grid(cross.resistance ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+
+C = ggplot(subset(temp.df, model == "polytruncate"), aes(x=total.difference*100,
+                                                         fill=strat))+
+  geom_vline(xintercept = 0,
+             linetype = "dashed")+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#984ea3", #purple = HD_HD 50%
+                               "#ff7f00"#orange = HD_HD 75%
+  ))+
+  geom_vline(xintercept = 0,
+             linetype = "dashed")+
+  xlab(paste0("Difference in End Bioassay Survival\nAfter 200 Generations"))+
+  ggtitle("Total (Insecticide i and Insecticide j)")+
+  facet_grid(cross.resistance ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+A+B+C
+
+ggsave(
+  filename = "chapter5_figureS1.8a.jpeg",
+  plot = last_plot(),
+  scale = 10,
+  width = 400,
+  height = 200,
+  units = "px",
+  dpi = 200)
+
+
+
+temp.df = data.frame(i.difference,
+                     j.difference,
+                     total.difference,
+                     strat,
+                     cross.resistance,
+                     model = solo.df$model)
+
+
+A = ggplot(subset(temp.df, model == "polysmooth"), aes(x=i.difference*100,
+                                                       fill=strat))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#984ea3", #purple = HD_HD 50%
+                               "#ff7f00"#orange = HD_HD 75%
+  ))+
+  geom_vline(xintercept = 0,
+             linetype = "dashed")+
+  xlab(paste0("Difference in End Bioassay Survival\nAfter 200 Generations"))+
+  ggtitle("Insecticide i")+
+  facet_grid(cross.resistance ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        title = element_text(size = 20),
+        strip.text = element_text(size = 12))
+
+
+B = ggplot(subset(temp.df, model == "polysmooth"), aes(x=j.difference*100,
+                                                       fill=strat))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#984ea3", #purple = HD_HD 50%
+                               "#ff7f00"#orange = HD_HD 75%
+  ))+
+  geom_vline(xintercept = 0,
+             linetype = "dashed")+
+  xlab(paste0("Difference in End Bioassay Survival\nAfter 200 Generations"))+
+  ggtitle("Insecticide j")+
+  facet_grid(cross.resistance ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+
+C = ggplot(subset(temp.df, model == "polysmooth"), aes(x=total.difference*100,
+                                                       fill=strat))+
+  geom_vline(xintercept = 0,
+             linetype = "dashed")+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#984ea3", #purple = HD_HD 50%
+                               "#ff7f00"#orange = HD_HD 75%
+  ))+
+  geom_vline(xintercept = 0,
+             linetype = "dashed")+
+  xlab(paste0("Difference in End Bioassay Survival\nAfter 200 Generations"))+
+  ggtitle("Total (Insecticide i and Insecticide j)")+
+  facet_grid(cross.resistance ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+A+B+C
+
+ggsave(
+  filename = "chapter5_figureS1.8b.jpeg",
+  plot = last_plot(),
+  scale = 10,
+  width = 400,
+  height = 200,
+  units = "px",
+  dpi = 200)
+
+
+
+
+
 
 
 median.values = subset(temp.df, cross.resistance %in%c(-0.5, -0.3,

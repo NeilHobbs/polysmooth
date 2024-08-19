@@ -90,16 +90,16 @@ rm(set.1,
    smooth.scaled.df.75)
 
   #Polytruncate:
-set.1 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.1.csv")
-set.2 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.2.csv")
-set.3 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.3.csv")
-set.4 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.4.csv")
-set.5 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.5.csv")
-set.6 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.6.csv")
-set.7 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.7.csv")
-set.8 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.8.csv")
-set.9 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.9.csv")
-set.10 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.10.csv")
+set.1 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.1.csv")
+set.2 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.2.csv")
+set.3 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.3.csv")
+set.4 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.4.csv")
+set.5 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.5.csv")
+set.6 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.6.csv")
+set.7 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.7.csv")
+set.8 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.8.csv")
+set.9 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.9.csv")
+set.10 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.10.csv")
 
 truncate.scaled.df = rbind(set.1,
                          set.2,
@@ -118,16 +118,16 @@ truncate.scaled.df = subset(truncate.scaled.df, threshold.gens == threshold.gens
 A=(subset(truncate.scaled.df, dose.1 == 1 & dose.2 == 1))
 
 #and the 75% efficacy sets:
-set.1.75 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.1.csv")
-set.2.75 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.2.csv")
-set.3.75 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.3.csv")
-set.4.75 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.4.csv")
-set.5.75 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.5.csv")
-set.6.75 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.6.csv")
-set.7.75 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.7.csv")
-set.8.75 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.8.csv")
-set.9.75 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.9.csv")
-set.10.75 = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.10.csv")
+set.1.75 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.1.csv")
+set.2.75 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.2.csv")
+set.3.75 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.3.csv")
+set.4.75 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.4.csv")
+set.5.75 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.5.csv")
+set.6.75 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.6.csv")
+set.7.75 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.7.csv")
+set.8.75 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.8.csv")
+set.9.75 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.9.csv")
+set.10.75 = read.csv("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.10.csv")
 
 truncate.scaled.df.75 = rbind(set.1.75,
                             set.2.75,
@@ -630,7 +630,14 @@ plot.1v0.5.total = ggplot(df.1v0.5.total, aes(x=compare.1vs0.5.total,
 
 plot.1v0.5.novel + plot.1v0.5.pyrethroid + plot.1v0.5.total + plot_annotation(title = "Full Dose vs Half Dose Retains 50% Efficacy")
 
-
+ggsave(
+  filename = "chapter5_figureS2.1.jpeg",
+  plot = last_plot(),
+  scale = 10,
+  width = 600,
+  height = 200,
+  units = "px",
+  dpi = 300)
 
 
 #compare 1 vs 0.75
@@ -706,7 +713,14 @@ plot.1v0.75.total = ggplot(df.1v0.75.total, aes(x=compare.1vs0.75.total,
 
 plot.1v0.75.novel + plot.1v0.75.pyrethroid + plot.1v0.75.total + plot_annotation(title = "Full Dose vs Half Dose Retains 75% Efficacy")
 
-
+ggsave(
+  filename = "chapter5_figureS2.2.jpeg",
+  plot = last_plot(),
+  scale = 10,
+  width = 600,
+  height = 200,
+  units = "px",
+  dpi = 300)
 
 #compare 0.75 vs 0.5
 comparison.df$compare.0.75vs0.5.novel = ifelse(comparison.df$smooth.outcome.novel.0.75v0.5 == comparison.df$truncation.outcome.novel.0.75v0.5,
@@ -781,7 +795,14 @@ plot.0.75v0.5.total = ggplot(df.0.75v0.5.total, aes(x=compare.0.75vs0.5.total,
 
 plot.0.75v0.5.novel + plot.0.75v0.5.pyrethroid + plot.0.75v0.5.total + plot_annotation(title = "Half Dose Retains 75% Efficacy vs Half Dose Retains 50% Efficacy")
 
-
+ggsave(
+  filename = "chapter5_figureS2.3.jpeg",
+  plot = last_plot(),
+  scale = 10,
+  width = 600,
+  height = 200,
+  units = "px",
+  dpi = 300)
 
 ##Try and quantify if these "divergences" are meaningful:::
 #1 vs 0.5

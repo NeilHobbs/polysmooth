@@ -225,16 +225,16 @@ smooth.scaled.df$model = "polysmooth"
 #Next read in all the truncation simulaltions:
 ##Read in the datasets:::
 
-set.1 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.1.csv")
-set.2 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.2.csv")
-set.3 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.3.csv")
-set.4 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.4.csv")
-set.5 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.5.csv")
-set.6 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.6.csv")
-set.7 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.7.csv")
-set.8 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.8.csv")
-set.9 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.9.csv")
-set.10 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.set.10.csv")
+set.1 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.1.csv")
+set.2 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.2.csv")
+set.3 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.3.csv")
+set.4 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.4.csv")
+set.5 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.5.csv")
+set.6 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.6.csv")
+set.7 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.7.csv")
+set.8 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.8.csv")
+set.9 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.9.csv")
+set.10 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.set.10.csv")
 
 
 truncation.scaled.df = rbind(set.1,
@@ -264,16 +264,16 @@ rm(set.1,
 truncation.scaled.df = subset(truncation.scaled.df, threshold.gens == threshold.gens.1)
 
 
-set1.75 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.1.csv")
-set2.75 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.2.csv")
-set3.75 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.3.csv")
-set4.75 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.4.csv")
-set5.75 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.5.csv")
-set6.75 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.6.csv")
-set7.75 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.7.csv")
-set8.75 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.8.csv")
-set9.75 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.9.csv")
-set10.75 = fread("C:/Users/neilp/OneDrive - LSTM/polytruncate/mixtures.truncation.75efficacy.set.10.csv")
+set1.75 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.1.csv")
+set2.75 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.2.csv")
+set3.75 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.3.csv")
+set4.75 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.4.csv")
+set5.75 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.5.csv")
+set6.75 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.6.csv")
+set7.75 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.7.csv")
+set8.75 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.8.csv")
+set9.75 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.9.csv")
+set10.75 = fread("~/LSTM_IR_Modelling/polytruncate/mixtures.truncation.75efficacy.set.10.csv")
 
 set.75s = rbind(set1.75,
                 set2.75,
@@ -984,6 +984,18 @@ resistance.dose.decay.plot.pyrethroid = ggplot(smooth.truncation.df, aes(x=rate.
 
 resistance.dose.decay.plot.novel + resistance.dose.decay.plot.pyrethroid
 
+ggsave(
+  filename = "chapter5_figure5.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 1200,
+  height = 800,
+  units = "px",
+  dpi = 300)
+
+
+
+
 rm(resistance.dose.decay.plot.novel, resistance.dose.decay.plot.pyrethroid)
 
 ###Fit and Plot Generalised Additive Models:
@@ -1364,9 +1376,9 @@ pyr_75_vs_100_plot = ggplot(smooth.truncation.df.1, aes(x=pyr_75_vs_100,
   ylab("Frequency")+
   theme_bw()+
   theme(legend.position = "none",
-        axis.text = element_text(size = 18),
-        title = element_text(size = 20),
-        strip.text = element_text(size = 18))
+        axis.text = element_text(size = 16),
+        title = element_text(size = 18),
+        strip.text = element_text(size = 16))
 
 pyr_50_vs_100_plot = ggplot(smooth.truncation.df.1, aes(x=pyr_50_vs_100,
                                              fill = pyr_50_vs_100_outcome))+
@@ -1382,9 +1394,9 @@ pyr_50_vs_100_plot = ggplot(smooth.truncation.df.1, aes(x=pyr_50_vs_100,
                                          labels = NULL))+
   theme_bw()+
   theme(legend.position = "none",
-        axis.text = element_text(size = 18),
-        title = element_text(size = 20),
-        strip.text = element_text(size = 18))
+        axis.text = element_text(size = 16),
+        title = element_text(size = 18),
+        strip.text = element_text(size = 16))
 
 pyr_50_vs_75_plot= ggplot(smooth.truncation.df.1, aes(x=pyr_50_vs_75,
                                            fill = pyr_50_vs_75_outcome))+
@@ -1400,9 +1412,9 @@ pyr_50_vs_75_plot= ggplot(smooth.truncation.df.1, aes(x=pyr_50_vs_75,
   ylab("Frequency")+
   theme_bw()+
   theme(legend.position = "none",
-        axis.text = element_text(size = 18),
-        title = element_text(size = 20),
-        strip.text = element_text(size = 18))
+        axis.text = element_text(size = 16),
+        title = element_text(size = 18),
+        strip.text = element_text(size = 16))
 
 p.1 = novel_75_vs_100_plot + pyr_75_vs_100_plot +
   plot_annotation(title = "Comparing FD_FD vs HD_HD retains 75%",
@@ -1416,9 +1428,18 @@ p.3 = novel_50_vs_75_plot + pyr_50_vs_75_plot +
   plot_annotation(title = "Comparing HD_HD retains 75% vs HD_HD retains 50%",
                   theme = theme(plot.title = element_text(size = 22)))
 
-p.1
-p.2
-p.3
+p.1/p.2/p.3
+
+ggsave(
+  filename = "chapter5_figure6.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 800,
+  height = 1200,
+  units = "px",
+  dpi = 300)
+
+
 
 rm(novel_75_vs_100_plot,
    novel_50_vs_100_plot,
@@ -1511,4 +1532,1046 @@ temp.df.2$Percentage = (temp.df.2$Freq / 270000) * 100
 
 temp.df.2
 
+
+
+
+
+
+########
+#Comparing Polytruncate and Polysmooth
+
+
+##Importance of Dosing
+novel.median.value = smooth.truncation.df %>%
+  dplyr::group_by(dosing.strategy, model) %>%
+  dplyr::summarize(median=median(rate.change.novel.percent))
+
+novel.mean.value = smooth.truncation.df %>%
+  dplyr::group_by(dosing.strategy, model) %>%
+  dplyr::summarize(mean=mean(rate.change.novel.percent))
+
+pyrethroid.median.value = smooth.truncation.df %>%
+  dplyr::group_by(dosing.strategy, model) %>%
+  dplyr::summarize(median=median(rate.change.pyrethroid.percent))
+
+pyrethroid.mean.value = smooth.truncation.df %>%
+  dplyr::group_by(dosing.strategy, model) %>%
+  dplyr::summarize(mean=mean(rate.change.pyrethroid.percent))
+
+
+dosing.plot.novel.smooth = ggplot(subset(smooth.truncation.df, model == "polysmooth"),
+                                  aes(x=rate.change.novel.percent,
+                                      fill = novel.rate.change))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("red", "grey", "blue"))+
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "black")+
+  geom_vline(data= subset(novel.median.value, model == "polysmooth"),
+             aes(xintercept = median),
+             colour = "orange",
+             size = 2,
+             alpha = 0.3)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Dosing Strategy",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  facet_grid(dosing.strategy~ .)+
+  xlab(paste0("Change in the Rate of Evolution (%)\n When in Mixture Compared to Monotherapy Deployment"))+
+  ylab("Frequency")+
+  ggtitle("Polysmooth: Novel Insecticide")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.text = element_text(size = 12))
+
+dosing.plot.pyr.smooth = ggplot(subset(smooth.truncation.df, model == "polysmooth"),
+                                aes(x=rate.change.pyrethroid.percent,
+                                    fill = pyrethroid.rate.change))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("grey", "red"))+
+  facet_grid(dosing.strategy~.)+
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "black")+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Dosing Strategy",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  geom_vline(data= subset(pyrethroid.median.value, model == "polysmooth"),
+             aes(xintercept = median),
+             colour = "orange",
+             size = 2,
+             alpha = 0.3)+
+  xlab(paste0("Change in the Rate of Evolution (%)\n When in Mixture Compared to Monotherapy Deployment"))+
+  ylab("Frequency")+
+  ggtitle("Polysmooth: Pyrethroid Insecticide")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.text = element_text(size = 12))
+
+dosing.plot.novel.truncate = ggplot(subset(smooth.truncation.df, model == "polytruncate"),
+                                    aes(x=rate.change.novel.percent,
+                                        fill = novel.rate.change))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("red", "grey", "blue"))+
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "black")+
+  geom_vline(data= subset(novel.median.value, model == "polytruncate"),
+             aes(xintercept = median),
+             colour = "orange",
+             size = 2,
+             alpha = 0.3)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Dosing Strategy",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  facet_grid(dosing.strategy~ .)+
+  xlab(paste0("Change in the Rate of Evolution (%)\n When in Mixture Compared to Monotherapy Deployment"))+
+  ylab("Frequency")+
+  ggtitle("Polytruncate: Novel Insecticide")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.text = element_text(size = 12))
+
+dosing.plot.pyr.truncate = ggplot(subset(smooth.truncation.df, model == "polytruncate"),
+                                  aes(x=rate.change.pyrethroid.percent,
+                                      fill = pyrethroid.rate.change))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("red", "grey"))+
+  facet_grid(dosing.strategy~.)+
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "black")+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Dosing Strategy",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  geom_vline(data= subset(pyrethroid.median.value, model == "polytruncate"),
+             aes(xintercept = median),
+             colour = "orange",
+             size = 2,
+             alpha = 0.3)+
+  xlab(paste0("Change in the Rate of Evolution (%)\n When in Mixture Compared to Monotherapy Deployment"))+
+  ylab("Frequency")+
+  ggtitle("Polytruncate: Pyrethroid Insecticide")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.text = element_text(size = 12))
+
+the.layout = "
+AB
+CD"
+
+
+dosing.plot.novel.truncate+
+  dosing.plot.pyr.truncate+
+  dosing.plot.novel.smooth +
+  dosing.plot.pyr.smooth +
+  plot_layout(design = the.layout)
+
+
+ggsave(
+  filename = "chapter5_figureS1.1.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 800,
+  height = 800,
+  units = "px",
+  dpi = 300)
+
+
+##Importance of Start Resistance
+novel.median.value = smooth.truncation.df %>%
+  dplyr::group_by(start.bioassay.pyrethroid, model) %>%
+  dplyr::summarize(median=median(rate.change.novel.percent))
+
+novel.mean.value = smooth.truncation.df %>%
+  dplyr::group_by(start.bioassay.pyrethroid, model) %>%
+  dplyr::summarize(mean=mean(rate.change.novel.percent))
+
+pyrethroid.median.value = smooth.truncation.df %>%
+  dplyr::group_by(start.bioassay.pyrethroid, model) %>%
+  dplyr::summarize(median=median(rate.change.pyrethroid.percent))
+
+pyrethroid.mean.value = smooth.truncation.df %>%
+  dplyr::group_by(start.bioassay.pyrethroid, model) %>%
+  dplyr::summarize(mean=mean(rate.change.pyrethroid.percent))
+
+
+dosing.plot.novel.smooth = ggplot(subset(smooth.truncation.df, model == "polysmooth"),
+                                  aes(x=rate.change.novel.percent,
+                                      fill = novel.rate.change))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("red", "grey", "blue"))+
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "black")+
+  geom_vline(data= subset(novel.median.value, model == "polysmooth"),
+             aes(xintercept = median),
+             colour = "orange",
+             size = 2,
+             alpha = 0.3)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  facet_grid(start.bioassay.pyrethroid~ .)+
+  xlab(paste0("Change in the Rate of Evolution (%)\n When in Mixture Compared to Monotherapy Deployment"))+
+  ylab("Frequency")+
+  ggtitle("Polysmooth: Novel Insecticide")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.text = element_text(size = 12))
+
+dosing.plot.pyr.smooth = ggplot(subset(smooth.truncation.df, model == "polysmooth"),
+                                aes(x=rate.change.pyrethroid.percent,
+                                    fill = pyrethroid.rate.change))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("grey", "red"))+
+  facet_grid(start.bioassay.pyrethroid~.)+
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "black")+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  geom_vline(data= subset(pyrethroid.median.value, model == "polysmooth"),
+             aes(xintercept = median),
+             colour = "orange",
+             size = 2,
+             alpha = 0.3)+
+  xlab(paste0("Change in the Rate of Evolution (%)\n When in Mixture Compared to Monotherapy Deployment"))+
+  ylab("Frequency")+
+  ggtitle("Polysmooth: Pyrethroid Insecticide")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.text = element_text(size = 12))
+
+dosing.plot.novel.truncate = ggplot(subset(smooth.truncation.df, model == "polytruncate"),
+                                    aes(x=rate.change.novel.percent,
+                                        fill = novel.rate.change))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("red", "grey", "blue"))+
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "black")+
+  geom_vline(data= subset(novel.median.value, model == "polytruncate"),
+             aes(xintercept = median),
+             colour = "orange",
+             size = 2,
+             alpha = 0.3)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  facet_grid(start.bioassay.pyrethroid~ .)+
+  xlab(paste0("Change in the Rate of Evolution (%)\n When in Mixture Compared to Monotherapy Deployment"))+
+  ylab("Frequency")+
+  ggtitle("Polytruncate: Novel Insecticide")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.text = element_text(size = 12))
+
+dosing.plot.pyr.truncate = ggplot(subset(smooth.truncation.df, model == "polytruncate"),
+                                  aes(x=rate.change.pyrethroid.percent,
+                                      fill = pyrethroid.rate.change))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("red", "grey"))+
+  facet_grid(start.bioassay.pyrethroid~.)+
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "black")+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  geom_vline(data= subset(pyrethroid.median.value, model == "polytruncate"),
+             aes(xintercept = median),
+             colour = "orange",
+             size = 2,
+             alpha = 0.3)+
+  xlab(paste0("Change in the Rate of Evolution (%)\n When in Mixture Compared to Monotherapy Deployment"))+
+  ylab("Frequency")+
+  ggtitle("Polytruncate: Pyrethroid Insecticide")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.text = element_text(size = 12))
+
+the.layout = "
+AB
+CD"
+
+
+dosing.plot.novel.truncate+
+  dosing.plot.pyr.truncate+
+  dosing.plot.novel.smooth +
+  dosing.plot.pyr.smooth +
+  plot_layout(design = the.layout)
+
+
+ggsave(
+  filename = "chapter5_figureS1.2.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 800,
+  height = 800,
+  units = "px",
+  dpi = 300)
+
+
+
+
+##Importance of Start Resistance
+novel.median.value = smooth.truncation.df %>%
+  dplyr::group_by(decay.rate, model) %>%
+  dplyr::summarize(median=median(rate.change.novel.percent))
+
+novel.mean.value = smooth.truncation.df %>%
+  dplyr::group_by(decay.rate, model) %>%
+  dplyr::summarize(mean=mean(rate.change.novel.percent))
+
+pyrethroid.median.value = smooth.truncation.df %>%
+  dplyr::group_by(decay.rate, model) %>%
+  dplyr::summarize(median=median(rate.change.pyrethroid.percent))
+
+pyrethroid.mean.value = smooth.truncation.df %>%
+  dplyr::group_by(decay.rate, model) %>%
+  dplyr::summarize(mean=mean(rate.change.pyrethroid.percent))
+
+
+dosing.plot.novel.smooth = ggplot(subset(smooth.truncation.df, model == "polysmooth"),
+                                  aes(x=rate.change.novel.percent,
+                                      fill = novel.rate.change))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("red", "grey", "blue"))+
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "black")+
+  geom_vline(data= subset(novel.median.value, model == "polysmooth"),
+             aes(xintercept = median),
+             colour = "orange",
+             size = 2,
+             alpha = 0.3)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "The novel insecticide decays ____ than the pyrethroid insecticide",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  facet_grid(decay.rate~ .)+
+  xlab(paste0("Change in the Rate of Evolution (%)\n When in Mixture Compared to Monotherapy Deployment"))+
+  ylab("Frequency")+
+  ggtitle("Polysmooth: Novel Insecticide")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.text = element_text(size = 12))
+
+dosing.plot.pyr.smooth = ggplot(subset(smooth.truncation.df, model == "polysmooth"),
+                                aes(x=rate.change.pyrethroid.percent,
+                                    fill = pyrethroid.rate.change))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("grey", "red"))+
+  facet_grid(decay.rate~.)+
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "black")+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "The novel insecticide decays ____ than the pyrethroid insecticide",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  geom_vline(data= subset(pyrethroid.median.value, model == "polysmooth"),
+             aes(xintercept = median),
+             colour = "orange",
+             size = 2,
+             alpha = 0.3)+
+  xlab(paste0("Change in the Rate of Evolution (%)\n When in Mixture Compared to Monotherapy Deployment"))+
+  ylab("Frequency")+
+  ggtitle("Polysmooth: Pyrethroid Insecticide")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.text = element_text(size = 12))
+
+dosing.plot.novel.truncate = ggplot(subset(smooth.truncation.df, model == "polytruncate"),
+                                    aes(x=rate.change.novel.percent,
+                                        fill = novel.rate.change))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("red", "grey", "blue"))+
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "black")+
+  geom_vline(data= subset(novel.median.value, model == "polytruncate"),
+             aes(xintercept = median),
+             colour = "orange",
+             size = 2,
+             alpha = 0.3)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "The novel insecticide decays ____ than the pyrethroid insecticide",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  facet_grid(decay.rate~ .)+
+  xlab(paste0("Change in the Rate of Evolution (%)\n When in Mixture Compared to Monotherapy Deployment"))+
+  ylab("Frequency")+
+  ggtitle("Polytruncate: Novel Insecticide")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.text = element_text(size = 12))
+
+dosing.plot.pyr.truncate = ggplot(subset(smooth.truncation.df, model == "polytruncate"),
+                                  aes(x=rate.change.pyrethroid.percent,
+                                      fill = pyrethroid.rate.change))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("red", "grey"))+
+  facet_grid(decay.rate~.)+
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "black")+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "The novel insecticide decays ____ than the pyrethroid insecticide",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  geom_vline(data= subset(pyrethroid.median.value, model == "polytruncate"),
+             aes(xintercept = median),
+             colour = "orange",
+             size = 2,
+             alpha = 0.3)+
+  xlab(paste0("Change in the Rate of Evolution (%)\n When in Mixture Compared to Monotherapy Deployment"))+
+  ylab("Frequency")+
+  ggtitle("Polytruncate: Pyrethroid Insecticide")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.text = element_text(size = 12))
+
+the.layout = "
+AB
+CD"
+
+
+dosing.plot.novel.truncate+
+  dosing.plot.pyr.truncate+
+  dosing.plot.novel.smooth +
+  dosing.plot.pyr.smooth +
+  plot_layout(design = the.layout)
+
+
+ggsave(
+  filename = "chapter5_figureS1.3.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 800,
+  height = 800,
+  units = "px",
+  dpi = 300)
+
+
+novel.median.value = smooth.truncation.df %>%
+  group_by(dosing.strategy, start.bioassay.pyrethroid, decay.rate, model) %>%
+  summarize(median=median(rate.change.novel.percent))
+
+pyrethroid.median.value = smooth.truncation.df %>%
+  group_by(dosing.strategy, start.bioassay.pyrethroid, decay.rate, model) %>%
+  summarize(median=median(rate.change.pyrethroid.percent))
+
+resistance.dose.decay.plot.novel.smooth = ggplot(subset(smooth.truncation.df, model == "polysmooth"), aes(x=rate.change.novel.percent,
+                                                                                                          fill = dosing.strategy))+
+  geom_histogram(binwidth = 1)+
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "black")+
+  geom_vline(data= subset(novel.median.value, model == "polysmooth"), aes(xintercept = median,
+                                                                          colour = dosing.strategy),
+             alpha = 1,
+             size = 1,
+             linetype = "dashed")+
+  scale_colour_manual(values = c("#e41a1c", #red = FD_FD
+                                 "#ff7f00",#orange = HD_HD 75%
+                                 "#984ea3", #purple = HD_HD 50%
+                                 "#377eb8", #blue = FD_HD
+                                 "#4daf4a" #green = HD_FD
+
+  ))+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#ff7f00",#orange = HD_HD 75%
+                               "#984ea3", #purple = HD_HD 50%
+                               "#377eb8", #blue = FD_HD
+                               "#4daf4a" #green = HD_FD
+  ))+
+  facet_grid(decay.rate~start.bioassay.pyrethroid)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "The novel insecticide decays ____ than the pyrethroid insecticide",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  scale_x_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  xlab(paste0("Change in the Rate of Evolution (%)\n when in Mixture compared to Monotherapy Deployment"))+
+  ylab("Frequency")+
+  ggtitle(paste0("polysmooth: Novel Insecticide"))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        axis.title = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.text = element_text(size = 12))
+
+
+resistance.dose.decay.plot.pyrethroid.smooth  = ggplot(subset(smooth.truncation.df, model == "polysmooth"), aes(x=rate.change.pyrethroid.percent,
+                                                                                                                fill = dosing.strategy))+
+  geom_histogram(binwidth = 1)+
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "black")+
+  geom_vline(data= subset(pyrethroid.median.value, model == "polysmooth"), aes(xintercept = median,
+                                                                               colour = dosing.strategy),
+             alpha = 1,
+             size = 1,
+             linetype = "dashed")+
+  scale_colour_manual(values = c("#e41a1c", #red = FD_FD
+                                 "#ff7f00",#orange = HD_HD 75%
+                                 "#984ea3", #purple = HD_HD 50%
+                                 "#377eb8", #blue = FD_HD
+                                 "#4daf4a" #green = HD_FD
+
+  ))+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#ff7f00",#orange = HD_HD 75%
+                               "#984ea3", #purple = HD_HD 50%
+                               "#377eb8", #blue = FD_HD
+                               "#4daf4a" #green = HD_FD
+  ))+
+  facet_grid(decay.rate~start.bioassay.pyrethroid)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "The novel insecticide decays ____ than the pyrethroid insecticide",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  scale_x_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  xlab(paste0("Change in the Rate of Evolution (%)\n when in Mixture compared to Monotherapy Deployment"))+
+  ylab("Frequency")+
+  ggtitle(paste0("polysmooth: Pyrethroid"))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        axis.title = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.text = element_text(size = 12))
+
+resistance.dose.decay.plot.novel.truncate = ggplot(subset(smooth.truncation.df, model == "polysmooth"), aes(x=rate.change.novel.percent,
+                                                                                                            fill = dosing.strategy))+
+  geom_histogram(binwidth = 1)+
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "black")+
+  geom_vline(data= subset(novel.median.value, model == "polytruncate"), aes(xintercept = median,
+                                                                            colour = dosing.strategy),
+             alpha = 1,
+             size = 1,
+             linetype = "dashed")+
+  scale_colour_manual(values = c("#e41a1c", #red = FD_FD
+                                 "#ff7f00",#orange = HD_HD 75%
+                                 "#984ea3", #purple = HD_HD 50%
+                                 "#377eb8", #blue = FD_HD
+                                 "#4daf4a" #green = HD_FD
+
+  ))+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#ff7f00",#orange = HD_HD 75%
+                               "#984ea3", #purple = HD_HD 50%
+                               "#377eb8", #blue = FD_HD
+                               "#4daf4a" #green = HD_FD
+  ))+
+  facet_grid(decay.rate~start.bioassay.pyrethroid)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "The novel insecticide decays ____ than the pyrethroid insecticide",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  scale_x_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  xlab(paste0("Change in the Rate of Evolution (%)\n when in Mixture compared to Monotherapy Deployment"))+
+  ylab("Frequency")+
+  ggtitle(paste0("polytruncate: Novel Insecticide"))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        axis.title = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.text = element_text(size = 12))
+
+
+resistance.dose.decay.plot.pyrethroid.truncate  = ggplot(subset(smooth.truncation.df, model == "polytruncate"), aes(x=rate.change.pyrethroid.percent,
+                                                                                                                    fill = dosing.strategy))+
+  geom_histogram(binwidth = 1)+
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "black")+
+  geom_vline(data= subset(pyrethroid.median.value, model == "polytruncate"), aes(xintercept = median,
+                                                                                 colour = dosing.strategy),
+             alpha = 1,
+             size = 1,
+             linetype = "dashed")+
+  scale_colour_manual(values = c("#e41a1c", #red = FD_FD
+                                 "#ff7f00",#orange = HD_HD 75%
+                                 "#984ea3", #purple = HD_HD 50%
+                                 "#377eb8", #blue = FD_HD
+                                 "#4daf4a" #green = HD_FD
+
+  ))+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#ff7f00",#orange = HD_HD 75%
+                               "#984ea3", #purple = HD_HD 50%
+                               "#377eb8", #blue = FD_HD
+                               "#4daf4a" #green = HD_FD
+  ))+
+  facet_grid(decay.rate~start.bioassay.pyrethroid)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "The novel insecticide decays ____ than the pyrethroid insecticide",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  scale_x_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  xlab(paste0("Change in the Rate of Evolution (%)\n when in Mixture compared to Monotherapy Deployment"))+
+  ylab("Frequency")+
+  ggtitle(paste0("polytruncate: Pyrethroid"))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        axis.title = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.text = element_text(size = 12))
+
+
+the.layout = "
+AB
+CD
+"
+
+
+resistance.dose.decay.plot.novel.truncate +
+  resistance.dose.decay.plot.pyrethroid.truncate+
+  resistance.dose.decay.plot.novel.smooth+
+  resistance.dose.decay.plot.pyrethroid.smooth +
+  plot_layout(design = the.layout)
+
+
+ggsave(
+  filename = "chapter5_figureS1.4.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 800,
+  height = 800,
+  units = "px",
+  dpi = 300)
+
+
+female.exposure.novel.gam.truncate = ggplot(subset(smooth.truncation.df, model == "polytruncate"), aes(x=female.exposure,
+                                                                                                       y=rate.change.novel.percent,
+                                                                                                       colour = dosing.strategy,
+                                                                                                       fill = dosing.strategy))+
+  geom_smooth(method = "gam")+
+  scale_colour_manual(values = c("#e41a1c", #red = FD_FD
+                                 "#ff7f00",#orange = HD_HD 75%
+                                 "#984ea3", #purple = HD_HD 50%
+                                 "#377eb8", #blue = FD_HD
+                                 "#4daf4a" #green = HD_FD
+
+  ))+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#ff7f00",#orange = HD_HD 75%
+                               "#984ea3", #purple = HD_HD 50%
+                               "#377eb8", #blue = FD_HD
+                               "#4daf4a" #green = HD_FD
+  ))+
+  facet_grid(.~start.bioassay.pyrethroid)+
+  scale_x_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  ylab(paste0("Change in the Rate of Evolution (%)\n when in Mixture compared to Monotherapy Deployment"))+
+  xlab("Female Insecticide Exposure")+
+  ggtitle(paste0("Polytruncate: Novel Insecticide"))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        axis.title = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12),
+        legend.text = element_text(size = 12))
+
+female.exposure.pyrethroid.gam.truncate= ggplot(subset(smooth.truncation.df, model == "polytruncate"), aes(x=female.exposure,
+                                                                                                           y=rate.change.pyrethroid.percent,
+                                                                                                           colour = dosing.strategy,
+                                                                                                           fill = dosing.strategy))+
+  geom_smooth(method = "gam")+
+  scale_colour_manual(values = c("#e41a1c", #red = FD_FD
+                                 "#ff7f00",#orange = HD_HD 75%
+                                 "#984ea3", #purple = HD_HD 50%
+                                 "#377eb8", #blue = FD_HD
+                                 "#4daf4a" #green = HD_FD
+
+  ))+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#ff7f00",#orange = HD_HD 75%
+                               "#984ea3", #purple = HD_HD 50%
+                               "#377eb8", #blue = FD_HD
+                               "#4daf4a" #green = HD_FD
+  ))+
+  facet_grid(.~start.bioassay.pyrethroid)+
+  scale_x_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  ylab(paste0("Change in the Rate of Evolution (%)\n when in Mixture compared to Monotherapy Deployment"))+
+  xlab("Female Insecticide Exposure")+
+  ggtitle(paste0("Polytruncate: Pyrethroid"))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        axis.title = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12),
+        legend.text = element_text(size = 12))
+
+
+female.exposure.novel.gam.smooth = ggplot(subset(smooth.truncation.df, model == "polysmooth"), aes(x=female.exposure,
+                                                                                                   y=rate.change.novel.percent,
+                                                                                                   colour = dosing.strategy,
+                                                                                                   fill = dosing.strategy))+
+  geom_smooth(method = "gam")+
+  scale_colour_manual(values = c("#e41a1c", #red = FD_FD
+                                 "#ff7f00",#orange = HD_HD 75%
+                                 "#984ea3", #purple = HD_HD 50%
+                                 "#377eb8", #blue = FD_HD
+                                 "#4daf4a" #green = HD_FD
+
+  ))+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#ff7f00",#orange = HD_HD 75%
+                               "#984ea3", #purple = HD_HD 50%
+                               "#377eb8", #blue = FD_HD
+                               "#4daf4a" #green = HD_FD
+  ))+
+  facet_grid(.~start.bioassay.pyrethroid)+
+  scale_x_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  ylab(paste0("Change in the Rate of Evolution (%)\n when in Mixture compared to Monotherapy Deployment"))+
+  xlab("Female Insecticide Exposure")+
+  ggtitle(paste0("Polysmooth: Novel Insecticide"))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        axis.title = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12),
+        legend.text = element_text(size = 12))
+
+female.exposure.pyrethroid.gam.smooth = ggplot(subset(smooth.truncation.df, model == "polysmooth"), aes(x=female.exposure,
+                                                                                                        y=rate.change.pyrethroid.percent,
+                                                                                                        colour = dosing.strategy,
+                                                                                                        fill = dosing.strategy))+
+  geom_smooth(method = "gam")+
+  scale_colour_manual(values = c("#e41a1c", #red = FD_FD
+                                 "#ff7f00",#orange = HD_HD 75%
+                                 "#984ea3", #purple = HD_HD 50%
+                                 "#377eb8", #blue = FD_HD
+                                 "#4daf4a" #green = HD_FD
+
+  ))+
+  scale_fill_manual(values = c("#e41a1c", #red = FD_FD
+                               "#ff7f00",#orange = HD_HD 75%
+                               "#984ea3", #purple = HD_HD 50%
+                               "#377eb8", #blue = FD_HD
+                               "#4daf4a" #green = HD_FD
+  ))+
+  facet_grid(.~start.bioassay.pyrethroid)+
+  scale_x_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  ylab(paste0("Change in the Rate of Evolution (%)\n when in Mixture compared to Monotherapy Deployment"))+
+  xlab("Female Insecticide Exposure")+
+  ggtitle(paste0("Polysmooth: Pyrethroid"))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        axis.title = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12),
+        legend.text = element_text(size = 12))
+
+the.layout = "
+AB
+CD
+"
+
+female.exposure.novel.gam.truncate +
+  female.exposure.pyrethroid.gam.truncate+
+  female.exposure.novel.gam.smooth +
+  female.exposure.pyrethroid.gam.smooth +
+  plot_layout(design = the.layout)
+
+ggsave(
+  filename = "chapter5_figureS1.5.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 800,
+  height = 800,
+  units = "px",
+  dpi = 300)
+
+
+
+novel_75_vs_100_plot = ggplot(subset(smooth.truncation.df.1, model == "polytruncate"), aes(x=novel_75_vs_100,
+                                                                                           fill = novel_75_vs_100_outcome))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#ff7f00",
+                               "#e41a1c"))+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  xlab(paste0("Percentage Difference in Novel Bioassay Survival\nAfter 200 Generations"))+
+  facet_grid(start.bioassay.pyrethroid ~ .)+
+  ylab("Frequency")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+novel_50_vs_100_plot = ggplot(subset(smooth.truncation.df.1, model == "polytruncate"), aes(x=novel_50_vs_100,
+                                                                                           fill = novel_50_vs_100_outcome))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#984ea3",
+                               "#e41a1c"))+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  xlab(paste0("Percentage Difference in Novel Bioassay Survival\nAfter 200 Generations"))+
+  facet_grid(start.bioassay.pyrethroid ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  ylab("Frequency")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+novel_50_vs_75_plot= ggplot(subset(smooth.truncation.df.1, model == "polytruncate"), aes(x=novel_50_vs_75,
+                                                                                         fill = novel_50_vs_75_outcome))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#ff7f00",
+                               "#984ea3"))+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  xlab(paste0("Percentage Difference in Novel Bioassay Survival\nAfter 200 Generations"))+
+  facet_grid(start.bioassay.pyrethroid ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  ylab("Frequency")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+pyr_75_vs_100_plot = ggplot(subset(smooth.truncation.df.1, model == "polytruncate"), aes(x=pyr_75_vs_100,
+                                                                                         fill = pyr_75_vs_100_outcome))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#ff7f00",
+                               "#e41a1c"))+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  xlab(paste0("Percentage Difference in Pyrethroid Bioassay Survival\nAfter 200 Generations"))+
+  facet_grid(start.bioassay.pyrethroid ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  ylab("Frequency")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+pyr_50_vs_100_plot = ggplot(subset(smooth.truncation.df.1, model == "polytruncate"), aes(x=pyr_50_vs_100,
+                                                                                         fill = pyr_50_vs_100_outcome))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#984ea3",
+                               "#e41a1c"))+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  xlab(paste0("Percentage Difference in Pyrethroid Bioassay Survival\nAfter 200 Generations"))+
+  facet_grid(start.bioassay.pyrethroid ~ .)+
+  ylab("Frequency")+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+pyr_50_vs_75_plot= ggplot(subset(smooth.truncation.df.1, model == "polytruncate"), aes(x=pyr_50_vs_75,
+                                                                                       fill = pyr_50_vs_75_outcome))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#ff7f00",
+                               "#984ea3"))+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  xlab(paste0("Percentage Difference in Pyrethroid Bioassay Survival\nAfter 200 Generations"))+
+  facet_grid(start.bioassay.pyrethroid ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  ylab("Frequency")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+p.1 = novel_75_vs_100_plot + pyr_75_vs_100_plot +
+  plot_annotation(title = "Polytruncate: Comparing FD_FD vs HD_HD retains 75%",
+                  theme = theme(plot.title = element_text(size = 22)))
+
+p.2 = novel_50_vs_100_plot + pyr_50_vs_100_plot +
+  plot_annotation(title = "Polytruncate: Comparing FD_FD vs HD_HD retains 50%",
+                  theme = theme(plot.title = element_text(size = 22)))
+
+p.3 = novel_50_vs_75_plot + pyr_50_vs_75_plot +
+  plot_annotation(title = "Polytruncate: Comparing HD_HD retains 75% vs HD_HD retains 50%",
+                  theme = theme(plot.title = element_text(size = 22)))
+
+p.1/p.2/p.3
+
+ggsave(
+  filename = "chapter5_figureS6a.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 800,
+  height = 600,
+  units = "px",
+  dpi = 300)
+
+
+novel_75_vs_100_plot = ggplot(subset(smooth.truncation.df.1, model == "polysmooth"), aes(x=novel_75_vs_100,
+                                                                                         fill = novel_75_vs_100_outcome))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#ff7f00",
+                               "#e41a1c"))+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  xlab(paste0("Percentage Difference in Novel Bioassay Survival\nAfter 200 Generations"))+
+  facet_grid(start.bioassay.pyrethroid ~ .)+
+  ylab("Frequency")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+novel_50_vs_100_plot = ggplot(subset(smooth.truncation.df.1, model == "polysmooth"), aes(x=novel_50_vs_100,
+                                                                                         fill = novel_50_vs_100_outcome))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#984ea3",
+                               "#e41a1c"))+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  xlab(paste0("Percentage Difference in Novel Bioassay Survival\nAfter 200 Generations"))+
+  facet_grid(start.bioassay.pyrethroid ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  ylab("Frequency")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+novel_50_vs_75_plot= ggplot(subset(smooth.truncation.df.1, model == "polysmooth"), aes(x=novel_50_vs_75,
+                                                                                       fill = novel_50_vs_75_outcome))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#ff7f00",
+                               "#984ea3"))+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  xlab(paste0("Percentage Difference in Novel Bioassay Survival\nAfter 200 Generations"))+
+  facet_grid(start.bioassay.pyrethroid ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  ylab("Frequency")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+pyr_75_vs_100_plot = ggplot(subset(smooth.truncation.df.1, model == "polysmooth"), aes(x=pyr_75_vs_100,
+                                                                                       fill = pyr_75_vs_100_outcome))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#ff7f00",
+                               "#e41a1c"))+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  xlab(paste0("Percentage Difference in Pyrethroid Bioassay Survival\nAfter 200 Generations"))+
+  facet_grid(start.bioassay.pyrethroid ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  ylab("Frequency")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+pyr_50_vs_100_plot = ggplot(subset(smooth.truncation.df.1, model == "polysmooth"), aes(x=pyr_50_vs_100,
+                                                                                       fill = pyr_50_vs_100_outcome))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#984ea3",
+                               "#e41a1c"))+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  xlab(paste0("Percentage Difference in Pyrethroid Bioassay Survival\nAfter 200 Generations"))+
+  facet_grid(start.bioassay.pyrethroid ~ .)+
+  ylab("Frequency")+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+pyr_50_vs_75_plot= ggplot(subset(smooth.truncation.df.1, model == "polysmooth"), aes(x=pyr_50_vs_75,
+                                                                                     fill = pyr_50_vs_75_outcome))+
+  geom_histogram(binwidth = 1)+
+  scale_fill_manual(values = c("#ff7f00",
+                               "#984ea3"))+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  xlab(paste0("Percentage Difference in Pyrethroid Bioassay Survival\nAfter 200 Generations"))+
+  facet_grid(start.bioassay.pyrethroid ~ .)+
+  scale_y_continuous(sec.axis = sec_axis(~ . , name = "Initial Pyrethroid Bioassay Survival (%)",
+                                         breaks = NULL,
+                                         labels = NULL))+
+  ylab("Frequency")+
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_text(size = 12),
+        title = element_text(size = 12),
+        strip.text = element_text(size = 12))
+
+p.1 = novel_75_vs_100_plot + pyr_75_vs_100_plot +
+  plot_annotation(title = "polysmooth: Comparing FD_FD vs HD_HD retains 75%",
+                  theme = theme(plot.title = element_text(size = 22)))
+
+p.2 = novel_50_vs_100_plot + pyr_50_vs_100_plot +
+  plot_annotation(title = "polysmooth: Comparing FD_FD vs HD_HD retains 50%",
+                  theme = theme(plot.title = element_text(size = 22)))
+
+p.3 = novel_50_vs_75_plot + pyr_50_vs_75_plot +
+  plot_annotation(title = "polysmooth: Comparing HD_HD retains 75% vs HD_HD retains 50%",
+                  theme = theme(plot.title = element_text(size = 22)))
+
+p.1/p.2/p.3
+
+ggsave(
+  filename = "chapter5_figureS6b.jpeg",
+  plot = last_plot(),
+  scale = 5,
+  width = 800,
+  height = 600,
+  units = "px",
+  dpi = 300)
 

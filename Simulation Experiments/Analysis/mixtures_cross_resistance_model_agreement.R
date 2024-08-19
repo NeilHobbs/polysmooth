@@ -16,9 +16,9 @@ smooth.rotation.df$model = "polysmooth"
 
 #read in the datasets: polytruncate
 
-truncation.mixtures.df = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/part.3.mixture.cross.resistance.csv")
-truncation.solo.df = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/part.3.solo.cross.resistance.csv")
-truncation.rotation.df = read.csv("C:/Users/neilp/OneDrive - LSTM/polytruncate/part.3.rotation.cross.resistance.csv")
+truncation.mixtures.df = read.csv("~/LSTM_IR_Modelling/polytruncate/part.3.mixture.cross.resistance.csv")
+truncation.solo.df = read.csv("~/LSTM_IR_Modelling/polytruncate/part.3.solo.cross.resistance.csv")
+truncation.rotation.df = read.csv("~/LSTM_IR_Modelling/polytruncate/part.3.rotation.cross.resistance.csv")
 
 #Add in model name:
 truncation.mixtures.df$model = "polytruncate"
@@ -178,9 +178,6 @@ hd.50.solo = polysmooth.compares[[1]]$overall.50.hd == polytruncate.compares[[1]
 cross.resistance = polysmooth.compares[[1]]$cross.resistance
 
 
-fd = data.frame(table(solo.df$fd.fd.solo, solo.df$cross.resistance))
-hd.75 = data.frame(table(solo.df$hd.75.solo, solo.df$cross.resistance))
-hd.50 = data.frame(table(solo.df$hd.50.solo, solo.df$cross.resistance))
 
 #magnitude of differences::::
 
@@ -196,6 +193,9 @@ solo.df = data.frame(fd.fd.solo, hd.75.solo, hd.50.solo, cross.resistance,
                      fd.fd.solo.mag, hd.75.solo.mag, hd.50.solo.mag)
 
 
+fd = data.frame(table(solo.df$fd.fd.solo, solo.df$cross.resistance))
+hd.75 = data.frame(table(solo.df$hd.75.solo, solo.df$cross.resistance))
+hd.50 = data.frame(table(solo.df$hd.50.solo, solo.df$cross.resistance))
 
 
 p.1 = ggplot(fd, aes(x=as.factor(Var2), y = Freq,
@@ -255,11 +255,19 @@ the.layout = "
 ABC
 DEF"
 
+
 p.1 + p.2 + p.3 +
   p.4 + p.5 + p.6 + plot_layout(design = the.layout)
 
 
-
+ggsave(
+  filename = "chapter5_figureS2.3.jpeg",
+  plot = last_plot(),
+  scale = 10,
+  width = 600,
+  height = 200,
+  units = "px",
+  dpi = 300)
 
 #############
 #versus rotations::::::::
