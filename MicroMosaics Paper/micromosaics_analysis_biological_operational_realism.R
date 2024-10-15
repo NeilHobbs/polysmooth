@@ -93,7 +93,7 @@ plot.rotvmm1 = ggplot(subset(micromosaics.bio,
   geom_histogram(binwidth = 1, colour = "black")+
   geom_vline(xintercept = 0, linetype = "dashed", linewidth = 1,
              colour = "black")+
-  xlab("Change in Operational Lifespan (years)")+
+  xlab("Difference in Strategy Lifespan (years)")+
   ggtitle("A) Micro-Mosaics vs Rotations - Primary Outcome")+
   scale_y_continuous(expand = c(0, 0))+
   scale_x_continuous(limits = c(-36, 46),
@@ -130,7 +130,7 @@ plot.rotvmm2 = ggplot(rot.mm.draws,
   geom_histogram(binwidth = 0.5, colour = "black")+
   geom_vline(xintercept = 0, linetype = "dashed", linewidth = 1,
              colour = "black")+
-  xlab("Difference in Total End Bioassay Survival")+
+  xlab(paste0("Absolute Difference in Peak Bioassay Survival"))+
   ggtitle("B) Micro-Mosaics vs Rotations - Secondary Outcome")+
   scale_y_continuous(expand = c(0, 0))+
   scale_x_continuous(limits = c(-10, 20),
@@ -159,7 +159,7 @@ plot.fdfdvmm1 = ggplot(subset(micromosaics.bio,
   geom_histogram(binwidth = 1, colour = "black")+
   geom_vline(xintercept = 0, linetype = "dashed", linewidth = 1,
              colour = "black")+
-  xlab("Change in Operational Lifespan (years)")+
+  xlab("Difference in Strategy Lifespan (years)")+
   ggtitle("C) Micro-Mosaics vs Full-Dose Mixtures - Primary Outcome")+
   scale_y_continuous(expand = c(0, 0))+
   scale_x_continuous(limits = c(-36, 46),
@@ -195,7 +195,7 @@ plot.fdfdvmm2 = ggplot(fdfdmix.mm.draws,
   geom_histogram(binwidth = 0.5, colour = "black")+
   geom_vline(xintercept = 0, linetype = "dashed", linewidth = 1,
              colour = "black")+
-  xlab("Difference in Total End Bioassay Survival")+
+  xlab(paste0("Absolute Difference in Peak Bioassay Survival"))+
   ggtitle("D) Micro-Mosaics vs Full-Dose Mixtures - Secondary Outcome")+
   scale_y_continuous(expand = c(0, 0))+
   scale_x_continuous(limits = c(-10, 20),
@@ -223,7 +223,7 @@ plot.hdhdvmm1 = ggplot(subset(micromosaics.bio,
   geom_histogram(binwidth = 1, colour = "black")+
   geom_vline(xintercept = 0, linetype = "dashed", linewidth = 1,
              colour = "black")+
-  xlab("Change in Operational Lifespan (years)")+
+  xlab("Difference in Strategy Lifespan (years)")+
   ggtitle("E) Micro-Mosaics vs Half-Dose Mixtures Primary Outcome")+
   scale_y_continuous(expand = c(0, 0))+
   scale_x_continuous(limits = c(-36, 46),
@@ -260,7 +260,7 @@ plot.hdhdvmm2 = ggplot(hdhdmix.mm.draws,
   geom_histogram(binwidth = 0.5, colour = "black")+
   geom_vline(xintercept = 0, linetype = "dashed", linewidth = 1,
              colour = "black")+
-  xlab("Difference in Total End Bioassay Survival")+
+  xlab(paste0("Absolute Difference in Peak Bioassay Survival"))+
   ggtitle("F) Micro-Mosaics vs Half-Dose Mixtures - Secondary Outcome")+
   scale_y_continuous(expand = c(0, 0))+
   scale_x_continuous(limits = c(-10, 20),
@@ -325,7 +325,7 @@ plot.rotvmm1 + plot.rotvmm2 +
   plot_layout(design = the.layout)
 
 ggsave(
-  filename = "Micromosaics_scenario3.jpeg",
+  filename = "Micromosaics_Assessment_Scenario_3.jpeg",
   plot = last_plot(),
   scale = 5,
   width = 2000,

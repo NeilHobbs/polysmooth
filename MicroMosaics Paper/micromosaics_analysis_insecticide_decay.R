@@ -106,19 +106,24 @@ secondary.df$y.val = ifelse(primary.df$cross.resistance == -0.3,
                                         yes = sec.zero,
                                         no = sec.pos))
 
+
+
 primary.plot = ggplot(subset(micromosaics.vs.comparator,
               duration.difference != 0), aes(x=duration.difference/10,
                                              fill = as.factor(cross.resistance)))+
   geom_histogram(binwidth = 3, colour = "black")+
-  scale_fill_manual(values = c("#8da0cb", "#66c2a5", "#fc8d62"))+
+  scale_fill_manual(values = c("#ef8a62",
+                               "#f7f7f7",
+                               "#67a9cf"))+
   geom_label(data = primary.df, mapping =aes(x=x.val,
                                        y = y.val,
                                        label = Freq), size = 3)+
 
   geom_vline(xintercept = 0, linetype = "dashed")+
+  xlim(-24, 35)+
   facet_grid(decay.rate.description~.)+
-  xlab(paste0("Difference in \nOperational Lifespan (years)"))+
-  ggtitle(paste0("Primary Outcome: Strategy Lifespan"))+
+  xlab(paste0("Difference in Strategy Lifespan (years)"))+
+  ggtitle(paste0("Micro-Mosaics vs ", strategy))+
   ylab("Count")+
   theme_bw()+
   theme(legend.position = "none",
@@ -133,14 +138,17 @@ secondary.plot = ggplot(subset(micromosaics.vs.comparator,
                                              fill = as.factor(cross.resistance)))+
   geom_histogram(binwidth = 0.25,
                   colour = "black")+
-  scale_fill_manual(values = c("#8da0cb", "#66c2a5", "#fc8d62"))+
+  scale_fill_manual(values = c("#ef8a62",
+                               "#f7f7f7",
+                               "#67a9cf"))+
   geom_label(data = secondary.df, mapping =aes(x=x.val,
                                              y = y.val,
                                              label = Freq), size = 3)+
   geom_vline(xintercept = 0, linetype = "dashed")+
   facet_grid(decay.rate.description~.)+
-  ggtitle(paste0("Secondary Outcome: Peak Bioassay Survival"))+
-  xlab(paste0("Absolute Difference in\nPeak Bioassay Survival"))+
+  # ggtitle(paste0("Secondary Outcome"))+
+  xlab(paste0("Absolute Difference in Peak Bioassay Survival"))+
+  xlim(-7, 11.1)+
   ylab("Count")+
   theme_bw()+
   theme(legend.position = "none",
@@ -149,15 +157,15 @@ secondary.plot = ggplot(subset(micromosaics.vs.comparator,
         strip.text = element_text(size = 12),
         title = element_text(size = 15))
 
-
-the.legend = cowplot::get_legend(ggplot(subset(micromosaics.vs.comparator,
-                           duration.difference == 0), aes(x=peak.survival.difference*100,
-                                                          fill = as.factor(cross.resistance)))+
-                             geom_histogram()+
-  scale_fill_manual(values = c("#8da0cb", "#66c2a5", "#fc8d62"))+
-    guides(fill=guide_legend(title=paste0("Cross\nResistance")))+
-    theme_bw()+
-  theme(legend.position = "bottom"))
+#
+# the.legend = cowplot::get_legend(ggplot(subset(micromosaics.vs.comparator,
+#                            duration.difference == 0), aes(x=peak.survival.difference*100,
+#                                                           fill = as.factor(cross.resistance)))+
+#                              geom_histogram()+
+#   scale_fill_manual(values = c("#8da0cb", "#66c2a5", "#fc8d62"))+
+#     guides(fill=guide_legend(title=paste0("Cross\nResistance")))+
+#     theme_bw()+
+#   theme(legend.position = "bottom"))
 
 the.layout = "
 AAAAABBBBB
@@ -176,37 +184,86 @@ AAAAABBBBB
 
 end.plot = primary.plot +
   secondary.plot +
-   the.legend +
-  plot_annotation(title = paste0("Micro-Mosaics vs ", strategy)) +
+   # the.legend +
+  # plot_annotation(title = paste0("Micro-Mosaics vs ", strategy)) +
   plot_layout(design = the.layout)
 
 return(end.plot)
 }
 
-comparison_plot(
-  comparator.df = hdhd.decay.df,
-  strategy = "Half Dose Mixtures",
-  prim.pos = 2000,
-  prim.zero = 1500,
-  prim.neg = 1000,
-  prim.x.min = 20,
-  prim.x.max = -5,
-  sec.pos = 1500,
-  sec.zero = 1200,
-  sec.neg = 900,
-  sec.x.min = -2,
-  sec.x.max = 3)
-
-ggsave(
-  filename = "chapter6_figure9a.jpeg",
-  plot = last_plot(),
-  scale = 10,
-  width = 400,
-  height = 200,
-  units = "px",
-  dpi = 300)
-
-comparison_plot(
+# comparison_plot(
+#   comparator.df = hdhd.decay.df,
+#   strategy = "Half Dose Mixtures",
+#   prim.pos = 2000,
+#   prim.zero = 1500,
+#   prim.neg = 1000,
+#   prim.x.min = 20,
+#   prim.x.max = -5,
+#   sec.pos = 1500,
+#   sec.zero = 1200,
+#   sec.neg = 900,
+#   sec.x.min = -2,
+#   sec.x.max = 3)
+#
+# # ggsave(
+# #   filename = "chapter6_figure9a.jpeg",
+# #   plot = last_plot(),
+# #   scale = 10,
+# #   width = 400,
+# #   height = 200,
+# #   units = "px",
+# #   dpi = 300)
+#
+# comparison_plot(
+#   comparator.df = rotations.decay.df,
+#   strategy = "Rotations",
+#   prim.pos = 1500,
+#   prim.zero = 1200,
+#   prim.neg = 800,
+#   prim.x.min = 15,
+#   prim.x.max = -15,
+#   sec.pos = 750,
+#   sec.zero = 600,
+#   sec.neg = 450,
+#   sec.x.min = 4,
+#   sec.x.max = -4)
+#
+# ggsave(
+#   filename = "chapter6_figure9b.jpeg",
+#   plot = last_plot(),
+#   scale = 10,
+#   width = 400,
+#   height = 200,
+#   units = "px",
+#   dpi = 300)
+#
+# comparison_plot(
+#   comparator.df = fdfd.decay.df,
+#   strategy = "Full Dose Mixtures",
+#   prim.pos = 1000,
+#   prim.zero = 800,
+#   prim.neg = 600,
+#   prim.x.min = 30,
+#   prim.x.max = -1.5,
+#   sec.pos = 350,
+#   sec.zero = 250,
+#   sec.neg = 150,
+#   sec.x.min = -1,
+#   sec.x.max = 10)
+#
+#
+# ggsave(
+#   filename = "chapter6_figure9c.jpeg",
+#   plot = last_plot(),
+#   scale = 10,
+#   width = 400,
+#   height = 200,
+#   units = "px",
+#   dpi = 300)
+#
+#
+#
+rot.plot = comparison_plot(
   comparator.df = rotations.decay.df,
   strategy = "Rotations",
   prim.pos = 1500,
@@ -220,16 +277,7 @@ comparison_plot(
   sec.x.min = 4,
   sec.x.max = -4)
 
-ggsave(
-  filename = "chapter6_figure9b.jpeg",
-  plot = last_plot(),
-  scale = 10,
-  width = 400,
-  height = 200,
-  units = "px",
-  dpi = 300)
-
-comparison_plot(
+fdfd.plot = comparison_plot(
   comparator.df = fdfd.decay.df,
   strategy = "Full Dose Mixtures",
   prim.pos = 1000,
@@ -243,15 +291,96 @@ comparison_plot(
   sec.x.min = -1,
   sec.x.max = 10)
 
+hdhd.plot = comparison_plot(
+  comparator.df = hdhd.decay.df,
+  strategy = "Half Dose Mixtures",
+  prim.pos = 2000,
+  prim.zero = 1500,
+  prim.neg = 1000,
+  prim.x.min = 20,
+  prim.x.max = -5,
+  sec.pos = 1500,
+  sec.zero = 1200,
+  sec.neg = 900,
+  sec.x.min = -2,
+  sec.x.max = 3)
+
+rot.plot/fdfd.plot/hdhd.plot
+
+
+
+
+
+#
+# the.legend = cowplot::get_legend(ggplot(subset(micromosaics.vs.comparator,
+#                            duration.difference == 0), aes(x=peak.survival.difference*100,
+#                                                           fill = as.factor(cross.resistance)))+
+#                              geom_histogram()+
+#   scale_fill_manual(values = c("#8da0cb", "#66c2a5", "#fc8d62"))+
+#     guides(fill=guide_legend(title=paste0("Cross\nResistance")))+
+#     theme_bw()+
+#   theme(legend.position = "bottom"))
+
+
+legend.df = data.frame(x = c(1, 2, 3),
+                       y = c(1, 1, 1),
+                       cr = c("Cross Resistance: -0.3",
+                              "Cross Resistance: 0",
+                              "Cross Resistance: 0.3"))
+
+
+legend.plot = ggplot(legend.df, aes(x = x, y=y, fill = cr))+
+  geom_tile(colour = "black", size = 3)+
+  geom_text(aes(label = cr), size = 10)+
+  scale_fill_manual(values = c("#67a9cf",
+                               "#f7f7f7",
+                               "#ef8a62"))+
+  scale_x_continuous(expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0))+
+  theme(axis.ticks = element_blank(),
+        axis.text = element_blank(),
+        axis.title = element_blank(),
+        legend.position = "none")
+
+
+the.design = "
+A
+A
+A
+A
+A
+A
+B
+B
+B
+B
+B
+B
+C
+C
+C
+C
+C
+C
+D"
+
+
+A = rot.plot/fdfd.plot/hdhd.plot
+
+A + legend.plot + plot_layout(design = the.design)
+
+
 
 ggsave(
-  filename = "chapter6_figure9c.jpeg",
+  filename = "micromosaics_insecticide_decay.jpeg",
   plot = last_plot(),
-  scale = 10,
-  width = 400,
-  height = 200,
+  scale = 5,
+  width = 1400,
+  height = 1700,
   units = "px",
-  dpi = 300)
+  dpi = 500)
+
+
 
 #Sensitivity Analysis::::
 

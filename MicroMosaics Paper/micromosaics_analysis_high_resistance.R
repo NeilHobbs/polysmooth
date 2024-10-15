@@ -1,3 +1,10 @@
+library(devtools)
+load_all() #polysmooth --> includes ggplot2
+library(patchwork)
+library(data.table)
+library(ggplot2)
+library(ggh4x)
+
 #These sims start at z=100 ; and with a withdrawal threshold of 20%
 rotations.high = fread("mm_simulations_rotation_comparator_high_resistance.csv")
 micromosaics.high = fread("mm_simulations_micromosaics_comparator_high_resistance.csv")
@@ -101,7 +108,7 @@ plot.rotvmm1 = ggplot(subset(micromosaics.high,
   geom_histogram(binwidth = 1, colour = "black")+
   geom_vline(xintercept = 0, linewidth = 1, colour = "black",
              linetype = "dashed")+
-  xlab("Change in Operational Lifespan (years)")+
+  xlab("Difference in Strategy Lifespan (years)")+
   ggtitle("A) Micro-Mosaics vs Rotations - Primary Outcome")+
   scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
                                          breaks = NULL,
@@ -168,7 +175,7 @@ plot.rotvmm2 = ggplot(rot.mm.draws,
              linetype = "dashed")+
   geom_vline(xintercept = 0, linetype = "dashed", linewidth = 0.5,
              colour = "grey")+
-  xlab("Difference in Peak Bioassay Survival Percentage")+
+  xlab(paste0("Absolute Difference in Peak Bioassay Survival"))+
   ggtitle("B) Micro-Mosaics vs Rotations - Secondary Outcome")+
   scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
                                          breaks = NULL,
@@ -218,7 +225,7 @@ plot.fdfdvmm1 = ggplot(subset(micromosaics.high,
                                          labels = NULL),
                      expand = c(0, 0))+
   scale_x_continuous(limits = c(-30, 45))+
-  xlab("Change in Operational Lifespan (years)")+
+  xlab("Difference in Strategy Lifespan (years)")+
   ggtitle("C) Micro-Mosaics vs Full-Dose Mixtures - Primary Outcome")+
   scale_fill_manual(values = c("darkred", "darkblue"))+
   facet_grid2(cross.resistance ~ .,
@@ -267,7 +274,7 @@ plot.fdfdvmm2 = ggplot(fdfdmix.mm.draws,
              linetype = "dashed")+
   geom_vline(xintercept = 0, linetype = "dashed", linewidth = 0.5,
              colour = "grey")+
-  xlab("Difference in Peak Bioassay Survival Percentage")+
+  xlab(paste0("Absolute Difference in Peak Bioassay Survival"))+
   ggtitle("D) Micro-Mosaics vs Full-Dose Mixtures - Secondary Outcome")+
   scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
                                          breaks = NULL,
@@ -312,7 +319,7 @@ plot.hdhdvmm1 = ggplot(subset(micromosaics.high,
   geom_histogram(binwidth = 1, colour = "black")+
   geom_vline(xintercept = 0, linewidth = 1, colour = "black",
              linetype = "dashed")+
-  xlab("Change in Operational Lifespan (years)")+
+  xlab("Difference in Strategy Lifespan (years)")+
   ggtitle("E) Micro-Mosaics vs Half-Dose Mixtures Primary Outcome")+
   scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
                                          breaks = NULL,
@@ -367,7 +374,7 @@ plot.hdhdvmm2 = ggplot(hdhdmix.mm.draws,
              linetype = "dashed")+
   geom_vline(xintercept = 0, linetype = "dashed", linewidth = 0.5,
              colour = "grey")+
-  xlab("Difference in Peak Bioassay Survival Percentage")+
+  xlab(paste0("Absolute Difference in Peak Bioassay Survival"))+
   ggtitle("F) Micro-Mosaics vs Half-Dose Mixtures - Secondary Outcome")+
   scale_y_continuous(sec.axis = sec_axis(~ . , name = "Cross Resistance",
                                          breaks = NULL,
@@ -445,7 +452,7 @@ plot.rotvmm1 + plot.rotvmm2 +
 
 
 ggsave(
-  filename = "Micromosaics_scenario2.jpeg",
+  filename = "Micromosaics_Assessment_Scenario_2.jpeg",
   plot = last_plot(),
   scale = 5,
   width = 1800,
