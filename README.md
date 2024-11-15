@@ -11,53 +11,27 @@ Polysmooth allows for the direct comparison of a diverse array of insecticide re
 
 This model allows for the user input of a range of biological, chemical and operational parameters. The majority of parameter inputs can be descided by the user, as long as within a specified range. 
 
-## Biological Parameters
-female.fitness.cost : 
-male.fitness.cost :
-female.insecticide.exposure :
-male.insecticide.exposure :
-heritability  :
-dispersal.rate : 
-standard.deviation :
-starting.refugia.resistance.score : 
-starting.intervention.resistance.score :
-n.cycles  : 
+## Running Simulations
+A comprehensive guide for running model simulations is in the Instructions document.
 
-## Chemical Parameters
-threshold.generations
-base.efficacy.decay.rate
-rapid.decay.rate 
+## Research Papers
+
+#### Mathematical Methodology for Dynamic Models of Insecticide Selection Assuming a Polygenic Basis of Resistance
+This paper details the mathematical methodology of polysmooth and the other model branch polytruncate : https://www.biorxiv.org/content/10.1101/2024.04.30.591816v1
+Model simulations, data and analyis are the folder: dynamic_methods_paper
 
 
-## Operational Parameters
-number.of.insecticides
-irm.deployment.strategy : 
-withdrawal.threshold.value 
-return.threshold.value 
-deployment.frequency
-deployment.interval.llin
-deployment.interval.irs
-llin.insecticides
-irs.insecticides:
+#### Exploring operational requirements of mixtures for insecticide resistance management in public health using a mathematical model assuming polygenic resistance
+https://www.biorxiv.org/content/10.1101/2024.05.06.592650v1
+Model simulations, data and analyis are the folder: Mixtures Paper
 
 
-## Other
-exposure.scaling.factor 
-vector.length                               
-maximum.bioassay.survival.proportion
-michaelis.menten.slope
-regression.coefficient
-regression.intercept
-maximum.generations 
-half.population.bioassay.survival.resistance 
-maximum.resistance.value
-                          
-##IRM Strategies:
-Depending on the input irm.deployment.strategy will then dictate which irm.switch.strategy can be used. 
-The irm.deployment.strategy specifies the overall way in which insecticides will be spatially deployed. 
-The irm.switch.strategy specifies how the insecticides will be allowed to change over time. 
+#### Household level insecticide deployments (micro-mosaics) for insecticide resistance management: Evaluating deliberate and accidental deployments
+https://www.biorxiv.org/content/10.1101/2024.07.05.602220v1
+Model simulations, data and analyis are the folder: MicroMosaics Paper
 
-singles - rotation, sequence, adaptive.rotations
-mixtures - sequence , rotation , novel.rotation , novel.sequence 
-micromosaics - partial.rotation, full.rotation, rotate.expensive, sequence
-combinations - rotate.irs , sequence.irs
+
+#### Combinations of Insecticide-Treated Nets and Indoor Residual Spraying for Insecticide Resistance Management: A Modelling Exploration
+https://www.biorxiv.org/content/10.1101/2024.07.05.602226v1
+
+
